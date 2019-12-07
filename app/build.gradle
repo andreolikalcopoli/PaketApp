@@ -27,5 +27,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'androidx.cardview:cardview:1.0.0'
+    //scaledrone
     implementation 'com.scaledrone:scaledrone-java:0.6.0'
+    //three dots
+    implementation 'com.github.rajputkapil:textviewdotsanimation:v1.0'
 }
