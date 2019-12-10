@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

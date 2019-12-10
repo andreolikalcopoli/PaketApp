@@ -264,6 +264,14 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
         constraintLayout4=(ConstraintLayout)findViewById(R.id.linearLayout2);
         constraintLayout2=(ConstraintLayout)findViewById(R.id.dvabuttona);
+
+        napraviPakete();
+
+    }
+
+    void napraviPakete()
+    {
+
     }
 
     //<editor-fold desc="Neke funkcije">
