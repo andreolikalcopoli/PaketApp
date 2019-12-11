@@ -25,6 +25,10 @@ import android.widget.Toast;
 
 import com.example.paketapp.Classes.Message;
 import com.example.paketapp.Classes.MessageAdapter;
+import com.example.paketapp.Paketi.BoxPaket;
+import com.example.paketapp.Paketi.PaketMobilni;
+import com.example.paketapp.Paketi.PaketNet;
+import com.example.paketapp.Paketi.PaketTV;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -102,6 +106,10 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private Button answer1, answer2, answer3, answer4,ans1,ans2;
 
+    ArrayList<PaketMobilni> mobilniPaketi;
+    ArrayList<PaketTV> tvPaketi;
+    ArrayList<PaketNet> netPaketi;
+    ArrayList<BoxPaket> boxPaketi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,8 +277,87 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     }
 
+    PaketMobilni pm;
+    PaketNet pn;
+    BoxPaket pb;
+    PaketTV pt;
+    int inf;
+
+    void napraviMobilniPaket(String ime,int cena,int minuti,int minutiMreza,int sms,int internet,int gbProstora,int minutiRoming,
+                             ArrayList<String> aplikacijeInternet,boolean josJedanGbZaKupovinu,boolean porukeRoming,boolean internetRoming)
+    {
+        pm = new PaketMobilni(ime,cena,minuti,minutiMreza,sms, internet, gbProstora, minutiRoming,
+         aplikacijeInternet,josJedanGbZaKupovinu, porukeRoming, internetRoming);
+        mobilniPaketi.add(pm);
+    }
+
+    void napraviTvPaket(String ime,int cena,int brojKanala,boolean snimanjeSadrzaja,int gledanjaNazad,boolean pauziranje,ArrayList<String> videoKlub)
+    {
+        pt = new PaketTV(ime,cena,brojKanala,snimanjeSadrzaja,gledanjaNazad,pauziranje,videoKlub);
+        tvPaketi.add(pt);
+    }
+
+    void napraviNetPaket(String ime,int cena,int download,int upload)
+    {
+        pn = new PaketNet(ime,cena,download,upload);
+        netPaketi.add(pn);
+    }
+
+    void napraviBox(String ime,int cena,PaketMobilni pm,PaketTV pt,PaketNet pn)
+    {
+        pb = new BoxPaket(ime,cena,pn,pt,pm);
+        boxPaketi.add(pb);
+    }
+
     void napraviPakete()
     {
+        netPaketi=new ArrayList<>();
+        tvPaketi = new ArrayList<>();
+        boxPaketi = new ArrayList<>();
+        mobilniPaketi = new ArrayList<>();
+
+        //mobilni paketi
+        ArrayList<String> apps = new ArrayList<>();
+        napraviMobilniPaket("Morava 1",800,100,Integer.MAX_VALUE,100,256,10,0,
+                apps,false,false,false);
+        napraviMobilniPaket("Morava 2",1300,300,Integer.MAX_VALUE,300,1024,10,0,apps,false,
+                false,false);
+        apps.add("Viber");
+        napraviMobilniPaket("Omorika 1",2000,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,3072,30,100,
+                apps,true,false,false);
+        apps.add("Facebook");
+        apps.add("Instagram");
+        apps.add("WhatsApp");
+        apps.add("Twitter");
+        napraviMobilniPaket("Omorika 2",2700,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,10240,30,200,
+                apps,true,false,false);
+        napraviMobilniPaket("Omorika 3",4000,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,5*10240,30,300,
+                apps,true,false,false);
+        napraviMobilniPaket("Soko",6000,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,20*10240,100,Integer.MAX_VALUE,
+                apps,true,true,true);
+
+        //tv paketi
+        ArrayList<String> videoklub = new ArrayList<>();
+        videoklub.add("Arena sport");
+        videoklub.add("Disney");
+        videoklub.add("AXN Now");
+        videoklub.add("Exit");
+        videoklub.add("Rts");
+        napraviTvPaket("Start",1200,140,false,0,true,videoklub);
+        videoklub.add("PickBox");
+        videoklub.add("Minimax plus");
+        videoklub.add("Epic Drama");
+        napraviTvPaket("Plus",1600,200,false,7,true,videoklub);
+        videoklub.add("HBO");
+        videoklub.add("Filmbox");
+        napraviTvPaket("Max",2000,250,true,7,true,videoklub);
+
+        napraviNetPaket("20",1700,20,4);
+        napraviNetPaket("50",1800,50,8);
+        napraviNetPaket("100",2400,100,10);
+        napraviNetPaket("200",3400,200,40);
+        napraviNetPaket("400",3800,400,80);
+        napraviNetPaket("1000",9000,1000,200);
 
     }
 

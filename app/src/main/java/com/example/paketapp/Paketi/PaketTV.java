@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class PaketTV
 {
+    String ime;
     int cena;
     int brojKanala;
     boolean snimanjeSadrzaja;
@@ -11,14 +12,23 @@ public class PaketTV
     boolean pauziranje;
     ArrayList<String> videoKlub;
 
-    public PaketTV(int cena,int brojKanala,boolean snimanjeSadrzaja,int gledanjaNazad,boolean pauziranje,ArrayList<String> videoKlub)
+    public PaketTV(String ime,int cena,int brojKanala,boolean snimanjeSadrzaja,int gledanjaNazad,boolean pauziranje,ArrayList<String> videoKlub)
     {
+        this.ime = ime;
         this.cena= cena;
         this.brojKanala=brojKanala;
         this.snimanjeSadrzaja=snimanjeSadrzaja;
         this.gledanjaNazad=gledanjaNazad;
         this.pauziranje=pauziranje;
         this.videoKlub=videoKlub;
+    }
+
+    public String getIme() {
+        return ime;
+    }
+
+    public void setIme(String ime) {
+        this.ime = ime;
     }
 
     public int getCena() {

@@ -2,6 +2,7 @@ package com.example.paketapp.Paketi;
 
 public class PaketNet
 {
+    String ime;
     int download;
     int upload;
     boolean wifiRuter;
@@ -9,14 +10,23 @@ public class PaketNet
     boolean jedanMailNalog;
     int cena;
 
-    public PaketNet(int cena,int download,int upload)
+    public PaketNet(String ime,int cena,int download,int upload)
     {
+        this.ime = ime;
         this.cena=cena;
         this.download=download;
         this.upload=upload;
         this.wifiRuter=true;
         this.dinamickiIp=true;
         this.jedanMailNalog=true;
+    }
+
+    public String getIme() {
+        return ime;
+    }
+
+    public void setIme(String ime) {
+        this.ime = ime;
     }
 
     public int getDownload() {

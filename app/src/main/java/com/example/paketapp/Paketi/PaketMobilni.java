@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class PaketMobilni
 {
+     String ime;
      int cena;
      int minuti;
      int minutiMreza;
@@ -16,9 +17,10 @@ public class PaketMobilni
      boolean internetRoming;
      int minutiRoming;
 
-     public PaketMobilni(int cena,int minuti,int minutiMreza,int sms,int internet,int gbProstora,int minutiRoming,
+     public PaketMobilni(String ime,int cena,int minuti,int minutiMreza,int sms,int internet,int gbProstora,int minutiRoming,
                          ArrayList<String> aplikacijeInternet,boolean josJedanGbZaKupovinu,boolean porukeRoming,boolean internetRoming)
      {
+         this.ime = ime;
          this.cena=cena;
          this.minuti=minuti;
          this.minutiMreza=minutiMreza;
@@ -31,6 +33,14 @@ public class PaketMobilni
          this.porukeRoming = porukeRoming;
          this.internetRoming = internetRoming;
      }
+
+    public String getIme() {
+        return ime;
+    }
+
+    public void setIme(String ime) {
+        this.ime = ime;
+    }
 
     public int getCena() {
         return cena;
