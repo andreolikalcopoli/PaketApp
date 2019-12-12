@@ -359,6 +359,11 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         napraviNetPaket("400",3800,400,80);
         napraviNetPaket("1000",9000,1000,200);
 
+        napraviBox("box 1",4000,mobilniPaketi.get(0),tvPaketi.get(0),netPaketi.get(0));
+        napraviBox("box 2",4800,mobilniPaketi.get(1),tvPaketi.get(1),netPaketi.get(1));
+        napraviBox("box 3",6400,mobilniPaketi.get(2),tvPaketi.get(2),netPaketi.get(2));
+        napraviBox("box 4",12000,mobilniPaketi.get(3),tvPaketi.get(2),netPaketi.get(5));
+
     }
 
     //<editor-fold desc="Neke funkcije">
