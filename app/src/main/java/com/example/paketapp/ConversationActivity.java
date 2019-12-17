@@ -88,10 +88,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             ,"Koje drustvene mreze najvise koristite?",
             "Koliko gb interneta vam je dovoljno za jedan mesex?",
             "Da li koristite internet i u romingu?",
-            "Da li koristite cloud servise za cuvanje svojih dokumenata?",
-            "Koje drustvene mreze najvise koristite?");
-    private List<String> internetAnswers=Arrays.asList("Da/Ne","1gb/5gb/10gb/Vise od 10gb",
-            "Da/Ne","Da/Ne","Instagram/Facebook/Tweeter/Nesto drugo");
+            "Da li koristite cloud servise za cuvanje svojih dokumenata?");
+    private List<String> internetAnswers=Arrays.asList("Da/Ne","Instagram/Facebook/Tweeter/Nesto drugo","1gb/5gb/10gb/Vise od 10gb",
+            "Da/Ne","Da/Ne");
     private List<String> boxQuestions=Arrays.asList("Da li zelite paket samo za telefon ili i box?",
             "Oznacite vrste kanala koje gledate:",
             "Koliko cesto propustite uzivo program onoga sto zelite da vidite?",
@@ -127,9 +126,11 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedQ=internetQuestions;
-                selectedA=internetAnswers;
-                sendMessage(v,answer1.getText().toString().trim());
+                if(indexOfQuestion==0) {
+                    selectedQ = internetQuestions;
+                    selectedA = internetAnswers;
+                }
+                sendMessage(v, answer1.getText().toString().trim());
             }
         });
         answer2.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +198,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     }
     private void setAnswers()
     {
-
             String s = selectedA.get(indexOfQuestion);
             String[] split = s.split("/");
 
@@ -277,6 +277,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     }
 
+    //<editor-fold desc="paketi">
     PaketMobilni pm;
     PaketNet pn;
     BoxPaket pb;
@@ -365,6 +366,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         napraviBox("box 4",12000,mobilniPaketi.get(3),tvPaketi.get(2),netPaketi.get(5));
 
     }
+    //</editor-fold>
 
     //<editor-fold desc="Neke funkcije">
     @Override

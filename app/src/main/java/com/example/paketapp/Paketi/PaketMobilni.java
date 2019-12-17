@@ -94,6 +94,26 @@ public class PaketMobilni
         return josJedanGbZaKupovinu;
     }
 
+    public String getInternetRoming(){
+         if(internetRoming)
+             return "Da";
+         else
+             return "Ne";
+    }
+    public String getPorukeRoming(){
+        if(porukeRoming)
+            return "Da";
+        else
+            return "Ne";
+    }
+
+    public String getJosJedanGbZaKupovinu(){
+        if(josJedanGbZaKupovinu)
+            return "Da";
+        else
+            return "Ne";
+    }
+
     public void setJosJedanGbZaKupovinu(boolean josJedanGbZaKupovinu) {
         this.josJedanGbZaKupovinu = josJedanGbZaKupovinu;
     }

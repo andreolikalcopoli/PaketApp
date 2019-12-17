@@ -31,4 +31,5 @@ dependencies {
     implementation 'com.scaledrone:scaledrone-java:0.6.0'
     //three dots
     implementation 'com.github.rajputkapil:textviewdotsanimation:v1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }
