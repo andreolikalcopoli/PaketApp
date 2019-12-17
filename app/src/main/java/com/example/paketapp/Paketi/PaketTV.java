@@ -11,8 +11,9 @@ public class PaketTV
     int gledanjaNazad;
     boolean pauziranje;
     ArrayList<String> videoKlub;
+    int brojHdKanala;
 
-    public PaketTV(String ime,int cena,int brojKanala,boolean snimanjeSadrzaja,int gledanjaNazad,boolean pauziranje,ArrayList<String> videoKlub)
+    public PaketTV(String ime,int cena,int brojKanala,boolean snimanjeSadrzaja,int gledanjaNazad,boolean pauziranje,ArrayList<String> videoKlub,int brojHdKanala)
     {
         this.ime = ime;
         this.cena= cena;
@@ -21,6 +22,15 @@ public class PaketTV
         this.gledanjaNazad=gledanjaNazad;
         this.pauziranje=pauziranje;
         this.videoKlub=videoKlub;
+        this.brojHdKanala = brojHdKanala;
+    }
+
+    public int getBrojHdKanala() {
+        return brojHdKanala;
+    }
+
+    public void setBrojHdKanala(int brojHdKanala) {
+        this.brojHdKanala = brojHdKanala;
     }
 
     public String getIme() {

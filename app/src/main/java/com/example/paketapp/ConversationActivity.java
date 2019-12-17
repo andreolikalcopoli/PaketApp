@@ -292,9 +292,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         mobilniPaketi.add(pm);
     }
 
-    void napraviTvPaket(String ime,int cena,int brojKanala,boolean snimanjeSadrzaja,int gledanjaNazad,boolean pauziranje,ArrayList<String> videoKlub)
+    void napraviTvPaket(String ime,int cena,int brojKanala,boolean snimanjeSadrzaja,int gledanjaNazad,boolean pauziranje,ArrayList<String> videoKlub,int hdkanali)
     {
-        pt = new PaketTV(ime,cena,brojKanala,snimanjeSadrzaja,gledanjaNazad,pauziranje,videoKlub);
+        pt = new PaketTV(ime,cena,brojKanala,snimanjeSadrzaja,gledanjaNazad,pauziranje,videoKlub,hdkanali);
         tvPaketi.add(pt);
     }
 
@@ -344,14 +344,14 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         videoklub.add("AXN Now");
         videoklub.add("Exit");
         videoklub.add("Rts");
-        napraviTvPaket("Start",1200,140,false,0,true,videoklub);
+        napraviTvPaket("Start",1200,140,false,0,true,videoklub,29);
         videoklub.add("PickBox");
         videoklub.add("Minimax plus");
         videoklub.add("Epic Drama");
-        napraviTvPaket("Plus",1600,200,false,7,true,videoklub);
+        napraviTvPaket("Plus",1600,200,false,7,true,videoklub,29);
         videoklub.add("HBO");
         videoklub.add("Filmbox");
-        napraviTvPaket("Max",2000,250,true,7,true,videoklub);
+        napraviTvPaket("Max",2000,250,true,7,true,videoklub,35);
 
         napraviNetPaket("20",1700,20,4);
         napraviNetPaket("50",1800,50,8);
