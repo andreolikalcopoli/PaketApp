@@ -2,24 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/net_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:id="@+id/tv_item">
 
-    <TextView
-        android:id="@+id/tImeNet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginEnd="16dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="@+id/tBrojHdKanala"
+        app:layout_constraintEnd_toStartOf="@+id/tCenaTv"
+        app:layout_constraintStart_toEndOf="@+id/tImeTv"
+        app:layout_constraintTop_toTopOf="@+id/tImeTv"
+        app:srcCompat="@drawable/topola" />
 
     <TextView
-        android:id="@+id/tCenaNet"
+        android:id="@+id/tCenaTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -30,77 +31,76 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tDownload"
+        android:id="@+id/tBrKanala"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@id/iNet"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tImeNet" />
+        app:layout_constraintTop_toBottomOf="@+id/tImeTv" />
 
     <TextView
-        android:id="@+id/tUpload"
+        android:id="@+id/tGledanjeNazad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@id/iNet"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tDownload" />
+        app:layout_constraintTop_toBottomOf="@+id/tBrKanala" />
 
     <TextView
-        android:id="@+id/tWifi"
+        android:id="@+id/tSnimanjeSadrzaja"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tGledanjeNazad" />
+
+    <TextView
+        android:id="@+id/tPauziranje"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iNet"
-        app:layout_constraintTop_toBottomOf="@+id/tCenaNet" />
+        app:layout_constraintTop_toBottomOf="@+id/tCenaTv" />
 
     <TextView
-        android:id="@+id/tDinamicki"
+        android:id="@+id/tVideoKlub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iNet"
-        app:layout_constraintTop_toBottomOf="@+id/tWifi" />
+        app:layout_constraintTop_toBottomOf="@+id/tPauziranje" />
 
     <TextView
-        android:id="@+id/tJedanMail"
+        android:id="@+id/tBrojHdKanala"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iNet"
-        app:layout_constraintTop_toBottomOf="@+id/tDinamicki" />
+        app:layout_constraintTop_toBottomOf="@+id/tVideoKlub"
+        app:layout_goneMarginTop="16dp" />
 
-    <ImageView
-        android:id="@+id/iNet"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <TextView
+        android:id="@+id/tImeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toBottomOf="@+id/tJedanMail"
-        app:layout_constraintEnd_toStartOf="@+id/tCenaNet"
-        app:layout_constraintStart_toEndOf="@+id/tImeNet"
-        app:layout_constraintTop_toTopOf="@+id/tImeNet"
-        app:srcCompat="@drawable/topola" />
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

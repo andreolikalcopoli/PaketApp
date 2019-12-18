@@ -61,6 +61,13 @@ public class PaketTV
         return snimanjeSadrzaja;
     }
 
+    public String getSnimanjeSadrzaja(){
+        if(snimanjeSadrzaja)
+            return "Da";
+        else
+            return "Ne";
+    }
+
     public void setSnimanjeSadrzaja(boolean snimanjeSadrzaja) {
         this.snimanjeSadrzaja = snimanjeSadrzaja;
     }
@@ -75,6 +82,13 @@ public class PaketTV
 
     public boolean isPauziranje() {
         return pauziranje;
+    }
+
+    public String getPauziranje(){
+        if(pauziranje)
+            return "Da";
+        else
+            return "Ne";
     }
 
     public void setPauziranje(boolean pauziranje) {
