@@ -5,22 +5,22 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.paketapp.Classes.Message;
@@ -30,10 +30,8 @@ import com.example.paketapp.Paketi.PaketMobilni;
 import com.example.paketapp.Paketi.PaketNet;
 import com.example.paketapp.Paketi.PaketTV;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scaledrone.lib.Listener;
-import com.scaledrone.lib.Member;
 import com.scaledrone.lib.Room;
 import com.scaledrone.lib.RoomListener;
 import com.scaledrone.lib.Scaledrone;
@@ -41,9 +39,7 @@ import com.scaledrone.lib.Scaledrone;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-
-import dots.animation.textview.TextAndAnimationView;
+import java.util.Locale;
 
 public class ConversationActivity extends AppCompatActivity implements RoomListener {
 
@@ -55,49 +51,33 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private ConstraintLayout constraintLayout4,constraintLayout2;
 
     private int indexOfQuestion=0;
+    private Runnable r;
 
     //<editor-fold desc="Pitanja">
-    /*private List<String> questions = Arrays.asList("Da li koristite telefon za drustvene mreze ili razgovor i poruke?",
-            "Koliko vremena dnevno razgovarate putem telefona?",
-            "Koje drustvene mreze najvise koristite?",
-            "Koliko gb interneta vam je dovoljno za jedan dan?",
-            "Da li se dopisujete preko poruka?",
-            "Da li cesto putujete u inostranstvo?",
-            "Da li Vam je interet znacajan na poslu?",
-            "Da li koristite internet i u romingu?",
-            "Da li uglavnom razgovarate telefonom sa ljudima iz Vase mreze?",
-                    "Da li ste umrezeni sa porodicom?",
-                    "Da li koristite cloud servise za cuvanje svojih dokumenata?",
-                    "Izaberite koliko memorije bi Vam bilo dovoljno?",
-                    "Da li zelite paket samo za telefon ili i box?",
-                    "Oznacite vrste kanala koje gledate - (politika,sport,dokumentarni)",
-    "Koliko cesto propustite uzivo program onoga sto zelite da vidite?",
-    "Da li sa trenutnim paketom uspevate da to kasnije pogledate?",
-    "Koliko cesto gledate filmove?");*/
     private List<String> messagesQuestions=Arrays.asList("Da li se dopisujete preko poruka?",
-            "Da li cesto saljete MMS poruke?",
-            "Koliko poruka posaljete u toku dana?");
-    private List<String> messageAnswers=Arrays.asList("Da/Ne","Da/Ne","Manje od 3/Od 3 do 10/Vise od 10/Vise od 20");
+            "Da li često saljete MMS poruke?",
+            "Koliko, približno, poruka pošaljete u toku dana?");
+    private List<String> messageAnswers=Arrays.asList("Da/Ne","Da/Ne","manje od 5 poruka/izmedju 5 i 10 poruka/izmedju 10 i 20 poruka/Više od 50 poruka");
     private List<String> callsQuestions=Arrays.asList("Koliko vremena dnevno razgovarate putem telefona?",
-            "Da li uglavnom razgovarate telefonom sa ljudima iz Vase mreze?",
-            "Da li ste umrezeni sa porodicom?",
-            "Da li vas posao zahteva da stalno budete na usluzi?");
-    private List<String> callsAnswers=Arrays.asList("Manje od 5 minuta/5 do 10 minuta/10 do 20 minuta/vise od 20 minuta",
+            "Da li uglavnom razgovarate telefonom sa ljudima iz Vaše mreže?",
+            "Da li ste umreženi sa porodicom?",
+            "Da li Vaš posao zahteva da stalno budete na usluzi?");
+    private List<String> callsAnswers=Arrays.asList("Manje od 5 minuta/10 minuta/20 minuta/Više od 20 minuta",
             "Da/Ne","Da/Ne","Da/Ne");
-    private List<String> internetQuestions=Arrays.asList("Da li Vam je interet znacajan za posao?"
-            ,"Koje drustvene mreze najvise koristite?",
-            "Koliko gb interneta vam je dovoljno za jedan mesex?",
+    private List<String> internetQuestions=Arrays.asList("Da li Vam je interet značajan za posao?"
+            ,"Koje društvene mreže najviše koristite?",
+            "Koliko gigabajta interneta vam je dovoljno za jedan mesec?",
             "Da li koristite internet i u romingu?",
-            "Da li koristite cloud servise za cuvanje svojih dokumenata?");
-    private List<String> internetAnswers=Arrays.asList("Da/Ne","Instagram/Facebook/Tweeter/Nesto drugo","1gb/5gb/10gb/Vise od 10gb",
+            "Da li koristite klaud servise za čuvanje svojih dokumenata?");
+    private List<String> internetAnswers=Arrays.asList("Da/Ne","Instagram/Facebook/Tweeter/Nesto drugo","2/5/10/Više od 10",
             "Da/Ne","Da/Ne");
-    private List<String> boxQuestions=Arrays.asList("Da li zelite paket samo za telefon ili i box?",
-            "Oznacite vrste kanala koje gledate:",
-            "Koliko cesto propustite uzivo program onoga sto zelite da vidite?",
+    private List<String> boxQuestions=Arrays.asList("Da li želite paket samo za telefon ili i box?",
+            "Označite koju vrstu kanala najvise gledate:",
+            "Koliko često propustite uživo program onoga sto želite da vidite?",
             "Da li sa trenutnim paketom uspevate da to kasnije pogledate?",
-            "Koliko cesto gledate filmove?");
-    private List<String> boxAnswers=Arrays.asList("Da/Ne","Politika/Sport/Dokumentarci/Nesto drugo",
-            "Jednom dnevno/Jednom nedeljno/Jednom mesecno/Ne propustam","Da/Ne","Svakog dana/Svake nedelje/Jednom mesecno/Ne gledam filmove");
+            "Koliko često gledate filmove?");
+    private List<String> boxAnswers=Arrays.asList("Da/Ne","Politika/Sport/Dokumentarci/Nešto drugo",
+            "Jednom dnevno/Jednom nedeljno/Jednom mesečno/Ne propuštam","Da/Ne","Svakog dana/Svake nedelje/Jednom mesečno/Ne gledam filmove");
     //</editor-fold>
 
     private List<String> selectedQ=null;
@@ -109,6 +89,11 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     ArrayList<PaketTV> tvPaketi;
     ArrayList<PaketNet> netPaketi;
     ArrayList<BoxPaket> boxPaketi;
+
+    private boolean sound=false,mic=false,prolazi=false;
+
+    private ImageView imgMic, imgSound;
+    private TextToSpeech mTTS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,65 +107,105 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
         sendBasicQuestion();
 
+        //<editor-fold desc="speech init">
+        mTTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = mTTS.setLanguage(new Locale("sr-RS"));
+
+                    if (result == TextToSpeech.LANG_MISSING_DATA
+                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("TTS", "Language not supported");
+                    } else {
+                        imgSound.setEnabled(true);
+                    }
+                } else {
+                    Log.e("TTS", "Initialization failed");
+                }
+            }
+        });
+        //</editor-fold>
+
         //<editor-fold desc="Buttons">
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(indexOfQuestion==0) {
-                    selectedQ = internetQuestions;
-                    selectedA = internetAnswers;
-                }
-                sendMessage(v, answer1.getText().toString().trim());
+               posaljiPoruku(internetQuestions,internetAnswers,answer1.getText().toString().trim());
             }
         });
         answer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(indexOfQuestion==0) {
-                    selectedQ = messagesQuestions;
-                    selectedA = messageAnswers;
-                }
-                sendMessage(v,answer2.getText().toString().trim());
+                posaljiPoruku(messagesQuestions,messageAnswers,answer2.getText().toString().trim());
             }
         });
         answer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(indexOfQuestion==0) {
-                    selectedQ = callsQuestions;
-                    selectedA = callsAnswers;
-                }
-                sendMessage(v,answer3.getText().toString().trim());
+                posaljiPoruku(callsQuestions,callsAnswers,answer3.getText().toString().trim());
             }
         });
         answer4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(indexOfQuestion==0) {
-                    selectedQ = boxQuestions;
-                    selectedA = boxAnswers;
-                }
-                sendMessage(v,answer4.getText().toString().trim());
+                posaljiPoruku(boxQuestions,boxAnswers,answer4.getText().toString().trim());
 
             }
         });
         ans1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage(v,ans1.getText().toString().trim());
+                sendMessage(ans1.getText().toString().trim());
             }
         });
         ans2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessage(v,ans2.getText().toString().trim());
+                sendMessage(ans2.getText().toString().trim());
+            }
+        });
+
+        imgSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!sound) {
+                    imgSound.setImageResource(R.drawable.sound);
+                    sound=true;
+                }
+                else{
+                    imgSound.setImageResource(R.drawable.soundoff);
+                    sound=false;
+                }
+            }
+        });
+
+        imgMic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mic) {
+                    imgMic.setImageResource(R.drawable.mic);
+                    mic=true;
+                }
+                else{
+                    imgMic.setImageResource(R.drawable.micoff);
+                    mic=false;
+                }
             }
         });
         //</editor-fold>
     }
 
     //<editor-fold desc="Messages">
-    public void sendMessage(View view, String message) {
+    private void posaljiPoruku(List<String> listaPitanja,List<String>listaOdgovora,String text) {
+        if(indexOfQuestion==0) {
+            selectedQ = listaPitanja;
+            selectedA = listaOdgovora;
+        }
+        sendMessage(text);
+    }
+
+    public void sendMessage(String message) {
         if (message.length() > 0) {
             sendMyMessage(message);
             setQuestion();
@@ -228,9 +253,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         constraintLayout2.setVisibility(View.GONE);
 
     }
-    private void sendComputerMessage(String text)
-    {
-        final MemberData data = new MemberData("Sebastijan",Color.LTGRAY);
+    private void sendComputerMessage(String text) {
+        final MemberData data = new MemberData("Sebastijan", Color.LTGRAY);
         final Message message = new Message(text, data, false);
         runOnUiThread(new Runnable() {
             @Override
@@ -239,6 +263,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 messagesView.setSelection(messagesView.getCount() - 1);
             }
         });
+        if (sound)
+            speak(text);
     }
     private void sendMyMessage(String text)
     {
@@ -253,29 +279,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         });
     }
     //</editor-fold>
-
-    private void init()
-    {
-        getSupportActionBar().hide();
-
-        answer1=(Button)findViewById(R.id.odgovor1);
-        answer2=(Button)findViewById(R.id.odgovor2);
-        answer3=(Button)findViewById(R.id.odgovor3);
-        answer4=(Button)findViewById(R.id.odgovor4);
-
-        ans1=(Button)findViewById(R.id.odg1);
-        ans2=(Button)findViewById(R.id.odg2);
-
-        messageAdapter = new MessageAdapter(this);
-        messagesView = (ListView) findViewById(R.id.messages_view);
-        messagesView.setAdapter(messageAdapter);
-
-        constraintLayout4=(ConstraintLayout)findViewById(R.id.linearLayout2);
-        constraintLayout2=(ConstraintLayout)findViewById(R.id.dvabuttona);
-
-        napraviPakete();
-
-    }
 
     //<editor-fold desc="paketi">
     PaketMobilni pm;
@@ -427,6 +430,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     }
     //</editor-fold>
 
+    //<editor-fold desc="init">
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setStatusBarGradiant(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -438,5 +442,140 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             window.setBackgroundDrawable(background);
         }
     }
+
+    private void init()
+    {
+        getSupportActionBar().hide();
+
+        answer1=(Button)findViewById(R.id.odgovor1);
+        answer2=(Button)findViewById(R.id.odgovor2);
+        answer3=(Button)findViewById(R.id.odgovor3);
+        answer4=(Button)findViewById(R.id.odgovor4);
+
+        ans1=(Button)findViewById(R.id.odg1);
+        ans2=(Button)findViewById(R.id.odg2);
+
+        messageAdapter = new MessageAdapter(this);
+        messagesView = (ListView) findViewById(R.id.messages_view);
+        messagesView.setAdapter(messageAdapter);
+
+        constraintLayout4=(ConstraintLayout)findViewById(R.id.linearLayout2);
+        constraintLayout2=(ConstraintLayout)findViewById(R.id.dvabuttona);
+
+        imgMic=(ImageView)findViewById(R.id.imgMic);
+        imgSound=(ImageView)findViewById(R.id.imgSound);
+
+        napraviPakete();
+
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Speech Recognition">
+    public void getSpeechInput(View view) {
+
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "sr-RS");
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 10);
+        } else {
+            Toast.makeText(this, "Your Device Don't Support Speech Input", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case 10:
+                if (resultCode == RESULT_OK && data != null) {
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    if (nadjiOdgovor(result.get(0)).equals("")) {
+                        Toast.makeText(ConversationActivity.this, "Nismo uspeli da pronadjemo vas odgovor", Toast.LENGTH_SHORT).show();
+                        getSpeechInput(ConversationActivity.this.getCurrentFocus());
+                    }
+                    else {
+                        if (indexOfQuestion>0)
+                            sendMessage(nadjiOdgovor(result.get(0)));
+                        else
+                        {
+                            Log.d("Ovde",result.get(0).toLowerCase().trim());
+                            String s=result.get(0).toLowerCase().trim();
+                            if(s.equals("internet"))
+                                posaljiPoruku(internetQuestions,internetAnswers,s);
+                            else if(s.equals("poruke"))
+                                posaljiPoruku(messagesQuestions,messageAnswers,s);
+                            else if(s.equals("minuti"))
+                                posaljiPoruku(callsQuestions,callsAnswers,s);
+                            else
+                                posaljiPoruku(boxQuestions,boxAnswers,s);
+                        }
+
+                    }
+                }
+                break;
+        }
+    }
+
+    private String nadjiOdgovor(String reportedSpeech) {
+
+        String s;
+        if(indexOfQuestion>0) {
+            s = selectedA.get(indexOfQuestion-1);
+        }
+        else s="Internet/Poruke/Mobilni/Box paketi";
+
+        String[] split = s.split("/");
+
+        for (int i = 0; i < split.length; i++) {
+            if (reportedSpeech.toLowerCase().contains(split[i].toLowerCase()))
+                return split[i];
+        }
+
+        return "";
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Text to Speech">
+    private void speak(String s) {
+        mTTS.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+
+        prolazi=false;
+
+        if(mic) {
+            final Handler h = new Handler();
+
+            r = new Runnable() {
+
+                public void run() {
+
+                    if (!mTTS.isSpeaking() && !prolazi) {
+                        getSpeechInput(ConversationActivity.this.getCurrentFocus());
+                        prolazi=true;
+                        h.removeCallbacks(r);
+                    }
+
+                    h.postDelayed(this, 1000);
+                }
+            };
+
+            h.postDelayed(r, 1000);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mTTS != null) {
+            mTTS.stop();
+            mTTS.shutdown();
+        }
+
+        super.onDestroy();
+    }
+
+    //</editor-fold>
 }
+
 

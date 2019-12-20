@@ -37,16 +37,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@mipmap/ic_launcher_round" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/settings" />
-
         <TextView
             android:id="@+id/tName"
             android:layout_width="wrap_content"
@@ -81,6 +71,26 @@
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/tName"
             app:srcCompat="@drawable/circleimg" />
+
+        <ImageView
+            android:id="@+id/imgMic"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/micoff" />
+
+        <ImageView
+            android:id="@+id/imgSound"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/imgMic"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/soundoff" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
