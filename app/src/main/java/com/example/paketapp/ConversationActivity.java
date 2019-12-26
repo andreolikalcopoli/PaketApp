@@ -2,6 +2,7 @@ package com.example.paketapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -10,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -18,9 +20,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.paketapp.Classes.Message;
@@ -40,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ConversationActivity extends AppCompatActivity implements RoomListener {
 
@@ -48,40 +55,42 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private Scaledrone scaledrone;
     private MessageAdapter messageAdapter;
     private ListView messagesView;
-    private ConstraintLayout constraintLayout4,constraintLayout2;
+    private ConstraintLayout constraintLayout4,constraintLayout2,constHint;
+
+    private TextView tvHint;
 
     private int indexOfQuestion=0;
     private Runnable r;
 
+    private String[] split;
+
     //<editor-fold desc="Pitanja">
-    private List<String> messagesQuestions=Arrays.asList("Da li se dopisujete preko poruka?",
-            "Da li često saljete MMS poruke?",
-            "Koliko, približno, poruka pošaljete u toku dana?");
-    private List<String> messageAnswers=Arrays.asList("Da/Ne","Da/Ne","manje od 5 poruka/izmedju 5 i 10 poruka/izmedju 10 i 20 poruka/Više od 50 poruka");
-    private List<String> callsQuestions=Arrays.asList("Koliko vremena dnevno razgovarate putem telefona?",
-            "Da li uglavnom razgovarate telefonom sa ljudima iz Vaše mreže?",
-            "Da li ste umreženi sa porodicom?",
-            "Da li Vaš posao zahteva da stalno budete na usluzi?");
-    private List<String> callsAnswers=Arrays.asList("Manje od 5 minuta/10 minuta/20 minuta/Više od 20 minuta",
-            "Da/Ne","Da/Ne","Da/Ne");
-    private List<String> internetQuestions=Arrays.asList("Da li Vam je interet značajan za posao?"
-            ,"Koje društvene mreže najviše koristite?",
-            "Koliko gigabajta interneta vam je dovoljno za jedan mesec?",
-            "Da li koristite internet i u romingu?",
-            "Da li koristite klaud servise za čuvanje svojih dokumenata?");
-    private List<String> internetAnswers=Arrays.asList("Da/Ne","Instagram/Facebook/Tweeter/Nesto drugo","2/5/10/Više od 10",
-            "Da/Ne","Da/Ne");
-    private List<String> boxQuestions=Arrays.asList("Da li želite paket samo za telefon ili i box?",
-            "Označite koju vrstu kanala najvise gledate:",
-            "Koliko često propustite uživo program onoga sto želite da vidite?",
-            "Da li sa trenutnim paketom uspevate da to kasnije pogledate?",
-            "Koliko često gledate filmove?");
-    private List<String> boxAnswers=Arrays.asList("Da/Ne","Politika/Sport/Dokumentarci/Nešto drugo",
-            "Jednom dnevno/Jednom nedeljno/Jednom mesečno/Ne propuštam","Da/Ne","Svakog dana/Svake nedelje/Jednom mesečno/Ne gledam filmove");
+    private List<String> tvQuestions=Arrays.asList("Da li Vam je potrebna opcija gledanja unazad?",
+            "Želite li da imate mogućnost snimanja sadržaja?",
+            "Da li želite HBO paket?");
+    private List<String> tvAnswers=Arrays.asList("Da/Ne","Da/Ne","Da/Ne");
+    private List<String> tvHints=Arrays.asList("Ukoliko imate ovu opciju, možete gledati svoje omiljene programe 72h unazad!","","");
+
+    private List<String> phoneQuestions=Arrays.asList("Koliko vremena dnevno razgovarate putem telefona?",
+            "Koliko gigabajta interneta Vam je dovoljno za jedan mesec?",
+            "Da li često koristite telefon u romingu?");
+    private List<String> phoneAnswers=Arrays.asList("Manje od 5 minuta/10 minuta/20 minuta/Više od 20 minuta",
+            "manje od 3/5/10/Više od 20","Da/Ne");
+    private List<String> phoneHints=Arrays.asList("Prosečna osoba dnevno potroši oko minut i po na razgovor.","U proseku, 3 gigabajta interneta mesečno potroši se samo za instagram!",
+            "");
+
+    private List<String> internetQuestions=Arrays.asList("Koja brzina interneta vam najviše odgovara?");
+    private List<String> internetAnswers=Arrays.asList("20/4 mb/s:50/8 mb/s:100/10 mb/s:200/40 mb/s");
+    private List<String> internetHints=Arrays.asList("Pri brzini od 100/10, u proseku, film visokog kvaliteta mogli biste da skinete za manje od minuta!");
+
+    private List<String> boxQuestions=new ArrayList<>();
+    private List<String> boxAnswers=new ArrayList<>();
+    private List<String> boxHints=new ArrayList<>();
     //</editor-fold>
 
     private List<String> selectedQ=null;
     private List<String> selectedA=null;
+    private List<String> selectedH=null;
 
     private Button answer1, answer2, answer3, answer4,ans1,ans2;
 
@@ -94,6 +103,22 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private ImageView imgMic, imgSound;
     private TextToSpeech mTTS;
+
+    private CountDownTimer t = new CountDownTimer(5000, 5000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+
+        @Override
+        public void onFinish() {
+            final Animation animSlide = AnimationUtils.loadAnimation(getApplicationContext(),
+                    R.anim.left_to_right);
+
+            constHint.startAnimation(animSlide);
+            constHint.setVisibility(View.INVISIBLE);
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,25 +156,25 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               posaljiPoruku(internetQuestions,internetAnswers,answer1.getText().toString().trim());
-            }
-        });
-        answer2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                posaljiPoruku(messagesQuestions,messageAnswers,answer2.getText().toString().trim());
+               posaljiPoruku(internetQuestions,internetAnswers,internetHints,answer1.getText().toString().trim());
             }
         });
         answer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                posaljiPoruku(callsQuestions,callsAnswers,answer3.getText().toString().trim());
+                posaljiPoruku(tvQuestions,tvAnswers,tvHints,answer3.getText().toString().trim());
+            }
+        });
+        answer2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                posaljiPoruku(phoneQuestions,phoneAnswers,phoneHints,answer2.getText().toString().trim());
             }
         });
         answer4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                posaljiPoruku(boxQuestions,boxAnswers,answer4.getText().toString().trim());
+                posaljiPoruku(boxQuestions,boxAnswers,boxHints,answer4.getText().toString().trim());
 
             }
         });
@@ -197,8 +222,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     }
 
     //<editor-fold desc="Messages">
-    private void posaljiPoruku(List<String> listaPitanja,List<String>listaOdgovora,String text) {
-        if(indexOfQuestion==0) {
+    private void posaljiPoruku(List<String> listaPitanja,List<String>listaOdgovora,List<String> listaHintova,String text) {
+        if (indexOfQuestion == 0) {
+            selectedH = listaHintova;
             selectedQ = listaPitanja;
             selectedA = listaOdgovora;
         }
@@ -221,28 +247,38 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             Toast.makeText(ConversationActivity.this,"Hvala Vam na odgovorima!",Toast.LENGTH_SHORT).show();
 
     }
-    private void setAnswers()
-    {
+    private void setAnswers() {
+        if (!selectedA.get(indexOfQuestion).equals(internetAnswers.get(0))) {
             String s = selectedA.get(indexOfQuestion);
-            String[] split = s.split("/");
+            split = s.split("/");
+        } else {
+            String s = selectedA.get(indexOfQuestion);
+            split = s.split(":");
+        }
 
-            if (split.length == 2) {
-                constraintLayout2.setVisibility(View.VISIBLE);
-                constraintLayout4.setVisibility(View.INVISIBLE);
+        if(!selectedH.get(indexOfQuestion).equals("")) {
+            show();
+        }
 
-                ans1.setText(split[0]);
-                ans2.setText(split[1]);
-            } else {
-                constraintLayout4.setVisibility(View.VISIBLE);
-                constraintLayout2.setVisibility(View.INVISIBLE);
+        hide();
 
-                answer1.setText(split[0]);
-                answer2.setText(split[1]);
-                answer3.setText(split[2]);
-                answer4.setText(split[3]);
-            }
+        if (split.length == 2) {
+            constraintLayout2.setVisibility(View.VISIBLE);
+            constraintLayout4.setVisibility(View.INVISIBLE);
+
+            ans1.setText(split[0]);
+            ans2.setText(split[1]);
+        } else {
+            constraintLayout4.setVisibility(View.VISIBLE);
+            constraintLayout2.setVisibility(View.INVISIBLE);
+
+            answer1.setText(split[0]);
+            answer2.setText(split[1]);
+            answer3.setText(split[2]);
+            answer4.setText(split[3]);
+        }
+
     }
-
 
     private void sendBasicQuestion()
     {
@@ -277,6 +313,21 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 messagesView.setSelection(messagesView.getCount() - 1);
             }
         });
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Animations">
+    private void show()
+    {
+        constHint.setVisibility(View.VISIBLE);
+        Animation animSlide = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.right_to_left);
+        tvHint.setText(selectedH.get(indexOfQuestion));
+        constHint.startAnimation(animSlide);
+    }
+    private void hide()
+    {
+        t.start();
     }
     //</editor-fold>
 
@@ -455,15 +506,33 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         ans1=(Button)findViewById(R.id.odg1);
         ans2=(Button)findViewById(R.id.odg2);
 
+        tvHint=(TextView)findViewById(R.id.tHint);
+        tvHint.bringToFront();
+
         messageAdapter = new MessageAdapter(this);
         messagesView = (ListView) findViewById(R.id.messages_view);
         messagesView.setAdapter(messageAdapter);
 
         constraintLayout4=(ConstraintLayout)findViewById(R.id.linearLayout2);
         constraintLayout2=(ConstraintLayout)findViewById(R.id.dvabuttona);
+        constHint=(ConstraintLayout)findViewById(R.id.cHint);
+
+        constHint.setVisibility(View.INVISIBLE);
 
         imgMic=(ImageView)findViewById(R.id.imgMic);
         imgSound=(ImageView)findViewById(R.id.imgSound);
+
+        boxQuestions.addAll(internetQuestions);
+        boxQuestions.addAll(phoneQuestions);
+        boxQuestions.addAll(tvQuestions);
+
+        boxAnswers.addAll(internetAnswers);
+        boxAnswers.addAll(phoneAnswers);
+        boxAnswers.addAll(tvAnswers);
+
+        boxHints.addAll(internetHints);
+        boxHints.addAll(phoneHints);
+        boxHints.addAll(tvHints);
 
         napraviPakete();
 
@@ -504,13 +573,13 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                             Log.d("Ovde",result.get(0).toLowerCase().trim());
                             String s=result.get(0).toLowerCase().trim();
                             if(s.equals("internet"))
-                                posaljiPoruku(internetQuestions,internetAnswers,s);
+                                posaljiPoruku(internetQuestions,internetAnswers,internetHints,s);
                             else if(s.equals("poruke"))
-                                posaljiPoruku(messagesQuestions,messageAnswers,s);
+                                posaljiPoruku(tvQuestions,tvAnswers,tvHints,s);
                             else if(s.equals("minuti"))
-                                posaljiPoruku(callsQuestions,callsAnswers,s);
+                                posaljiPoruku(phoneQuestions,phoneAnswers,phoneHints,s);
                             else
-                                posaljiPoruku(boxQuestions,boxAnswers,s);
+                                posaljiPoruku(boxQuestions,boxAnswers,boxHints,s);
                         }
 
                     }

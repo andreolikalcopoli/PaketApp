@@ -194,7 +194,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/btn_backg_borders"
-            android:text="Poruke"
+            android:text="Telefon"
             android:textAllCaps="false"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/odgovor4"
@@ -211,7 +211,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/btn_backg_borders"
-            android:text="Minuti"
+            android:text="TV"
             android:textAllCaps="false"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -227,7 +227,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/btn_backg_borders"
-            android:text="Box paketi"
+            android:text="Box"
             android:textAllCaps="false"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -237,6 +237,40 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/tv_backg_round_blue"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/messages_view">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tHint"
+            app:layout_constraintEnd_toStartOf="@+id/tHint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tHint"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tHint"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
