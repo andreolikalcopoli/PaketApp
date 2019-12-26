@@ -282,7 +282,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private void sendBasicQuestion()
     {
-        sendComputerMessage("Zdravo! Ja sam Sebastijan i pomocicu ti da odaberes najbolje za sebe!"+
+        sendComputerMessage("Zdravo! Ja sam Sebastijan i pomoci cu ti da odaberes najbolje za sebe!"+
                 "\n"+"\n"
         + "Koja od ovih ponuda te najvise zanima?");
 
