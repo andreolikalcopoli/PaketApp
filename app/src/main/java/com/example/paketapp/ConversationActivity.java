@@ -325,6 +325,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         tvHint.setText(selectedH.get(indexOfQuestion));
         constHint.startAnimation(animSlide);
     }
+
     private void hide()
     {
         t.start();
