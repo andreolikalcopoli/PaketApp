@@ -46,6 +46,7 @@ public class AlgoritamTV
             kriterijumi[i][2] = (snimanje == p.getSnimanjeSadrzaja());
             //todo
             //zavrsi
+            //ukljuci i cenu u algoritam
 
             int sc = 0;
             sc+=(kriterijumi[i][0]) ? (bitnok) : (-bitnok);

@@ -51,6 +51,8 @@ public class AlgoritamMobilni
             kriterijumi[i][3] = ((p.getMinutiRoming() > 0) == roming);
             //todo
             //zavrsi
+            //ukljuci i cenu u algoritam
+
 
             int sc = 0;
             sc+=(kriterijumi[i][0]) ? (bitnop) : (-bitnop);

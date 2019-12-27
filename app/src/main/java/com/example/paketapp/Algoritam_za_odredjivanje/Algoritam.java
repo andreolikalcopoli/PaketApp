@@ -5,6 +5,7 @@ import com.example.paketapp.Paketi.PaketNet;
 import com.example.paketapp.Paketi.PaketTV;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Algoritam
 {
@@ -32,11 +33,18 @@ public class Algoritam
     int bitnob;
     int brzina;
 
+    int bitanmob,bitantv,bitannet;
+
+    public int [] scoremob;
+    public int [] scorenet;
+    public int [] scoretv;
+    public int [] scorebox;
 
     public Algoritam(ArrayList<PaketTV> paketiTV, ArrayList<PaketMobilni> paketiMob, ArrayList<PaketNet> paketiNet,
       int minutiDnevno,int porukeDnevno,int gbDnevno,boolean roming, int bitnop,int bitnom,int bitnon,int bitnor,
                      int brzina,int bitnob,
-                     int brKanala,int unazad,boolean snimanje,boolean hbo, int bitnok,int bitnona,int bitnos)
+                     int brKanala,int unazad,boolean snimanje,boolean hbo, int bitnok,int bitnona,int bitnos,
+                     int bitanmob,int bitantv,int bitannet)
     {
         this.paketiTV = paketiTV;
         this.paketiMob = paketiMob;
@@ -61,11 +69,42 @@ public class Algoritam
 
         this.brzina = brzina;
         this.bitnob=bitnob;
+
+        this.bitanmob = bitanmob;
+        this.bitannet = bitannet;
+        this.bitantv=bitantv;
+
+        scorebox= new int[40];
     }
 
     public void runAlgo()
     {
+        AlgoritamMobilni amob = new AlgoritamMobilni(paketiMob,minuti,poruke,net,roming,bitnop,bitnom,bitnon,bitnor);
+        AlgoritamNet alnet = new AlgoritamNet(paketiNet,brzina,bitnob);
+        AlgoritamTV altv = new AlgoritamTV(paketiTV,brKanala,unazad,snimanje,hbo,bitnok,bitnona,bitnos);
+        scoremob  = amob.runAlgo();
+        scorenet = alnet.runAlgo();
+        scoretv = altv.runAlgo();
 
+        for(int i=0;i<paketiMob.size();i++)
+        {
+            scoremob[i] = scoremob[i]*(bitanmob);
+        }
+
+        for(int i=0;i<paketiNet.size();i++)
+        {
+            scorenet[i] = scorenet[i]*(bitannet);
+        }
+
+        for(int i=0;i<paketiTV.size();i++)
+        {
+            scoretv[i] = scoretv[i]*bitantv;
+        }
+
+        scorebox[0] = scoremob[0] + scoretv[0] + scorenet[0];
+        scorebox[1] = scoremob[1] + scoretv[1] + scorenet[1];
+        scorebox[2] = scoremob[2] + scoretv[2] + scorenet[2];
+        scorebox[3] = scoremob[3] + scoretv[2] + scorenet[5];
     }
 
     public ArrayList<PaketTV> getPaketiTV() {

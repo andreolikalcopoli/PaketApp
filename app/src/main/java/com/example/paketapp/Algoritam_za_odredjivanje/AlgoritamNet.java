@@ -35,6 +35,7 @@ public class AlgoritamNet
 
             //todo
             //zavrsi
+            //ukljuci i cenu u algoritam
 
             int sc = 0;
 
