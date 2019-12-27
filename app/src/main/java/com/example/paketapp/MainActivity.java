@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private ImageView iTel, iPaket;
@@ -32,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ConversationActivity.class);
+                startActivity(intent);
+            }
+        });
+        iTel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SviPaketiActivity.class);
                 startActivity(intent);
             }
         });

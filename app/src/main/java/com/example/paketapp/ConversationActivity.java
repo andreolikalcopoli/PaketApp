@@ -41,6 +41,7 @@ import com.scaledrone.lib.Room;
 import com.scaledrone.lib.RoomListener;
 import com.scaledrone.lib.Scaledrone;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,12 +93,20 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private List<String> selectedA=null;
     private List<String> selectedH=null;
 
+    private PaketMobilni paketMobilniSelected=null;
+    private PaketTV paketTVSelected=null;
+    private PaketNet paketNetSelected=null;
+    private BoxPaket boxPaketSelected=null;
+
     private Button answer1, answer2, answer3, answer4,ans1,ans2;
 
-    ArrayList<PaketMobilni> mobilniPaketi;
-    ArrayList<PaketTV> tvPaketi;
-    ArrayList<PaketNet> netPaketi;
-    ArrayList<BoxPaket> boxPaketi;
+    private ArrayList<PaketMobilni> mobilniPaketi;
+    private ArrayList<PaketTV> tvPaketi;
+    private ArrayList<PaketNet> netPaketi;
+    private ArrayList<BoxPaket> boxPaketi;
+
+    //Ova array lista je lista odgovora korisnika
+    private ArrayList<String> odgovori=new ArrayList<>();
 
     private boolean sound=false,mic=false,prolazi=false;
 
@@ -228,11 +237,13 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             selectedQ = listaPitanja;
             selectedA = listaOdgovora;
         }
+
         sendMessage(text);
     }
 
     public void sendMessage(String message) {
         if (message.length() > 0) {
+            odgovori.add(message);
             sendMyMessage(message);
             setQuestion();
         }
@@ -645,6 +656,31 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         super.onDestroy();
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="nesto za slanje paketa">
+    private void showPaket() {
+        if(paketMobilniSelected!=null) {
+            Intent intent = new Intent(ConversationActivity.this, PaketActivity.class);
+            intent.putExtra("vrsta","mobilni");
+            intent.putExtra("paket", (Serializable) paketMobilniSelected);
+        }
+        else if(paketNetSelected!=null) {
+            Intent intent = new Intent(ConversationActivity.this, PaketActivity.class);
+            intent.putExtra("vrsta","net");
+            intent.putExtra("paket", (Serializable) paketNetSelected);
+        }
+        else if(paketTVSelected!=null){
+            Intent intent = new Intent(ConversationActivity.this, PaketActivity.class);
+            intent.putExtra("vrsta","tv");
+            intent.putExtra("paket", (Serializable) paketTVSelected);
+        }
+        else{
+            Intent intent = new Intent(ConversationActivity.this, PaketActivity.class);
+            intent.putExtra("vrsta","box");
+            intent.putExtra("paket", (Serializable) boxPaketSelected);
+        }
+    }
     //</editor-fold>
 }
 
