@@ -77,7 +77,7 @@ public class Algoritam
         scorebox= new int[40];
     }
 
-    public void runAlgo()
+    public int [] runAlgo()
     {
         AlgoritamMobilni amob = new AlgoritamMobilni(paketiMob,minuti,poruke,net,roming,bitnop,bitnom,bitnon,bitnor);
         AlgoritamNet alnet = new AlgoritamNet(paketiNet,brzina,bitnob);
@@ -105,6 +105,8 @@ public class Algoritam
         scorebox[1] = scoremob[1] + scoretv[1] + scorenet[1];
         scorebox[2] = scoremob[2] + scoretv[2] + scorenet[2];
         scorebox[3] = scoremob[3] + scoretv[2] + scorenet[5];
+
+        return scorebox;
     }
 
     public ArrayList<PaketTV> getPaketiTV() {
