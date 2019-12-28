@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recNet"
+        android:id="@+id/recBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"

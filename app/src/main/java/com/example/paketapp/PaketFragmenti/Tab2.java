@@ -8,8 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.paketapp.Adapteri.MobilniAdapter;
+import com.example.paketapp.Adapteri.NetAdapter;
+import com.example.paketapp.Paketi.PaketMobilni;
+import com.example.paketapp.Paketi.PaketNet;
 import com.example.paketapp.R;
+
+import java.util.ArrayList;
 
 
 /**
@@ -29,6 +37,9 @@ public class Tab2 extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private RecyclerView recyclerView;
+    private ArrayList<PaketNet> netPaketi=new ArrayList<>();
+    private PaketNet[] nets=new PaketNet[6];
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,8 +77,16 @@ public class Tab2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab2, container, false);
+
+        View view=inflater.inflate(R.layout.fragment_tab2, container, false);
+
+        recyclerView=(RecyclerView)view.findViewById(R.id.recNet);
+
+        napraviPakete();
+
+        setRecycler();
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -107,5 +126,44 @@ public class Tab2 extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    //<editor-fold desc="paketi">
+    PaketNet pn;
+
+    private PaketNet[] konvertuj()
+    {
+        nets=new PaketNet[netPaketi.size()];
+        for(int i=0;i<netPaketi.size();i++)
+            nets[i]=netPaketi.get(i);
+
+        return nets;
+    }
+
+    void napraviNetPaket(String ime,int cena,int download,int upload)
+    {
+        pn = new PaketNet(ime,cena,download,upload);
+        netPaketi.add(pn);
+    }
+
+    void napraviPakete()
+    {
+        //mobilni paketi
+        napraviNetPaket("20",1700,20,4);
+        napraviNetPaket("50",1800,50,8);
+        napraviNetPaket("100",2400,100,10);
+        napraviNetPaket("200",3400,200,40);
+        napraviNetPaket("400",3800,400,80);
+        napraviNetPaket("1000",9000,1000,200);
+
+    }
+    //</editor-fold>
+
+    private void setRecycler(){
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        NetAdapter netAdapter = new NetAdapter(getContext(),konvertuj());
+        recyclerView.setAdapter(netAdapter);
     }
 }

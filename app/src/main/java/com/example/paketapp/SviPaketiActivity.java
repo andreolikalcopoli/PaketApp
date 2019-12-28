@@ -12,9 +12,10 @@ import com.example.paketapp.PaketFragmenti.PagerAdapter;
 import com.example.paketapp.PaketFragmenti.Tab1;
 import com.example.paketapp.PaketFragmenti.Tab2;
 import com.example.paketapp.PaketFragmenti.Tab3;
+import com.example.paketapp.PaketFragmenti.Tab4;
 import com.google.android.material.tabs.TabLayout;
 
-public class SviPaketiActivity extends AppCompatActivity implements Tab1.OnFragmentInteractionListener, Tab2.OnFragmentInteractionListener, Tab3.OnFragmentInteractionListener {
+public class SviPaketiActivity extends AppCompatActivity implements Tab1.OnFragmentInteractionListener, Tab2.OnFragmentInteractionListener, Tab3.OnFragmentInteractionListener, Tab4.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class SviPaketiActivity extends AppCompatActivity implements Tab1.OnFragm
         tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 4"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);

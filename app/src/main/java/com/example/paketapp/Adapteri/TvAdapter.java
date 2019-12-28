@@ -3,6 +3,7 @@ package com.example.paketapp.Adapteri;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,14 +40,18 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvHolder>{
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final TvHolder viewHolder, final int i) {
-        viewHolder.tvIme.setText(paketTV[i].getIme());
-        viewHolder.tvCena.setText(String.valueOf(paketTV[i].getCena()));
-        viewHolder.tvVideoklub.setText("Videoklub:"+"\n"+convertApps(paketTV[i].getVideoKlub()));
-        viewHolder.tvBrojKanala.setText("Broj kanala:"+"\n"+String.valueOf(paketTV[i].getBrojKanala()));
-        viewHolder.tvHD.setText("Broj HD kanala:"+"\n"+String.valueOf(paketTV[i].getBrojHdKanala()));
-        viewHolder.tvPauziranje.setText("Pauziranje:"+"\n"+paketTV[i].getPauziranje());
-        viewHolder.tvSnimanje.setText("Snimanje sadrzaja:"+"\n"+paketTV[i].getSnimanjeSadrzaja());
-        viewHolder.tvUnazad.setText("Gledanje unazad:"+"\n"+String.valueOf(paketTV[i].getGledanjaNazad()));
+        try {
+            viewHolder.tvIme.setText(paketTV[i].getIme());
+            viewHolder.tvCena.setText(String.valueOf(paketTV[i].getCena()));
+            viewHolder.tvVideoklub.setText("Videoklub:"+"\n"+convertApps(paketTV[i].getVideoKlub()));
+            viewHolder.tvBrojKanala.setText("Broj kanala:"+"\n"+String.valueOf(paketTV[i].getBrojKanala()));
+            viewHolder.tvHD.setText("Broj HD kanala:"+"\n"+String.valueOf(paketTV[i].getBrojHdKanala()));
+            viewHolder.tvPauziranje.setText("Pauziranje:"+"\n"+paketTV[i].getPauziranje());
+            viewHolder.tvSnimanje.setText("Snimanje sadrzaja:"+"\n"+paketTV[i].getSnimanjeSadrzaja());
+            viewHolder.tvUnazad.setText("Gledanje unazad:"+"\n"+String.valueOf(paketTV[i].getGledanjaNazad()));
+        } catch (Exception e) {
+            Log.d("GRESKA",""+i + paketTV[i].getPauziranje());
+        }
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,8 +85,8 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvHolder>{
 
         public TvHolder(@NonNull View itemView) {
             super(itemView);
-            tvIme=(TextView)itemView.findViewById(R.id.tImeMob);
-            tvCena=(TextView)itemView.findViewById(R.id.tCenaMob);
+            tvIme=(TextView)itemView.findViewById(R.id.tImeTv);
+            tvCena=(TextView)itemView.findViewById(R.id.tCenaTv);
             tvUnazad=(TextView)itemView.findViewById(R.id.tGledanjeNazad);
             tvSnimanje=(TextView)itemView.findViewById(R.id.tSnimanjeSadrzaja);
             tvHD=(TextView)itemView.findViewById(R.id.tBrojHdKanala);

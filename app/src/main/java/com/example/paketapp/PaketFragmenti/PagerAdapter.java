@@ -5,10 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-/**
- * Created by Chirag on 30-Jul-17.
- */
-
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     int mNoOfTabs;
@@ -24,7 +20,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch(position)
         {
-
             case 0:
                 Tab1 tab1 = new Tab1();
                 return tab1;
@@ -34,6 +29,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 Tab3 tab3 = new Tab3();
                 return  tab3;
+            case 3:
+                Tab4 tab4 = new Tab4();
+                return tab4;
             default:
                 return null;
         }

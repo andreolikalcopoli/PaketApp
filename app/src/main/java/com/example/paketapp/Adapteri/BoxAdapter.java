@@ -34,7 +34,7 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.BoxHolderr>{
     @Override
     public BoxHolderr onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View layout= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.mobilni_paket_item,null);
+        View layout= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.box_paket_item,null);
         BoxHolderr myHolder=new BoxHolderr(layout);
         return myHolder;
     }
