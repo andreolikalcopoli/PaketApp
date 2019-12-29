@@ -17,6 +17,7 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,6 +29,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.paketapp.Algoritam_za_odredjivanje.Algoritam;
+import com.example.paketapp.Algoritam_za_odredjivanje.AlgoritamMobilni;
+import com.example.paketapp.Algoritam_za_odredjivanje.AlgoritamNet;
+import com.example.paketapp.Algoritam_za_odredjivanje.AlgoritamTV;
 import com.example.paketapp.Classes.Message;
 import com.example.paketapp.Classes.MessageAdapter;
 import com.example.paketapp.Paketi.BoxPaket;
@@ -44,10 +49,13 @@ import com.scaledrone.lib.Scaledrone;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeMap;
 
 public class ConversationActivity extends AppCompatActivity implements RoomListener {
 
@@ -128,6 +136,106 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         }
     };
 
+
+    int fminuti(String min)
+    {
+        if(min.equals("Manje od 5 minuta")) return 30*5;
+        else if(min.equals("10 minuta")) return 30*10;
+        else if(min.equals("20 minuta")) return 30*20;
+        return 30*30;
+    }
+
+    int fporuke(String por)
+    {
+        return 0;
+    }
+
+    int finternet(String net)
+    {
+        if(net.equals("manje od 3")) return 3;
+        else if(net.equals("5")) return 5;
+        else if(net.equals("10")) return 10;
+        return 20;
+    }
+
+    boolean froming(String rom)
+    {
+        return rom.equals("Da");
+    }
+
+    int fnazad(String naz)
+    {
+       if(naz.equals("Da")) return 7;
+       return 0;
+    }
+
+    boolean fsnimaj(String sni)
+    {
+        return sni.equals("Da");
+    }
+
+    int fbrzina(String brz)
+    {
+        if(brz.equals("20/4 mb/s")) return 20;
+        else if(brz.equals("50/8 mb/s")) return 50;
+        else if(brz.equals("100/10 mb/s")) return 100;
+        return 200;
+    }
+
+
+    private void runAlgo()
+    {
+        //todo
+        //treba da se ubace pitanja za to kolko je nesto bitno
+
+       String birao = odgovori.get(0);
+       if(birao.equals("Box"))
+       {
+           Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),
+                   1,2,3,4,5,fbrzina(odgovori.get(5)),250,fnazad(odgovori.get(6)),fsnimaj(odgovori.get(7)),true,1,2,3,4,5,6);
+           int [] score = algoritam.runAlgo();
+           Map<BoxPaket,Integer> paketi = new HashMap<BoxPaket,Integer>();
+           for(int i=0;i<boxPaketi.size();i++)
+           {
+               paketi.put(boxPaketi.get(i),score[i]);
+           }
+           Map<BoxPaket,Integer> sortirano = new TreeMap<BoxPaket,Integer>(paketi);
+
+       }
+       else if(birao.equals("Mobilni"))
+       {
+           AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),1,2,3,4);
+           int [] score = amob.runAlgo();
+           Map<PaketMobilni,Integer> paketi = new HashMap<PaketMobilni,Integer>();
+           for(int i=0;i<mobilniPaketi.size();i++)
+           {
+               paketi.put(mobilniPaketi.get(i),score[i]);
+           }
+           Map<PaketMobilni,Integer> sortirano = new TreeMap<PaketMobilni,Integer>(paketi);
+       }
+       else if(birao.equals("TV"))
+       {
+           AlgoritamTV atv = new AlgoritamTV(tvPaketi,250,fnazad(odgovori.get(1)),fsnimaj(odgovori.get(2)),true,1,2,3);
+           int [] score = atv.runAlgo();
+           Map<PaketTV,Integer> paketi = new HashMap<PaketTV,Integer>();
+           for(int i=0;i<tvPaketi.size();i++)
+           {
+               paketi.put(tvPaketi.get(i),score[i]);
+           }
+           Map<PaketTV,Integer> sortirano = new TreeMap<PaketTV,Integer>(paketi);
+       }
+       else
+       {
+           AlgoritamNet anet = new AlgoritamNet(netPaketi,fbrzina(odgovori.get(1)),1);
+           int [] score = anet.runAlgo();
+           Map<PaketNet,Integer> paketi = new HashMap<PaketNet,Integer>();
+           for(int i=0;i<netPaketi.size();i++)
+           {
+               paketi.put( netPaketi.get(i),score[i]);
+           }
+           Map<PaketNet,Integer> sortirano = new TreeMap<PaketNet,Integer>(paketi);
+       }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
