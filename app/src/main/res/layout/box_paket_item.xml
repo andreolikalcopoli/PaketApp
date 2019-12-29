@@ -7,7 +7,7 @@
     android:id="@+id/box_item">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tImeBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/tCenaBoxx"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -28,49 +28,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/tvCons"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tMobBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
+        app:layout_constraintTop_toBottomOf="@+id/tImeBox" />
 
-        <include
-            layout="@layout/tv_paket_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></include>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mobCons"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tTVBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCons">
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toStartOf="@+id/tNetBox"
+        app:layout_constraintStart_toEndOf="@+id/tMobBox"
+        app:layout_constraintTop_toBottomOf="@+id/tCenaBoxx" />
 
-        <include
-            layout="@layout/mobilni_paket_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></include>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/netCons"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tNetBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mobCons">
-
-        <include
-            layout="@layout/net_item"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></include>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/tCenaBoxx" />
 </androidx.constraintlayout.widget.ConstraintLayout>

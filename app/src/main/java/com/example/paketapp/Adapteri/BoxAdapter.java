@@ -44,12 +44,9 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.BoxHolderr>{
     public void onBindViewHolder(@NonNull final BoxHolderr viewHolder, final int i) {
         viewHolder.tvIme.setText(paketBox[i].getIme());
         viewHolder.tvCena.setText(String.valueOf(paketBox[i].getCena()));
-        PaketMobilni[]paketMobilnis={paketBox[i].getPaketMobilni()};
-        PaketNet[]paketNets={paketBox[i].getPaketNet()};
-        PaketTV[]paketTVS={paketBox[i].getPaketTV()};
-        viewHolder.mobilniAdapter=new MobilniAdapter(context,paketMobilnis);
-        viewHolder.netAdapter=new NetAdapter(context,paketNets);
-        viewHolder.tvAdapter=new TvAdapter(context,paketTVS);
+        viewHolder.tvMob.setText(paketBox[i].getPaketMobilni().getIme());
+        viewHolder.tvTv.setText(paketBox[i].getPaketTV().getIme());
+        viewHolder.tvNet.setText(paketBox[i].getPaketNet().getIme());
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,16 +64,16 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.BoxHolderr>{
     public static class BoxHolderr extends RecyclerView.ViewHolder{
 
         //Atributi koji se sastoje u grid_layout.
-        private MobilniAdapter mobilniAdapter;
-        private TvAdapter tvAdapter;
-        private NetAdapter netAdapter;
-        private TextView tvIme,tvCena;
+        private TextView tvIme,tvCena,tvMob,tvTv,tvNet;
         private ConstraintLayout itemLayout;
 
         public BoxHolderr(@NonNull View itemView) {
             super(itemView);
-            tvIme=(TextView)itemView.findViewById(R.id.tImeMob);
-            tvCena=(TextView)itemView.findViewById(R.id.tCenaMob);
+            tvIme=(TextView)itemView.findViewById(R.id.tImeBox);
+            tvCena=(TextView)itemView.findViewById(R.id.tCenaBoxx);
+            tvMob=(TextView)itemView.findViewById(R.id.tMobBox);
+            tvTv=(TextView)itemView.findViewById(R.id.tTVBox);
+            tvNet=(TextView)itemView.findViewById(R.id.tNetBox);
             itemLayout=(ConstraintLayout)itemView.findViewById(R.id.box_item);
         }
     }
