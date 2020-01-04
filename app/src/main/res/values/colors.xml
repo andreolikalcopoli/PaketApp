@@ -6,4 +6,6 @@
     <color name="colorAccentG">#A6F47E23</color>
     <color name="colorPrimaryDarkG">#A6B20D29</color>
     <color name="blueHint">#add3e6</color>
+    <color name="rectBackg">#99B20D29</color>
+    <color name="rectWhite">#99FFFFFF</color>
 </resources>

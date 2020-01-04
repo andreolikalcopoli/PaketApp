@@ -75,7 +75,7 @@ public class PaketMobilni
     }
 
     public int getInternet() {
-        return internet;
+        return internet/1024;
     }
 
     public void setInternet(int internet) {

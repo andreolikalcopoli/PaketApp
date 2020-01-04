@@ -2,6 +2,7 @@ package com.example.paketapp.Adapteri;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.paketapp.Paketi.PaketMobilni;
@@ -40,17 +42,39 @@ public class MobilniAdapter extends RecyclerView.Adapter<MobilniAdapter.MobilniH
     @Override
     public void onBindViewHolder(@NonNull final MobilniHolderr viewHolder, final int i) {
         viewHolder.tvIme.setText(paketMobilni[i].getIme());
-        viewHolder.tvCena.setText(String.valueOf(paketMobilni[i].getCena()));
-        viewHolder.tvAppNet.setText("Internet aplikacije:"+"\n"+convertApps(paketMobilni[i].getAplikacijeInternet()));
-        viewHolder.tvGbProstor.setText("Prostor na disku:"+"\n"+String.valueOf(paketMobilni[i].getGbProstora()));
-        viewHolder.tvMin.setText("Minuti:"+"\n"+String.valueOf(paketMobilni[i].getMinuti()));
-        viewHolder.tvMinMreza.setText("Minuti u mrezi:"+"\n"+String.valueOf(paketMobilni[i].getMinutiMreza()));
-        viewHolder.tvMinRom.setText("Minuti u romingu:"+"\n"+String.valueOf(paketMobilni[i].getMinutiRoming()));
-        viewHolder.tvNet.setText("Internet:"+"\n"+String.valueOf(paketMobilni[i].getInternet()));
-        viewHolder.tvNetRom.setText("Internet u romingu:"+"\n"+paketMobilni[i].getInternetRoming());
-        viewHolder.tvSms.setText("SMS:"+"\n"+String.valueOf(paketMobilni[i].getSms()));
-        viewHolder.tvPlusGb.setText("Jos jedan GB za kupovinu:"+"\n"+paketMobilni[i].getJosJedanGbZaKupovinu());
-        viewHolder.tvPorukeRom.setText("Poruke u roming:"+"\n"+paketMobilni[i].getPorukeRoming());
+        viewHolder.tvCena.setText(String.valueOf(paketMobilni[i].getCena()) + " din.");
+        viewHolder.tvAppNet.setText(convertApps(paketMobilni[i].getAplikacijeInternet()));
+        viewHolder.tvGbProstor.setText(String.valueOf(paketMobilni[i].getGbProstora())+" gb");
+        if (paketMobilni[i].getMinuti() > 1000)
+            viewHolder.tvMin.setText("Neograniceno");
+        else
+            viewHolder.tvMin.setText(String.valueOf(paketMobilni[i].getMinuti()));
+        viewHolder.tvMinMreza.setText(String.valueOf("Neograniceno"));
+        if (paketMobilni[i].getMinutiRoming() > 1000)
+            viewHolder.tvMinRom.setText("Neograniceno");
+        else
+            viewHolder.tvMinRom.setText(String.valueOf(paketMobilni[i].getMinutiRoming()));
+        viewHolder.tvNet.setText(String.valueOf(paketMobilni[i].getInternet())+" gb");
+        viewHolder.tvNetRom.setText(paketMobilni[i].getInternetRoming());
+        if (paketMobilni[i].getSms() > 1000)
+            viewHolder.tvSms.setText("Neograniceno");
+        else
+            viewHolder.tvSms.setText(String.valueOf(paketMobilni[i].getSms()));
+        viewHolder.tvPlusGb.setText(paketMobilni[i].getJosJedanGbZaKupovinu());
+        viewHolder.tvPorukeRom.setText(paketMobilni[i].getPorukeRoming());
+        if (i > 1 && i < 5) {
+            viewHolder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.spruce));
+        } else if (i < 2) {
+            viewHolder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.morava));
+            viewHolder.tvIme.setTextColor(Color.WHITE);
+            viewHolder.tvCena.setTextColor(Color.WHITE);
+        } else {
+            viewHolder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.falcon));
+            setMargins(viewHolder.constraintLayout);
+            viewHolder.constraintLayout.setBackgroundColor(Color.parseColor("#99000000"));
+            viewHolder.tvIme.setTextColor(Color.WHITE);
+            viewHolder.tvCena.setTextColor(Color.WHITE);
+        }
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +82,13 @@ public class MobilniAdapter extends RecyclerView.Adapter<MobilniAdapter.MobilniH
 
             }
         });
+    }
+
+    private void setMargins(ConstraintLayout constraintLayout)
+    {
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)constraintLayout.getLayoutParams();
+        params.setMargins(0, 48, 8, 24); //substitute parameters for left, top, right, bottom
+        constraintLayout.setLayoutParams(params);
     }
 
     private String convertApps(ArrayList<String> apps){
@@ -81,8 +112,7 @@ public class MobilniAdapter extends RecyclerView.Adapter<MobilniAdapter.MobilniH
 
         //Atributi koji se sastoje u grid_layout.
         private TextView tvIme,tvCena,tvMin,tvMinMreza,tvSms,tvNet,tvGbProstor,tvMinRom,tvAppNet,tvPlusGb,tvPorukeRom,tvNetRom;
-        private ImageView imgMob;
-        private ConstraintLayout itemLayout;
+        private ConstraintLayout itemLayout,constraintLayout;
 
         public MobilniHolderr(@NonNull View itemView) {
             super(itemView);
@@ -98,8 +128,8 @@ public class MobilniAdapter extends RecyclerView.Adapter<MobilniAdapter.MobilniH
             tvPlusGb=(TextView)itemView.findViewById(R.id.tPlusGb);
             tvPorukeRom=(TextView)itemView.findViewById(R.id.tPorRom);
             tvNetRom=(TextView)itemView.findViewById(R.id.tNetRom);
-            imgMob=(ImageView)itemView.findViewById(R.id.iMob);
             itemLayout=(ConstraintLayout)itemView.findViewById(R.id.mob_item);
+            constraintLayout=(ConstraintLayout)itemView.findViewById(R.id.rectbackg);
         }
     }
 }

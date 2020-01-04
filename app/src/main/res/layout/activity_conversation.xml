@@ -6,6 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".ConversationActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constPak"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout2">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_backg"
+            android:padding="10dp"
+            android:text="Pogledaj preporučene pakete!"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/textView8"
         android:layout_width="0dp"
@@ -92,6 +119,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/soundoff" />
 
+        <Button
+            android:id="@+id/bKaziPaket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
@@ -154,6 +189,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/odg1"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -234,6 +270,109 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/odgovor3" />
+
+        <ImageView
+            android:id="@+id/tInternetSlika"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="10dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="@+id/odgovor1"
+            app:layout_constraintTop_toTopOf="@+id/odgovor1"
+            app:srcCompat="@drawable/circlered" />
+
+        <TextView
+            android:id="@+id/tInternetBroj"
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="10dp"
+            android:gravity="center_horizontal|top"
+            android:text="1"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tInternetSlika"
+            app:layout_constraintEnd_toEndOf="@+id/tInternetSlika"
+            app:layout_constraintStart_toStartOf="@+id/tInternetSlika"
+            app:layout_constraintTop_toTopOf="@+id/tInternetSlika"
+            app:layout_constraintVertical_bias="0.39" />
+
+
+        <ImageView
+            android:id="@+id/tMobilniSlika"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/odgovor2"
+            app:layout_constraintTop_toTopOf="@+id/odgovor2"
+            app:srcCompat="@drawable/circlered" />
+
+        <TextView
+            android:id="@+id/tMobilniBroj"
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="10dp"
+            android:gravity="center_horizontal|top"
+            android:text="1"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tMobilniSlika"
+            app:layout_constraintEnd_toEndOf="@+id/tMobilniSlika"
+            app:layout_constraintStart_toStartOf="@+id/tMobilniSlika"
+            app:layout_constraintTop_toTopOf="@+id/tMobilniSlika" />
+
+        <ImageView
+            android:id="@+id/tTVSlika"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/odgovor3"
+            app:layout_constraintTop_toTopOf="@+id/odgovor3"
+            app:srcCompat="@drawable/circlered" />
+
+        <TextView
+            android:id="@+id/tTVBroj"
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="10dp"
+            android:gravity="center_horizontal|top"
+            android:text="1"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tTVSlika"
+            app:layout_constraintEnd_toEndOf="@+id/tTVSlika"
+            app:layout_constraintStart_toStartOf="@+id/tTVSlika"
+            app:layout_constraintTop_toTopOf="@+id/tTVSlika" />
+
+        <ImageView
+            android:id="@+id/tBoxSlika"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/odgovor4"
+            app:layout_constraintTop_toTopOf="@+id/odgovor4"
+            app:srcCompat="@drawable/circlered" />
+
+        <TextView
+            android:id="@+id/tBoxBroj"
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:layout_marginBottom="8dp"
+            android:elevation="10dp"
+            android:gravity="center_horizontal|top"
+            android:text="1"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tBoxSlika"
+            app:layout_constraintEnd_toEndOf="@+id/tBoxSlika"
+            app:layout_constraintStart_toStartOf="@+id/tBoxSlika"
+            app:layout_constraintTop_toTopOf="@+id/tBoxSlika" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
