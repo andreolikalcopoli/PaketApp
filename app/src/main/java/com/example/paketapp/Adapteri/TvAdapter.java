@@ -42,13 +42,13 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvHolder>{
     public void onBindViewHolder(@NonNull final TvHolder viewHolder, final int i) {
         try {
             viewHolder.tvIme.setText(paketTV[i].getIme());
-            viewHolder.tvCena.setText(String.valueOf(paketTV[i].getCena()));
-            viewHolder.tvVideoklub.setText("Videoklub:"+"\n"+convertApps(paketTV[i].getVideoKlub()));
-            viewHolder.tvBrojKanala.setText("Broj kanala:"+"\n"+String.valueOf(paketTV[i].getBrojKanala()));
-            viewHolder.tvHD.setText("Broj HD kanala:"+"\n"+String.valueOf(paketTV[i].getBrojHdKanala()));
-            viewHolder.tvPauziranje.setText("Pauziranje:"+"\n"+paketTV[i].getPauziranje());
-            viewHolder.tvSnimanje.setText("Snimanje sadrzaja:"+"\n"+paketTV[i].getSnimanjeSadrzaja());
-            viewHolder.tvUnazad.setText("Gledanje unazad:"+"\n"+String.valueOf(paketTV[i].getGledanjaNazad()));
+            viewHolder.tvCena.setText(String.valueOf(paketTV[i].getCena())+" din.");
+            viewHolder.tvVideoklub.setText(convertApps(paketTV[i].getVideoKlub()));
+            viewHolder.tvBrojKanala.setText(String.valueOf(paketTV[i].getBrojKanala()));
+            viewHolder.tvHD.setText(String.valueOf(paketTV[i].getBrojHdKanala()));
+            viewHolder.tvPauziranje.setText(paketTV[i].getPauziranje());
+            viewHolder.tvSnimanje.setText(paketTV[i].getSnimanjeSadrzaja());
+            viewHolder.tvUnazad.setText(String.valueOf(paketTV[i].getGledanjaNazad())+"h");
         } catch (Exception e) {
             Log.d("GRESKA",""+i + paketTV[i].getPauziranje());
         }
@@ -64,8 +64,9 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvHolder>{
         StringBuilder sb=new StringBuilder();
 
         for(int i=0;i<apps.size();i++)
-            sb.append(apps.get(i)+",");
+            sb.append(apps.get(i)+", ");
 
+        sb.deleteCharAt(sb.length()-1);
         sb.deleteCharAt(sb.length()-1);
 
         return sb.toString();

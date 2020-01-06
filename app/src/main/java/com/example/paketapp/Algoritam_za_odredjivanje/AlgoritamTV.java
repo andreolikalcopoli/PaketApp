@@ -43,7 +43,7 @@ public class AlgoritamTV
             PaketTV p = paketi.get(i);
             kriterijumi[i][0] = p.getBrojKanala()>=brKanala;
             kriterijumi[i][1] = (unazad == p.getGledanjaNazad());
-            kriterijumi[i][2] = (snimanje == p.getSnimanjeSadrzaja());
+            kriterijumi[i][2] = (snimanje == p.isSnimanjeSadrzaja());
             //todo
             //zavrsi
             //ukljuci i cenu u algoritam

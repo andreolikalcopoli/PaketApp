@@ -54,9 +54,6 @@ import java.util.TreeMap;
 
 public class ConversationActivity extends AppCompatActivity implements RoomListener {
 
-    //TODO
-    //Da se dodaju pitanja za box za vaznost, ne znam sta treba
-
     //<editor-fold desc="Variables">
     private String channelID = "2JYnAoVFhHG0tBcn",roomName = "observable-room";
     private Scaledrone scaledrone;
@@ -69,13 +66,15 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private String[] split;
 
-    private List<String> reci=Arrays.asList("poruka","minuta","interneta","net","roming","instagram","viber","whatsapp","facebook");
+    private List<String> reci=Arrays.asList("poruka","minuta","interneta","net","roming","instagram","viber","whatsapp","facebook",
+            "snimanje sadrzaja","gledanje unazad","gledanja unazad","snimanja sadrzaja","hbo","broj kanala","kanala",
+            "20/4","dvadeset kroz cetiri","pedeset kroz osam","sto kroz deset","dvesta kroz cetrdeset","50/8","100/10","200/40");
     private List<String> brojevi=Arrays.asList("jedan","dva","tri","sto");
     private ArrayList<String> listaBrojeva=new ArrayList<>();
     private ArrayList<String> listaReci=new ArrayList<>();
 
     private ArrayList<String> listaBitnost=new ArrayList<>();
-    private int indexBitnosti=0,indexOfQuestion=0,indexBroja=0, indexReci=0;
+    private int indexBitnosti=0,indexOfQuestion=0,indexBroja=0;
 
     //<editor-fold desc="Pitanja">
     private List<String> tvQuestions=Arrays.asList("Izaberite od najvaznije ka najmanje vaznoj stavki za Vas paket!",

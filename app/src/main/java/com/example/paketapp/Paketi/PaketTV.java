@@ -61,8 +61,11 @@ public class PaketTV
         return snimanjeSadrzaja;
     }
 
-    public boolean getSnimanjeSadrzaja(){
-        return snimanjeSadrzaja;
+    public String getSnimanjeSadrzaja(){
+        if(snimanjeSadrzaja)
+            return "Da";
+        else
+            return "Ne";
     }
 
     public void setSnimanjeSadrzaja(boolean snimanjeSadrzaja) {
