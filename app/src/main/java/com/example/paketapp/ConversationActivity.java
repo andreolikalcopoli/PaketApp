@@ -55,7 +55,7 @@ import java.util.TreeMap;
 public class ConversationActivity extends AppCompatActivity implements RoomListener {
 
     //<editor-fold desc="Variables">
-    private String channelID = "2JYnAoVFhHG0tBcn",roomName = "observable-room";
+    private String channelID = "2JYnAoVFhHG0tBcn",roomName = "observable-room",bitnost1,bitnost2,bitnost3,bitnost4,selektovanaKategorija;
     private Scaledrone scaledrone;
     private MessageAdapter messageAdapter;
     private ListView messagesView;
@@ -74,7 +74,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private ArrayList<String> listaReci=new ArrayList<>();
 
     private ArrayList<String> listaBitnost=new ArrayList<>();
-    private int indexBitnosti=0,indexOfQuestion=0,indexBroja=0;
+    private int indexBitnosti=0,indexOfQuestion=0,indexBroja=0, brojacProlazak=0;
 
     //<editor-fold desc="Pitanja">
     private List<String> tvQuestions=Arrays.asList("Izaberite od najvaznije ka najmanje vaznoj stavki za Vas paket!",
@@ -95,7 +95,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private List<String> internetQuestions=Arrays.asList("Koja brzina interneta vam najviše odgovara?");
     private List<String> internetAnswers=Arrays.asList("20/4 mb/s:50/8 mb/s:100/10 mb/s:200/40 mb/s");
-    private List<String> internetHints=Arrays.asList("","Pri brzini od 100/10, u proseku, film visokog kvaliteta mogli biste da skinete za manje od minuta!");
+    private List<String> internetHints=Arrays.asList("Pri brzini od 100/10, u proseku, film visokog kvaliteta mogli biste da skinete za manje od minuta!");
 
     private List<String> boxQuestions=new ArrayList<>();
     private List<String> boxAnswers=new ArrayList<>();
@@ -111,7 +111,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private PaketNet paketNetSelected=null;
     private BoxPaket boxPaketSelected=null;
 
-    private Button answer1, answer2, answer3, answer4,ans1,ans2,btnKaziPaket;
+    private Button answer1, answer2, answer3, answer4,ans1,ans2,btnKaziPaket,btnPreporuci;
 
     private ArrayList<PaketMobilni> mobilniPaketi;
     private ArrayList<PaketTV> tvPaketi;
@@ -351,6 +351,19 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 getSpeechInput(v);
             }
         });
+        btnPreporuci.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listaBitnost.size()>3) {
+                    bitnost1 = listaBitnost.get(0);
+                    bitnost2 = listaBitnost.get(1);
+                    bitnost3 = listaBitnost.get(2);
+                    bitnost4 = listaBitnost.get(3);
+
+                    Log.d("BITNO", bitnost1 + "/" + bitnost2 + "/" + bitnost3 + "/" + bitnost4);
+                }
+            }
+        });
         //</editor-fold>
     }
 
@@ -361,15 +374,23 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             selectedQ = listaPitanja;
             selectedA = listaOdgovora;
 
+            if(!text.equals("Internet")) {
+                if (!loadString("bitnost" + text).equals("")) {
+                    indexOfQuestion = 1;
+                    loadBitnost(text);
+                } else
+                    bitnost = true;
+            }
+            selektovanaKategorija=text;
+
             sendMessage(text);
 
-            if (!loadString("bitnost" + text).equals(""))
-                indexOfQuestion = 1;
-            else
-                bitnost = true;
+            brojacProlazak=98;
         }
+        else
+            brojacProlazak=-899;
 
-        if (!bitnost)
+        if (!bitnost && brojacProlazak==-899)
             sendMessage(text);
     }
 
@@ -393,9 +414,24 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             imgOdg3.setVisibility(View.INVISIBLE);
             imgOdg4.setVisibility(View.INVISIBLE);
             sendComputerMessage("Odlicno, da nastavimo dalje sa anketom!");
-            saveString("bitnost"+odabir,"popunjeno");
+            saveString("bitnost"+selektovanaKategorija,convertBitnost(listaBitnost));
             setQuestion();
             indexBitnosti++;
+        }
+    }
+
+    private String convertBitnost(ArrayList<String> arrayList) {
+        StringBuilder stringBuilder=new StringBuilder();
+        for(int i=0;i<arrayList.size();i++) {
+            stringBuilder.append(arrayList.get(i)+"=");
+        }
+        return stringBuilder.toString();
+    }
+    private void loadBitnost(String TelefonTVBOX){
+        String s=loadString("bitnost"+TelefonTVBOX);
+        String[] split=s.split("=");
+        for(int i=0;i<split.length;i++) {
+            listaBitnost.add(split[i]);
         }
     }
 
@@ -470,17 +506,17 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     }
     private void sendComputerMessage(String text) {
-        final MemberData data = new MemberData("Sebastijan", Color.LTGRAY);
-        final Message message = new Message(text, data, false);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                messageAdapter.add(message);
-                messagesView.setSelection(messagesView.getCount() - 1);
-            }
-        });
-        if (sound)
-            speak(text);
+            final MemberData data = new MemberData("Sebastijan", Color.LTGRAY);
+            final Message message = new Message(text, data, false);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    messageAdapter.add(message);
+                    messagesView.setSelection(messagesView.getCount() - 1);
+                }
+            });
+            if (sound)
+                speak(text);
     }
     private void sendMyMessage(String text)
     {
@@ -847,18 +883,19 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         ans1=(Button)findViewById(R.id.odg1);
         ans2=(Button)findViewById(R.id.odg2);
         btnKaziPaket=(Button)findViewById(R.id.bKaziPaket);
+        btnPreporuci=(Button)findViewById(R.id.btnPreporuceno);
 
         tvHint=(TextView)findViewById(R.id.tHint);
         tvOdg1=(TextView)findViewById(R.id.tInternetBroj);
         tvOdg2=(TextView)findViewById(R.id.tMobilniBroj);
         tvOdg3=(TextView)findViewById(R.id.tTVBroj);
         tvOdg4=(TextView)findViewById(R.id.tBoxBroj);
+
         tvHint.bringToFront();
         tvOdg1.setVisibility(View.INVISIBLE);
         tvOdg2.setVisibility(View.INVISIBLE);
         tvOdg3.setVisibility(View.INVISIBLE);
         tvOdg4.setVisibility(View.INVISIBLE);
-
 
         messageAdapter = new MessageAdapter(this);
         messagesView = (ListView) findViewById(R.id.messages_view);
