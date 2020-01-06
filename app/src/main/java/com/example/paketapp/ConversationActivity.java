@@ -470,7 +470,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             String s = ss;
             split = s.split(":");
         }
-
         if(!bitnost) {
             if (!selectedH.get(indexOfQuestion).equals("")) {
                 show();
