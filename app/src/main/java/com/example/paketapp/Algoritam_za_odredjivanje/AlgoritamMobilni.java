@@ -34,7 +34,7 @@ public class AlgoritamMobilni
         kriterijumi = new boolean[pak.size()][10];
         score = new int[pak.size()];
         Arrays.fill(score, 0);
-        Arrays.fill(kriterijumi,false);
+       // Arrays.fill(kriterijumi,false);
     }
 
     public int [] runAlgo()

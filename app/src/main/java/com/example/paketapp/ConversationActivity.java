@@ -44,6 +44,7 @@ import com.scaledrone.lib.Room;
 import com.scaledrone.lib.RoomListener;
 import com.scaledrone.lib.Scaledrone;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -55,7 +56,8 @@ import java.util.TreeMap;
 public class ConversationActivity extends AppCompatActivity implements RoomListener {
 
     //<editor-fold desc="Variables">
-    private String channelID = "2JYnAoVFhHG0tBcn",roomName = "observable-room",bitnost1,bitnost2,bitnost3,bitnost4,selektovanaKategorija;
+    private String channelID = "2JYnAoVFhHG0tBcn",roomName = "observable-room";
+    private String bitnost1,bitnost2,bitnost3,bitnost4,selektovanaKategorija;
     private Scaledrone scaledrone;
     private MessageAdapter messageAdapter;
     private ListView messagesView;
@@ -124,6 +126,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private ImageView imgMic, imgSound, imgOdg1,imgOdg2,imgOdg3,imgOdg4;
     private TextToSpeech mTTS;
 
+    int bp,bm,bn,br;
+    int bbk,bnaz,bsnim,bhbo;
+
     private CountDownTimer t = new CountDownTimer(5000, 90000) {
         @Override
         public void onTick(long millisUntilFinished) {
@@ -186,17 +191,30 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         return 200;
     }
 
+    void odrediMobBitnost(String s,int r)
+    {
+          if(s.equals("Poruke")) bp = r;
+          else if(s.equals("Minuti")) bm = r;
+          else if(s.equals("Internet")) bn = r;
+          else br = r;
+    }
+
+
+    void odrediTvBitnost(String s,int r)
+    {
+        if(s.equals("Broj kanala")) bbk = r;
+        else if(s.equals("Gledanje unazad")) bnaz = r;
+        else if(s.equals("Snimanje sadrzaja")) bsnim = r;
+        else bhbo = r;
+    }
 
     private void runAlgo()
     {
-        //todo
-        //treba da se ubace pitanja za to kolko je nesto bitno
-
        String birao = odgovori.get(0);
        if(birao.equals("Box"))
        {
            Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),
-                   1,2,3,4,5,fbrzina(odgovori.get(5)),250,fnazad(odgovori.get(6)),fsnimaj(odgovori.get(7)),true,1,2,3,4,5,6);
+                   bp,bm,bn,br,fbrzina(odgovori.get(5)),4,250,fnazad(odgovori.get(6)),fsnimaj(odgovori.get(7)),true,bbk,bnaz,bsnim,4,5,6);
            int [] score = algoritam.runAlgo();
            Map<BoxPaket,Integer> paketi = new HashMap<BoxPaket,Integer>();
            for(int i=0;i<boxPaketi.size();i++)
@@ -205,21 +223,42 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
            }
            Map<BoxPaket,Integer> sortirano = new TreeMap<BoxPaket,Integer>(paketi);
 
+           Toast.makeText(ConversationActivity.this,"Box",Toast.LENGTH_LONG).show();
+
        }
-       else if(birao.equals("Mobilni"))
+       else if(birao.equals("Telefon"))
        {
-           AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),1,2,3,4);
-           int [] score = amob.runAlgo();
-           Map<PaketMobilni,Integer> paketi = new HashMap<PaketMobilni,Integer>();
+           //AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),bp,bm,bn,br);
+
+           AlgoritamMobilni amobrezerva = new AlgoritamMobilni(mobilniPaketi,fminuti(odgovori.get(1)),10,finternet(odgovori.get(2)),froming(odgovori.get(3)),bp,bm,bn,br);
+
+           int [] score = amobrezerva.runAlgo();
+           Log.d("Ocene","ocene paketa");
            for(int i=0;i<mobilniPaketi.size();i++)
            {
-               paketi.put(mobilniPaketi.get(i),score[i]);
+               Log.d(mobilniPaketi.get(i).getIme(),String.valueOf(score[i]));
+               //Toast.makeText(ConversationActivity.this,String.valueOf(score[i]),Toast.LENGTH_LONG).show();
            }
-           Map<PaketMobilni,Integer> sortirano = new TreeMap<PaketMobilni,Integer>(paketi);
+           Map<Integer,PaketMobilni> paketi = new HashMap<Integer,PaketMobilni>();
+           for(int i=0;i<mobilniPaketi.size();i++)
+           {
+               paketi.put(score[i],mobilniPaketi.get(i));
+           }
+           Map<Integer,PaketMobilni> sortirano = new TreeMap<Integer,PaketMobilni>(paketi);
+           //Toast.makeText(ConversationActivity.this,"Mob " + String.valueOf(mobilniPaketi.size()),Toast.LENGTH_LONG).show();
+
+           /*for(Map.Entry<Integer,PaketMobilni> pak : sortirano.entrySet())
+           {
+               int oc = pak.getKey();
+               PaketMobilni pm = pak.getValue();
+
+               Toast.makeText(ConversationActivity.this,String.valueOf(oc) + " " + pm.getIme(),Toast.LENGTH_LONG).show();
+           }*/
+
        }
        else if(birao.equals("TV"))
        {
-           AlgoritamTV atv = new AlgoritamTV(tvPaketi,250,fnazad(odgovori.get(1)),fsnimaj(odgovori.get(2)),true,1,2,3);
+           AlgoritamTV atv = new AlgoritamTV(tvPaketi,250,fnazad(odgovori.get(1)),fsnimaj(odgovori.get(2)),true,bbk,bnaz,bsnim);
            int [] score = atv.runAlgo();
            Map<PaketTV,Integer> paketi = new HashMap<PaketTV,Integer>();
            for(int i=0;i<tvPaketi.size();i++)
@@ -227,10 +266,11 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                paketi.put(tvPaketi.get(i),score[i]);
            }
            Map<PaketTV,Integer> sortirano = new TreeMap<PaketTV,Integer>(paketi);
+           Toast.makeText(ConversationActivity.this,"Tv",Toast.LENGTH_LONG).show();
        }
        else
        {
-           AlgoritamNet anet = new AlgoritamNet(netPaketi,fbrzina(odgovori.get(1)),1);
+           AlgoritamNet anet = new AlgoritamNet(netPaketi,fbrzina(odgovori.get(1)),4);
            int [] score = anet.runAlgo();
            Map<PaketNet,Integer> paketi = new HashMap<PaketNet,Integer>();
            for(int i=0;i<netPaketi.size();i++)
@@ -238,6 +278,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                paketi.put( netPaketi.get(i),score[i]);
            }
            Map<PaketNet,Integer> sortirano = new TreeMap<PaketNet,Integer>(paketi);
+           Toast.makeText(ConversationActivity.this,"Net",Toast.LENGTH_LONG).show();
        }
     }
     //</editor-fold>
@@ -353,15 +394,34 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         });
         btnPreporuci.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(listaBitnost.size()>3) {
+            public void onClick(View v)
+            {
+                if(listaBitnost.size()>3)
+                {
                     bitnost1 = listaBitnost.get(0);
                     bitnost2 = listaBitnost.get(1);
                     bitnost3 = listaBitnost.get(2);
                     bitnost4 = listaBitnost.get(3);
 
+                    odrediMobBitnost(bitnost1,4);
+                    odrediMobBitnost(bitnost2,3);
+                    odrediMobBitnost(bitnost3,2);
+                    odrediMobBitnost(bitnost4,1);
+
+                    //todo
+                    //da se izvuce bitnost i za tv
+
+                    odrediTvBitnost(bitnost1,4);
+                    odrediTvBitnost(bitnost2,3);
+                    odrediTvBitnost(bitnost3,2);
+                    odrediTvBitnost(bitnost4,1);
+
+
                     Log.d("BITNO", bitnost1 + "/" + bitnost2 + "/" + bitnost3 + "/" + bitnost4);
                 }
+
+                runAlgo();
+
             }
         });
         //</editor-fold>
@@ -394,8 +454,10 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             sendMessage(text);
     }
 
-    private void setBitnost(String odabir, TextView textView, ImageView imageView) {
-        if (bitnost && indexBitnosti < 4) {
+    private void setBitnost(String odabir, TextView textView, ImageView imageView)
+    {
+        if (bitnost && indexBitnosti < 4)
+        {
             listaBitnost.add(indexBitnosti, odabir);
             textView.setText(String.valueOf(indexBitnosti+1));
             textView.setVisibility(View.VISIBLE);
