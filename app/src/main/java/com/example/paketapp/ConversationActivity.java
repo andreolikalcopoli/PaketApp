@@ -57,7 +57,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     //<editor-fold desc="Variables">
     private String channelID = "2JYnAoVFhHG0tBcn",roomName = "observable-room";
-    private String bitnost1,bitnost2,bitnost3,bitnost4,selektovanaKategorija;
+    private String bitnost1,bitnost2,bitnost3,bitnost4,bit,selektovanaKategorija;
     private Scaledrone scaledrone;
     private MessageAdapter messageAdapter;
     private ListView messagesView;
@@ -121,13 +121,14 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private ArrayList<BoxPaket> boxPaketi;
     private ArrayList<String> odgovori=new ArrayList<>();
 
-    private boolean sound=false,mic=false,prolazi=false,bitnost=false,razgovor=false;
+    private boolean sound=false,mic=false,prolazi=false,bitnost=false,razgovor=false,usoJeste=false;
 
     private ImageView imgMic, imgSound, imgOdg1,imgOdg2,imgOdg3,imgOdg4;
     private TextToSpeech mTTS;
 
     int bp,bm,bn,br;
     int bbk,bnaz,bsnim,bhbo;
+    int brBitnost=1;
 
     private CountDownTimer t = new CountDownTimer(5000, 90000) {
         @Override
@@ -319,29 +320,52 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBitnost(answer1.getText().toString().trim(), tvOdg1, imgOdg1);
-                posaljiPoruku(internetQuestions, internetAnswers, internetHints, answer1.getText().toString().trim());
+                if(indexBitnosti>0) {
+                    posaljiPoruku(internetQuestions, internetAnswers, internetHints, answer1.getText().toString().trim());
+                    setBitnost(answer1.getText().toString().trim(), tvOdg1, imgOdg1);
+                }else
+                {
+                    setBitnost(answer1.getText().toString().trim(), tvOdg1, imgOdg1);
+                    posaljiPoruku(internetQuestions, internetAnswers, internetHints, answer1.getText().toString().trim());
+                }
             }
         });
         answer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBitnost(answer3.getText().toString().trim(), tvOdg3, imgOdg3);
-                posaljiPoruku(tvQuestions,tvAnswers,tvHints,answer3.getText().toString().trim());
+                if(indexBitnosti>0) {
+                    posaljiPoruku(tvQuestions, tvAnswers, tvHints, answer3.getText().toString().trim());
+                    setBitnost(answer3.getText().toString().trim(), tvOdg3, imgOdg3);
+                }else{
+                    setBitnost(answer3.getText().toString().trim(), tvOdg3, imgOdg3);
+                    posaljiPoruku(tvQuestions, tvAnswers, tvHints, answer3.getText().toString().trim());
+                }
             }
         });
         answer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBitnost(answer2.getText().toString().trim(), tvOdg2, imgOdg2);
-                posaljiPoruku(phoneQuestions,phoneAnswers,phoneHints,answer2.getText().toString().trim());
+                if(indexBitnosti>0) {
+                    posaljiPoruku(phoneQuestions, phoneAnswers, phoneHints, answer2.getText().toString().trim());
+                    setBitnost(answer2.getText().toString().trim(), tvOdg2, imgOdg2);
+                }else{
+                    setBitnost(answer2.getText().toString().trim(), tvOdg2, imgOdg2);
+                    posaljiPoruku(phoneQuestions, phoneAnswers, phoneHints, answer2.getText().toString().trim());
+                }
+
             }
         });
         answer4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setBitnost(answer4.getText().toString().trim(), tvOdg4, imgOdg4);
-                posaljiPoruku(boxQuestions,boxAnswers,boxHints,answer4.getText().toString().trim());
+                if(indexBitnosti>0) {
+                    posaljiPoruku(boxQuestions, boxAnswers, boxHints, answer4.getText().toString().trim());
+                    setBitnost(answer4.getText().toString().trim(), tvOdg4, imgOdg4);
+                }else{
+                    setBitnost(answer4.getText().toString().trim(), tvOdg4, imgOdg4);
+                    posaljiPoruku(boxQuestions, boxAnswers, boxHints, answer4.getText().toString().trim());
+                }
+
 
             }
         });
@@ -403,6 +427,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                     bitnost3 = listaBitnost.get(2);
                     bitnost4 = listaBitnost.get(3);
 
+
                     odrediMobBitnost(bitnost1,4);
                     odrediMobBitnost(bitnost2,3);
                     odrediMobBitnost(bitnost3,2);
@@ -416,8 +441,15 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                     odrediTvBitnost(bitnost3,2);
                     odrediTvBitnost(bitnost4,1);
 
+                    if(selektovanaKategorija.equals("Box")) {
 
-                    Log.d("BITNO", bitnost1 + "/" + bitnost2 + "/" + bitnost3 + "/" + bitnost4);
+                    }
+
+                    for (int i=0;i<listaBitnost.size();i++) {
+                        Log.d("A",listaBitnost.get(i)+" ");
+                    }
+
+
                 }
 
                 runAlgo();
@@ -434,35 +466,34 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             selectedQ = listaPitanja;
             selectedA = listaOdgovora;
 
-            if(!text.equals("Internet")) {
-                if (!loadString("bitnost" + text).equals("")) {
-                    indexOfQuestion = 1;
-                    loadBitnost(text);
-                } else
+            if(!text.equals("Internet"))
                     bitnost = true;
-            }
+
             selektovanaKategorija=text;
 
             sendMessage(text);
 
-            brojacProlazak=98;
+            brojacProlazak=1;
         }
         else
-            brojacProlazak=-899;
+            brojacProlazak=2;
 
-        if (!bitnost && brojacProlazak==-899)
+        if (!bitnost && brojacProlazak==2) {
             sendMessage(text);
+        }
     }
 
     private void setBitnost(String odabir, TextView textView, ImageView imageView)
     {
+
         if (bitnost && indexBitnosti < 4)
         {
-            listaBitnost.add(indexBitnosti, odabir);
+            listaBitnost.add(indexBitnosti*brBitnost, odabir);
             textView.setText(String.valueOf(indexBitnosti+1));
             textView.setVisibility(View.VISIBLE);
             imageView.setVisibility(View.VISIBLE);
             indexBitnosti++;
+            Log.d("Bitnost",bitnost+" : "+indexBitnosti);
         }
         if(indexBitnosti==4)
         {
@@ -476,24 +507,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             imgOdg3.setVisibility(View.INVISIBLE);
             imgOdg4.setVisibility(View.INVISIBLE);
             sendComputerMessage("Odlicno, da nastavimo dalje sa anketom!");
-            saveString("bitnost"+selektovanaKategorija,convertBitnost(listaBitnost));
-            setQuestion();
             indexBitnosti++;
-        }
-    }
-
-    private String convertBitnost(ArrayList<String> arrayList) {
-        StringBuilder stringBuilder=new StringBuilder();
-        for(int i=0;i<arrayList.size();i++) {
-            stringBuilder.append(arrayList.get(i)+"=");
-        }
-        return stringBuilder.toString();
-    }
-    private void loadBitnost(String TelefonTVBOX){
-        String s=loadString("bitnost"+TelefonTVBOX);
-        String[] split=s.split("=");
-        for(int i=0;i<split.length;i++) {
-            listaBitnost.add(split[i]);
+            setQuestion();
         }
     }
 
