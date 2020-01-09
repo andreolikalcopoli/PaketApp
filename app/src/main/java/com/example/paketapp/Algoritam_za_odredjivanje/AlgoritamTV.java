@@ -24,6 +24,7 @@ public class AlgoritamTV
     {
         this.paketi = pak;
         score= new int[pak.size()];
+        kriterijumi = new boolean[pak.size()][5];
         this.brKanala = brKanala;
         this.unazad= unazad;
         this.snimanje = snimanje;
