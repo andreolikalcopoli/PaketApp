@@ -982,14 +982,17 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         imgOdg3.setVisibility(View.INVISIBLE);
         imgOdg4.setVisibility(View.INVISIBLE);
 
+        boxQuestions.add(0,"Izaberite od najvaznije ka najmanje vaznoj stavki za Vas paket!");
         boxQuestions.addAll(internetQuestions);
         boxQuestions.addAll(phoneQuestions);
         boxQuestions.addAll(tvQuestions);
 
+        boxAnswers.add(0,"Telefon/Internet/TV/Balansirano");
         boxAnswers.addAll(internetAnswers);
         boxAnswers.addAll(phoneAnswers);
         boxAnswers.addAll(tvAnswers);
 
+        boxHints.add(0,"");
         boxHints.addAll(internetHints);
         boxHints.addAll(phoneHints);
         boxHints.addAll(tvHints);
