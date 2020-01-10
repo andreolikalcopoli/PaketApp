@@ -57,7 +57,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     //<editor-fold desc="Variables">
     private String channelID = "2JYnAoVFhHG0tBcn",roomName = "observable-room";
-    private String bitnost1,bitnost2,bitnost3,bitnost4,bit,selektovanaKategorija;
+    private String bitnost1,bitnost2,bitnost3,bitnost4;
     private Scaledrone scaledrone;
     private MessageAdapter messageAdapter;
     private ListView messagesView;
@@ -76,23 +76,21 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private ArrayList<String> listaReci=new ArrayList<>();
 
     private ArrayList<String> listaBitnost=new ArrayList<>();
-    private int indexBitnosti=0,indexOfQuestion=0,indexBroja=0, brojacProlazak=0;
+    private int indexOfQuestion=0,indexBroja=0;
 
     //<editor-fold desc="Pitanja">
-    private List<String> tvQuestions=Arrays.asList("Izaberite od najvaznije ka najmanje vaznoj stavki za Vas paket!",
-            "Da li Vam je potrebna opcija gledanja unazad?",
+    private List<String> tvQuestions=Arrays.asList("Da li Vam je potrebna opcija gledanja unazad?",
             "Želite li da imate mogućnost snimanja sadržaja?",
             "Da li želite HBO paket?");
-    private List<String> tvAnswers=Arrays.asList("Broj kanala/Gledanje unazad/Snimanje sadrzaja/HBO paket","Da/Ne","Da/Ne","Da/Ne");
-    private List<String> tvHints=Arrays.asList("","Ukoliko imate ovu opciju, možete gledati svoje omiljene programe 72h unazad!","","");
+    private List<String> tvAnswers=Arrays.asList("Da/Ne","Da/Ne","Da/Ne");
+    private List<String> tvHints=Arrays.asList("Ukoliko imate ovu opciju, možete gledati svoje omiljene programe 72h unazad!","","");
 
-    private List<String> phoneQuestions=Arrays.asList("Izaberite od najvaznije ka najmanje vaznoj stavki za Vas paket!"
-            ,"Koliko vremena dnevno razgovarate putem telefona?",
+    private List<String> phoneQuestions=Arrays.asList("Koliko vremena dnevno razgovarate putem telefona?",
             "Koliko gigabajta interneta Vam je dovoljno za jedan mesec?",
             "Da li često koristite telefon u romingu?");
-    private List<String> phoneAnswers=Arrays.asList("Poruke/Minuti/Internet/Razgovor","Manje od 5 minuta/10 minuta/20 minuta/Više od 20 minuta",
+    private List<String> phoneAnswers=Arrays.asList("Manje od 5 minuta/10 minuta/20 minuta/Više od 20 minuta",
             "manje od 3/5/10/Više od 20","Da/Ne");
-    private List<String> phoneHints=Arrays.asList("","Prosečna osoba dnevno potroši oko minut i po na razgovor.","U proseku, 3 gigabajta interneta mesečno potroši se samo za instagram!",
+    private List<String> phoneHints=Arrays.asList("Prosečna osoba dnevno potroši oko minut i po na razgovor.","U proseku, 3 gigabajta interneta mesečno potroši se samo za instagram!",
             "");
 
     private List<String> internetQuestions=Arrays.asList("Koja brzina interneta vam najviše odgovara?");
@@ -121,14 +119,13 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private ArrayList<BoxPaket> boxPaketi;
     private ArrayList<String> odgovori=new ArrayList<>();
 
-    private boolean sound=false,mic=false,prolazi=false,bitnost=false,razgovor=false,usoJeste=false;
+    private boolean sound=false,mic=false,prolazi=false,bitnost=false,razgovor=false;
 
     private ImageView imgMic, imgSound, imgOdg1,imgOdg2,imgOdg3,imgOdg4;
     private TextToSpeech mTTS;
 
     int bp,bm,bn,br;
     int bbk,bnaz,bsnim,bhbo;
-    int brBitnost=1;
 
     int mobb,boxb,tvb;
     int netb;
@@ -345,53 +342,25 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(indexBitnosti>0) {
                     posaljiPoruku(internetQuestions, internetAnswers, internetHints, answer1.getText().toString().trim());
-                    setBitnost(answer1.getText().toString().trim(), tvOdg1, imgOdg1);
-                }else
-                {
-                    setBitnost(answer1.getText().toString().trim(), tvOdg1, imgOdg1);
-                    posaljiPoruku(internetQuestions, internetAnswers, internetHints, answer1.getText().toString().trim());
-                }
             }
         });
         answer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(indexBitnosti>0) {
                     posaljiPoruku(tvQuestions, tvAnswers, tvHints, answer3.getText().toString().trim());
-                    setBitnost(answer3.getText().toString().trim(), tvOdg3, imgOdg3);
-                }else{
-                    setBitnost(answer3.getText().toString().trim(), tvOdg3, imgOdg3);
-                    posaljiPoruku(tvQuestions, tvAnswers, tvHints, answer3.getText().toString().trim());
-                }
             }
         });
         answer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(indexBitnosti>0) {
                     posaljiPoruku(phoneQuestions, phoneAnswers, phoneHints, answer2.getText().toString().trim());
-                    setBitnost(answer2.getText().toString().trim(), tvOdg2, imgOdg2);
-                }else{
-                    setBitnost(answer2.getText().toString().trim(), tvOdg2, imgOdg2);
-                    posaljiPoruku(phoneQuestions, phoneAnswers, phoneHints, answer2.getText().toString().trim());
-                }
-
             }
         });
         answer4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(indexBitnosti>0) {
                     posaljiPoruku(boxQuestions, boxAnswers, boxHints, answer4.getText().toString().trim());
-                    setBitnost(answer4.getText().toString().trim(), tvOdg4, imgOdg4);
-                }else{
-                    setBitnost(answer4.getText().toString().trim(), tvOdg4, imgOdg4);
-                    posaljiPoruku(boxQuestions, boxAnswers, boxHints, answer4.getText().toString().trim());
-                }
-
-
             }
         });
         ans1.setOnClickListener(new View.OnClickListener() {
@@ -437,8 +406,10 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         btnKaziPaket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                razgovor=true;
-                getSpeechInput(v);
+                /*razgovor=true;
+                getSpeechInput(v);*/
+                Intent intent=new Intent(ConversationActivity.this,PodesavanjeActivity.class);
+                startActivity(intent);
             }
         });
         btnPreporuci.setOnClickListener(new View.OnClickListener() {
@@ -465,16 +436,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                     odrediTvBitnost(bitnost2,3);
                     odrediTvBitnost(bitnost3,2);
                     odrediTvBitnost(bitnost4,1);
-
-                    if(selektovanaKategorija.equals("Box")) {
-
-                    }
-
-                    for (int i=0;i<listaBitnost.size();i++) {
-                        Log.d("A",listaBitnost.get(i)+" ");
-                    }
-
-
                 }
 
                 runAlgo();
@@ -490,51 +451,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             selectedH = listaHintova;
             selectedQ = listaPitanja;
             selectedA = listaOdgovora;
-
-            if(!text.equals("Internet"))
-                    bitnost = true;
-
-            selektovanaKategorija=text;
-
-            sendMessage(text);
-
-            brojacProlazak=1;
         }
-        else
-            brojacProlazak=2;
-
-        if (!bitnost && brojacProlazak==2) {
-            sendMessage(text);
-        }
-    }
-
-    private void setBitnost(String odabir, TextView textView, ImageView imageView)
-    {
-
-        if (bitnost && indexBitnosti < 4)
-        {
-            listaBitnost.add(indexBitnosti*brBitnost, odabir);
-            textView.setText(String.valueOf(indexBitnosti+1));
-            textView.setVisibility(View.VISIBLE);
-            imageView.setVisibility(View.VISIBLE);
-            indexBitnosti++;
-            Log.d("Bitnost",bitnost+" : "+indexBitnosti);
-        }
-        if(indexBitnosti==4)
-        {
-            bitnost=false;
-            tvOdg1.setVisibility(View.INVISIBLE);
-            tvOdg2.setVisibility(View.INVISIBLE);
-            tvOdg3.setVisibility(View.INVISIBLE);
-            tvOdg4.setVisibility(View.INVISIBLE);
-            imgOdg1.setVisibility(View.INVISIBLE);
-            imgOdg2.setVisibility(View.INVISIBLE);
-            imgOdg3.setVisibility(View.INVISIBLE);
-            imgOdg4.setVisibility(View.INVISIBLE);
-            sendComputerMessage("Odlicno, da nastavimo dalje sa anketom!");
-            indexBitnosti++;
-            setQuestion();
-        }
+        sendMessage(text);
     }
 
     public void sendMessage(String message) {
@@ -947,13 +865,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     //</editor-fold>
 
     //<editor-fold desc="SharedPrefs">
-    public void saveString(String s,String zaCuvanje){
-        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFERENCES",MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putString(s,zaCuvanje);
 
-        editor.apply();
-    }
     public String loadString(String s){
         SharedPreferences sharedPreferences= getSharedPreferences("SHARED_PREFERENCES",MODE_PRIVATE);
         return sharedPreferences.getString(s,"");
@@ -1022,17 +934,14 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         imgOdg3.setVisibility(View.INVISIBLE);
         imgOdg4.setVisibility(View.INVISIBLE);
 
-        boxQuestions.add(0,"Izaberite od najvaznije ka najmanje vaznoj stavki za Vas paket!");
         boxQuestions.addAll(internetQuestions);
         boxQuestions.addAll(phoneQuestions);
         boxQuestions.addAll(tvQuestions);
 
-        boxAnswers.add(0,"Telefon/Internet/TV/Balansirano");
         boxAnswers.addAll(internetAnswers);
         boxAnswers.addAll(phoneAnswers);
         boxAnswers.addAll(tvAnswers);
 
-        boxHints.add(0,"");
         boxHints.addAll(internetHints);
         boxHints.addAll(phoneHints);
         boxHints.addAll(tvHints);

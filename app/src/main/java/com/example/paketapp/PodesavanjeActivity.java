@@ -22,8 +22,6 @@ public class PodesavanjeActivity extends AppCompatActivity {
     int mib,pb,nb,rb;
     int kb,nab,sb,hb;
 
-    SharedPreferences sharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +30,6 @@ public class PodesavanjeActivity extends AppCompatActivity {
         init();
 
         postaviListener();
-
     }
 
     private void postaviListener()
@@ -42,29 +39,55 @@ public class PodesavanjeActivity extends AppCompatActivity {
             public void onClick(View view)
             {
 
-                sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                preuzmiTekst();
 
-                bb = Integer.parseInt(boxb.getText().toString()); editor.putInt("InternetBitnost",bb);
-                mb = Integer.parseInt(mobb.getText().toString());editor.putInt("MobilniBitnost",mb);
-                tb = Integer.parseInt(tvb.getText().toString());editor.putInt("TvBitnost",tb);
-
-                mib = Integer.parseInt(minb.getText().toString());editor.putInt("MinutiBitnost",mib);
-                pb = Integer.parseInt(porb.getText().toString());editor.putInt("PorukeBitnost",pb);
-                nb = Integer.parseInt(netb.getText().toString());editor.putInt("NetBitnost",nb);
-                rb = Integer.parseInt(romb.getText().toString());editor.putInt("RomingBitnost",rb);
-
-                kb = Integer.parseInt(kanb.getText().toString());editor.putInt("KanaliBitnost",kb);
-                nab = Integer.parseInt(nazb.getText().toString());editor.putInt("NazadBitnost",nab);
-                sb = Integer.parseInt(snimb.getText().toString());editor.putInt("SnimajBitnost",sb);
-                hb = Integer.parseInt(hbob.getText().toString());editor.putInt("HboBitnost",hb);
-
-                editor.apply();
+                saveAll();
 
                 startActivity(new Intent(PodesavanjeActivity.this,MainActivity.class));
 
             }
         });
+    }
+
+    private void preuzmiTekst() {
+
+        bb = Integer.parseInt(boxb.getText().toString());
+        mb = Integer.parseInt(mobb.getText().toString());
+        tb = Integer.parseInt(tvb.getText().toString());
+
+        mib = Integer.parseInt(minb.getText().toString());
+        pb = Integer.parseInt(porb.getText().toString());
+        nb = Integer.parseInt(netb.getText().toString());
+        rb = Integer.parseInt(romb.getText().toString());
+
+        kb = Integer.parseInt(kanb.getText().toString());
+        nab = Integer.parseInt(nazb.getText().toString());
+        sb = Integer.parseInt(snimb.getText().toString());
+        hb = Integer.parseInt(hbob.getText().toString());
+
+    }
+
+    public void saveInt(String s,int zaCuvanje){
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putInt(s,zaCuvanje);
+
+        editor.apply();
+    }
+
+    private void saveAll()
+    {
+        saveInt("InternetBitnost",bb);
+        saveInt("MobilniBitnost",mb);
+        saveInt("TvBitnost",tb);
+        saveInt("MinutiBitnost",mib);
+        saveInt("PorukeBitnost",pb);
+        saveInt("NetBitnost",nb);
+        saveInt("RomingBitnost",rb);
+        saveInt("KanaliBitnost",kb);
+        saveInt("NazadBitnost",nab);
+        saveInt("SnimajBitnost",sb);
+        saveInt("HboBitnost",hb);
     }
 
     private void init()

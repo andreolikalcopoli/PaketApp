@@ -40,13 +40,13 @@ public class NetAdapter extends RecyclerView.Adapter<NetAdapter.NetHolder>{
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final NetHolder viewHolder, final int i) {
-        viewHolder.tvIme.setText(paketNet[i].getIme());
-        viewHolder.tvCena.setText(String.valueOf(paketNet[i].getCena()));
-        viewHolder.tvDown.setText("Brzina downloada:"+"\n"+paketNet[i].getDownload());
-        viewHolder.tvUp.setText("Brzina uploada:"+"\n"+paketNet[i].getUpload());
-        viewHolder.tvDin.setText("Dinamicki ip:"+"\n"+"Da");
-        viewHolder.tvWifi.setText("Minuti u mrezi:"+"\n"+"Da");
-        viewHolder.tvMail.setText("Minuti u romingu:"+"\n"+"Da");
+        viewHolder.tvIme.setText("Paket " + paketNet[i].getIme());
+        viewHolder.tvCena.setText(String.valueOf(paketNet[i].getCena())+" din.");
+        viewHolder.tvDown.setText(String.valueOf(paketNet[i].getDownload())+ " mb/s");
+        viewHolder.tvUp.setText(String.valueOf(paketNet[i].getUpload())+ " mb/s");
+        viewHolder.tvDin.setText("Da");
+        viewHolder.tvWifi.setText("Da");
+        viewHolder.tvMail.setText("Da");
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

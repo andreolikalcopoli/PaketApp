@@ -173,11 +173,12 @@
             android:id="@+id/hboBitno"/>
 
         <Button
+            android:id="@+id/dugmeBitnost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/dugmeBitnost"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="Sacuvaj!" />
 
     </LinearLayout>
 
