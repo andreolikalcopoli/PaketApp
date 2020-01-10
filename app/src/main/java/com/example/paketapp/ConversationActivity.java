@@ -130,6 +130,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     int bbk,bnaz,bsnim,bhbo;
     int brBitnost=1;
 
+    int mobb,boxb,tvb;
+    int netb;
+
     private CountDownTimer t = new CountDownTimer(5000, 90000) {
         @Override
         public void onTick(long millisUntilFinished) {
@@ -215,7 +218,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
        if(birao.equals("Box"))
        {
            Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),
-                   bp,bm,bn,br,fbrzina(odgovori.get(5)),4,250,fnazad(odgovori.get(6)),fsnimaj(odgovori.get(7)),true,bbk,bnaz,bsnim,4,5,6);
+                   bp,bm,bn,br,fbrzina(odgovori.get(5)),4,250,fnazad(odgovori.get(6)),fsnimaj(odgovori.get(7)),true,bbk,bnaz,bsnim,mobb,tvb,netb);
            int [] score = algoritam.runAlgo();
            Map<BoxPaket,Integer> paketi = new HashMap<BoxPaket,Integer>();
            for(int i=0;i<boxPaketi.size();i++)
@@ -284,6 +287,26 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     }
     //</editor-fold>
 
+    private void uzmiBitnosti()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs",MODE_PRIVATE);
+
+        bp = sharedPreferences.getInt("PorukeBitnost",0);
+        bm = sharedPreferences.getInt("MinutiBitnost",0);
+        bn = sharedPreferences.getInt("NetBitnost",0);
+        br = sharedPreferences.getInt("RomingBitnost",0);
+
+        bbk = sharedPreferences.getInt("KanaliBitnost",0);
+        bnaz = sharedPreferences.getInt("NazadBitnost",0);
+        bsnim = sharedPreferences.getInt("SnimajBitnost",0);
+
+        netb = sharedPreferences.getInt("InternetBitnost",0);
+        tvb = sharedPreferences.getInt("TvBitnost",0);
+        mobb = sharedPreferences.getInt("MobilniBitnost",0);
+
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -291,6 +314,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         setContentView(R.layout.activity_conversation);
 
         init();
+
+        uzmiBitnosti();
 
         scaledroneConnection();
 
