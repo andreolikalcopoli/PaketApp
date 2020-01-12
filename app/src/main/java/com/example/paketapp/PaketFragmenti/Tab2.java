@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -40,6 +44,9 @@ public class Tab2 extends Fragment {
     private RecyclerView recyclerView;
     private ArrayList<PaketNet> netPaketi=new ArrayList<>();
     private PaketNet[] nets=new PaketNet[6];
+    private ScrollView mScrollView;
+    private FrameLayout mWrapperFL;
+    private ImageView mPhotoIV;
 
     private OnFragmentInteractionListener mListener;
 
@@ -81,12 +88,37 @@ public class Tab2 extends Fragment {
         View view=inflater.inflate(R.layout.fragment_tab2, container, false);
 
         recyclerView=(RecyclerView)view.findViewById(R.id.recNet);
+        mScrollView = (ScrollView) view.findViewById(R.id.scrollView);
+        mPhotoIV = (ImageView) view.findViewById(R.id.imageView5);
+        mWrapperFL = (FrameLayout) view.findViewById(R.id.flWrapper);
+
+        mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ScrollPositionObserver());
 
         napraviPakete();
 
         setRecycler();
 
         return view;
+    }
+
+    private class ScrollPositionObserver implements ViewTreeObserver.OnScrollChangedListener {
+
+        private int mImageViewHeight;
+
+        public ScrollPositionObserver() {
+            mImageViewHeight = getResources().getDimensionPixelSize(R.dimen.contact_photo_height);
+        }
+
+        @Override
+        public void onScrollChanged() {
+            int scrollY = Math.min(Math.max(mScrollView.getScrollY(), 0), mImageViewHeight);
+
+            // changing position of ImageView
+            mPhotoIV.setTranslationY(scrollY / 3);
+
+            // alpha you could set to ActionBar background
+            float alpha = scrollY / (float) mImageViewHeight;
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

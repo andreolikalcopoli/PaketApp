@@ -5,14 +5,17 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.usage.NetworkStatsManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.TrafficStats;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -129,6 +132,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     int mobb,boxb,tvb;
     int netb;
+
+    private long netTotalDownload=0,netTotalUpload=0,netMobilniPodaciDownload=0,getNetMobilniPodaciUpload=0,vreme=0,
+    totalPotroseno=0,totalPotrosenoMobilni=0,totalPotrosenoWifi=0,poDanuMob=0,poDanuWifi=0,poDanuTotal=0;
 
     private CountDownTimer t = new CountDownTimer(5000, 90000) {
         @Override
@@ -302,6 +308,23 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         mobb = sharedPreferences.getInt("MobilniBitnost",0);
 
 
+    }
+    private void internetPotrosnjaPoDanu(){
+        netTotalDownload= TrafficStats.getTotalRxBytes();
+        netTotalUpload= TrafficStats.getTotalTxBytes();
+
+        netMobilniPodaciDownload=TrafficStats.getMobileRxBytes();
+        getNetMobilniPodaciUpload=TrafficStats.getMobileTxBytes();
+
+        totalPotrosenoMobilni=netMobilniPodaciDownload+getNetMobilniPodaciUpload;
+        totalPotrosenoWifi=netTotalDownload+netTotalUpload;
+        totalPotroseno=totalPotrosenoMobilni+totalPotrosenoWifi;
+
+        vreme= (long) (SystemClock.elapsedRealtime()*1.1574074/100000000);
+
+        poDanuMob=totalPotrosenoMobilni/vreme;
+        poDanuWifi=totalPotrosenoWifi/vreme;
+        poDanuTotal=totalPotroseno/vreme;
     }
 
     @Override

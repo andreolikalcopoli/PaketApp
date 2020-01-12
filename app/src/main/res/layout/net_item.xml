@@ -47,7 +47,7 @@
     <TextView
         android:id="@+id/textView27"
         android:layout_width="0dp"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/colorPrimaryDark"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,8 +76,10 @@
         android:background="#E0E0E0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tImeNet">
+        app:layout_constraintTop_toBottomOf="@+id/tImeNet"
+        app:layout_constraintVertical_bias="1.0">
 
         <TextView
             android:id="@+id/textView24"
@@ -205,6 +207,59 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="50dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/colorPrimary"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/textView23"
+            app:layout_constraintEnd_toEndOf="@+id/tDownload"
+            app:layout_constraintStart_toStartOf="@+id/tDownload"
+            app:layout_constraintTop_toBottomOf="@+id/tDownload" />
+
+        <TextView
+            android:id="@+id/textView30"
+            android:layout_width="50dp"
+            android:layout_height="1dp"
+            android:height="1dp"
+            android:background="@color/colorPrimary"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/textView22"
+            app:layout_constraintEnd_toEndOf="@+id/tUpload"
+            app:layout_constraintStart_toStartOf="@+id/tUpload"
+            app:layout_constraintTop_toBottomOf="@+id/tUpload" />
+
+        <TextView
+            android:id="@+id/textView31"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="4dp"
+            android:height="1dp"
+            android:background="@color/colorPrimary"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/textView21"
+            app:layout_constraintEnd_toEndOf="@+id/tWifi"
+            app:layout_constraintStart_toStartOf="@+id/tWifi"
+            app:layout_constraintTop_toBottomOf="@+id/tWifi" />
+
+        <TextView
+            android:id="@+id/textView32"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="5dp"
+            android:height="1dp"
+            android:background="@color/colorPrimary"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/textView20"
+            app:layout_constraintEnd_toEndOf="@+id/tDinamicki"
+            app:layout_constraintStart_toStartOf="@+id/tDinamicki"
+            app:layout_constraintTop_toBottomOf="@+id/tDinamicki" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
