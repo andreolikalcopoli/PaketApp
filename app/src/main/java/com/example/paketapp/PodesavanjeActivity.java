@@ -8,19 +8,27 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class PodesavanjeActivity extends AppCompatActivity {
 
 
-    EditText boxb,mobb,tvb;
-    EditText minb,porb,netb,romb;
-    EditText kanb,nazb,snimb,hbob;
+    SeekBar boxb,mobb,tvb,interb;
+    SeekBar minb,porb,netb,romb;
+    SeekBar kanb,nazb,snimb,hbob;
     Button potvrdi;
+
+    TextView tboxbitno,tmobilnibitno,ttvbitno,tnetbitno
+            ,tminutibitno,tporukebitno,tinterbitno,tromingbitno,
+           tkanalibitno,tnazadbitno,tsnimbitno,thbobitno;
 
     int bb,mb,tb;
     int mib,pb,nb,rb;
     int kb,nab,sb,hb;
+    int intb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,8 @@ public class PodesavanjeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_podesavanje);
 
         init();
+
+        napraviListener();
 
         postaviListener();
     }
@@ -49,21 +59,98 @@ public class PodesavanjeActivity extends AppCompatActivity {
         });
     }
 
+    private void napraviListener()
+    {
+        SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+               switch (seekBar.getId())
+               {
+                   case R.id.boxBitno:
+                       tboxbitno.setText("Box bitno " + String.valueOf(i));
+                       break;
+                   case R.id.mobilniBitno:
+                       tmobilnibitno.setText("Mobilni bitno " + String.valueOf(i));
+                       break;
+                   case R.id.netBitno:
+                       tnetbitno.setText("Net bitno " + String.valueOf(i));
+                       break;
+                   case R.id.tvBitno:
+                       ttvbitno.setText("TV bitno " + String.valueOf(i));
+                       break;
+                   case R.id.minutiBitno:
+                       tminutibitno.setText("Minuti bitno " + String.valueOf(i));
+                       break;
+                   case R.id.porukeBitno:
+                       tporukebitno.setText("Poruke bitno " + String.valueOf(i));
+                       break;
+                   case R.id.romingBitno:
+                       tromingbitno.setText("Roming bitno " + String.valueOf(i));
+                       break;
+                   case R.id.internetBitno:
+                       tinterbitno.setText("Internet bitno " + String.valueOf(i));
+                       break;
+                   case R.id.kanaliBitno:
+                       tkanalibitno.setText("Kanali bitno " + String.valueOf(i));
+                       break;
+                   case R.id.snimanjeBitno:
+                       tsnimbitno.setText("Snimanje bitno " + String.valueOf(i));
+                       break;
+                   case R.id.nazadBitno:
+                       tnazadbitno.setText("Nazad bitno " + String.valueOf(i));
+                       break;
+                   case R.id.hboBitno:
+                       thbobitno.setText("Hbo bitno " + String.valueOf(i));
+                       break;
+               }
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        };
+
+        boxb.setOnSeekBarChangeListener(seekBarChangeListener);
+        mobb.setOnSeekBarChangeListener(seekBarChangeListener);
+        tvb.setOnSeekBarChangeListener(seekBarChangeListener);
+        netb.setOnSeekBarChangeListener(seekBarChangeListener);
+
+        minb.setOnSeekBarChangeListener(seekBarChangeListener);
+        porb.setOnSeekBarChangeListener(seekBarChangeListener);
+        romb.setOnSeekBarChangeListener(seekBarChangeListener);
+        interb.setOnSeekBarChangeListener(seekBarChangeListener);
+
+        kanb.setOnSeekBarChangeListener(seekBarChangeListener);
+        snimb.setOnSeekBarChangeListener(seekBarChangeListener);
+        nazb.setOnSeekBarChangeListener(seekBarChangeListener);
+        hbob.setOnSeekBarChangeListener(seekBarChangeListener);
+
+    }
+
     private void preuzmiTekst() {
 
-        bb = Integer.parseInt(boxb.getText().toString());
-        mb = Integer.parseInt(mobb.getText().toString());
-        tb = Integer.parseInt(tvb.getText().toString());
+        bb = boxb.getProgress();
+        mb = mobb.getProgress();
+        tb = tvb.getProgress();
+        intb = interb.getProgress();
 
-        mib = Integer.parseInt(minb.getText().toString());
-        pb = Integer.parseInt(porb.getText().toString());
-        nb = Integer.parseInt(netb.getText().toString());
-        rb = Integer.parseInt(romb.getText().toString());
+        mib = minb.getProgress();
+        pb = porb.getProgress();
+        nb = netb.getProgress();
+        rb = romb.getProgress();
 
-        kb = Integer.parseInt(kanb.getText().toString());
-        nab = Integer.parseInt(nazb.getText().toString());
-        sb = Integer.parseInt(snimb.getText().toString());
-        hb = Integer.parseInt(hbob.getText().toString());
+        kb = kanb.getProgress();
+        nab = nazb.getProgress();
+        sb = snimb.getProgress();
+        hb = hbob.getProgress();
 
     }
 
@@ -77,12 +164,13 @@ public class PodesavanjeActivity extends AppCompatActivity {
 
     private void saveAll()
     {
-        saveInt("InternetBitnost",bb);
+        saveInt("BoxBitnost",bb);
         saveInt("MobilniBitnost",mb);
         saveInt("TvBitnost",tb);
+        saveInt("NetBitnost",intb);
         saveInt("MinutiBitnost",mib);
         saveInt("PorukeBitnost",pb);
-        saveInt("NetBitnost",nb);
+        saveInt("InternetBitnost",nb);
         saveInt("RomingBitnost",rb);
         saveInt("KanaliBitnost",kb);
         saveInt("NazadBitnost",nab);
@@ -92,19 +180,37 @@ public class PodesavanjeActivity extends AppCompatActivity {
 
     private void init()
     {
-        boxb = (EditText)findViewById(R.id.boxBitno);
-        mobb= (EditText)findViewById(R.id.mobilniBitno);
-        tvb = (EditText)findViewById(R.id.tvBitno);
+        //seek bars
+        boxb = (SeekBar)findViewById(R.id.boxBitno);
+        mobb= (SeekBar)findViewById(R.id.mobilniBitno);
+        tvb = (SeekBar)findViewById(R.id.tvBitno);
+        interb = (SeekBar)findViewById(R.id.netBitno);
 
-        minb = (EditText)findViewById(R.id.minutiBitno);
-        porb = (EditText)findViewById(R.id.porukeBitno);
-        netb = (EditText)findViewById(R.id.netBitno);
-        romb = (EditText)findViewById(R.id.romingBitno);
+        minb = (SeekBar)findViewById(R.id.minutiBitno);
+        porb = (SeekBar)findViewById(R.id.porukeBitno);
+        netb = (SeekBar)findViewById(R.id.internetBitno);
+        romb = (SeekBar)findViewById(R.id.romingBitno);
 
-        kanb= (EditText)findViewById(R.id.kanaliBitno);
-        nazb = (EditText)findViewById(R.id.nazadBitno);
-        snimb = (EditText)findViewById(R.id.snimanjeBitno);
-        hbob = (EditText)findViewById(R.id.hboBitno);
+        kanb= (SeekBar)findViewById(R.id.kanaliBitno);
+        nazb = (SeekBar)findViewById(R.id.nazadBitno);
+        snimb = (SeekBar)findViewById(R.id.snimanjeBitno);
+        hbob = (SeekBar)findViewById(R.id.hboBitno);
+
+        //text views
+        tboxbitno = findViewById(R.id.tboxbitno);
+        tmobilnibitno = findViewById(R.id.tmobilnibitno);
+        ttvbitno = findViewById(R.id.ttvbitno);
+        tnetbitno = findViewById(R.id.tnetbitno );
+
+        tminutibitno = findViewById(R.id.tminutibitno);
+        tporukebitno = findViewById(R.id.tporukebitno);
+        tinterbitno = findViewById(R.id.tinterbitno);
+        tromingbitno = findViewById(R.id.tromingbitno);
+
+        tkanalibitno = findViewById(R.id.tkanalibitno);
+        tsnimbitno = findViewById(R.id.tsnimbitno);
+        tnazadbitno = findViewById(R.id.tnazadbitno);
+        thbobitno = findViewById(R.id.thbobitno);
 
         potvrdi =(Button)findViewById(R.id.dugmeBitnost);
     }

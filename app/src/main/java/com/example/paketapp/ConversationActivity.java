@@ -140,6 +140,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     int bp,bm,bn,br;
     int bbk,bnaz,bsnim,bhbo;
+    int intb;
 
     int mobb,boxb,tvb;
     int netb;
@@ -398,16 +399,17 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs",MODE_PRIVATE);
 
+
         bp = sharedPreferences.getInt("PorukeBitnost",0);
         bm = sharedPreferences.getInt("MinutiBitnost",0);
-        bn = sharedPreferences.getInt("NetBitnost",0);
+        bn = sharedPreferences.getInt("InternetBitnost",0);
         br = sharedPreferences.getInt("RomingBitnost",0);
 
         bbk = sharedPreferences.getInt("KanaliBitnost",0);
         bnaz = sharedPreferences.getInt("NazadBitnost",0);
         bsnim = sharedPreferences.getInt("SnimajBitnost",0);
 
-        netb = sharedPreferences.getInt("InternetBitnost",0);
+        netb = sharedPreferences.getInt("NetBitnost",0);
         tvb = sharedPreferences.getInt("TvBitnost",0);
         mobb = sharedPreferences.getInt("MobilniBitnost",0);
 
