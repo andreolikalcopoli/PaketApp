@@ -7,15 +7,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class PodesavanjeActivity extends AppCompatActivity {
-
-
     SeekBar boxb,mobb,tvb,interb;
     SeekBar minb,porb,netb,romb;
     SeekBar kanb,nazb,snimb,hbob;
@@ -30,10 +31,15 @@ public class PodesavanjeActivity extends AppCompatActivity {
     int kb,nab,sb,hb;
     int intb;
 
+    private ImageView imgShow,imgMic, imgSound;
+    private boolean isUp=false,sound=false,mic=false;
+    private ScrollView scrollView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_podesavanje);
+        getSupportActionBar().hide();
 
         init();
 
@@ -42,6 +48,7 @@ public class PodesavanjeActivity extends AppCompatActivity {
         postaviListener();
     }
 
+    //<editor-fold desc="listeneri">
     private void postaviListener()
     {
         potvrdi.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +62,41 @@ public class PodesavanjeActivity extends AppCompatActivity {
 
                 startActivity(new Intent(PodesavanjeActivity.this,MainActivity.class));
 
+            }
+        });
+
+        imgShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSlideViewButtonClick();
+            }
+        });
+
+        imgSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!sound) {
+                    imgSound.setImageResource(R.drawable.sound);
+                    sound=true;
+                }
+                else{
+                    imgSound.setImageResource(R.drawable.soundoff);
+                    sound=false;
+                }
+            }
+        });
+
+        imgMic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mic) {
+                    imgMic.setImageResource(R.drawable.mic);
+                    mic=true;
+                }
+                else{
+                    imgMic.setImageResource(R.drawable.micoff);
+                    mic=false;
+                }
             }
         });
     }
@@ -134,7 +176,9 @@ public class PodesavanjeActivity extends AppCompatActivity {
         hbob.setOnSeekBarChangeListener(seekBarChangeListener);
 
     }
+    //</editor-fold>
 
+    //<editor-fold desc="citanje">
     private void preuzmiTekst() {
 
         bb = boxb.getProgress();
@@ -153,11 +197,21 @@ public class PodesavanjeActivity extends AppCompatActivity {
         hb = hbob.getProgress();
 
     }
+    //</editor-fold>
 
+    //<editor-fold desc="cuvanje">
     public void saveInt(String s,int zaCuvanje){
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs",MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putInt(s,zaCuvanje);
+
+        editor.apply();
+    }
+
+    public void saveBool(String s,boolean zaCuvanje){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED_PREFERENCES",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean(s,zaCuvanje);
 
         editor.apply();
     }
@@ -176,8 +230,50 @@ public class PodesavanjeActivity extends AppCompatActivity {
         saveInt("NazadBitnost",nab);
         saveInt("SnimajBitnost",sb);
         saveInt("HboBitnost",hb);
+        saveBool("sound",sound);
+        saveBool("mic",mic);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Animations">
+    public void slideUp(){
+        scrollView.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                scrollView.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        scrollView.startAnimation(animate);
     }
 
+    // slide the view from its current position to below itself
+    public void slideDown(){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,                 // fromYDelta
+                scrollView.getHeight()); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        scrollView.startAnimation(animate);
+    }
+
+    public void onSlideViewButtonClick() {
+        if (isUp) {
+            slideDown();
+            imgShow.setImageResource(R.drawable.downarrow);
+            isUp=false;
+        } else {
+            slideUp();
+            imgShow.setImageResource(R.drawable.uparrow);
+            isUp=true;
+        }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="init">
     private void init()
     {
         //seek bars
@@ -213,5 +309,14 @@ public class PodesavanjeActivity extends AppCompatActivity {
         thbobitno = findViewById(R.id.thbobitno);
 
         potvrdi =(Button)findViewById(R.id.dugmeBitnost);
+
+        imgShow=(ImageView)findViewById(R.id.iShowHide);
+
+        scrollView=(ScrollView)findViewById(R.id.sv);
+        scrollView.setVisibility(View.INVISIBLE);
+
+        imgMic=(ImageView)findViewById(R.id.imgMic);
+        imgSound=(ImageView)findViewById(R.id.imgSound);
     }
+    //</editor-fold>
 }

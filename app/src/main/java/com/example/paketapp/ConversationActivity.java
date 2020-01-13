@@ -34,6 +34,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -128,11 +129,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private List<String> selectedA=null;
     private List<String> selectedH=null;
 
-    private PaketMobilni paketMobilniSelected=null;
-    private PaketTV paketTVSelected=null;
-    private PaketNet paketNetSelected=null;
-    private BoxPaket boxPaketSelected=null;
-
     private Button answer1, answer2, answer3, answer4,ans1,ans2,btnKaziPaket,btnPreporuci;
 
     private ArrayList<PaketMobilni> mobilniPaketi;
@@ -143,7 +139,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private boolean sound=false,mic=false,prolazi=false,bitnost=false,razgovor=false,perm=false;
 
-    private ImageView imgMic, imgSound, imgOdg1,imgOdg2,imgOdg3,imgOdg4;
+    private ImageView imgOdg1,imgOdg2,imgOdg3,imgOdg4,imgSettings;
     private TextToSpeech mTTS;
 
     int bp,bm,bn,br;
@@ -172,6 +168,27 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     };
     //</editor-fold>
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStatusBarGradiant(ConversationActivity.this);
+        setContentView(R.layout.activity_conversation);
+
+        init();
+
+        uzmiBitnosti();
+
+        ucitajSoundMic();
+
+        scaledroneConnection();
+
+        sendBasicQuestion();
+
+        speech_init();
+
+        postaviListener();
+    }
+
     //<editor-fold desc="algo">
     int fminuti(String min)
     {
@@ -183,8 +200,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     int fporuke(String por)
     {
-       if(por.equals("10")) return 300;
-       return 500;
+        if(por.equals("10")) return 300;
+        return 500;
     }
 
     int finternet(String net)
@@ -210,8 +227,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     int fnazad(String naz)
     {
-       if(naz.equals("Da")) return 7;
-       return 0;
+        if(naz.equals("Da")) return 7;
+        return 0;
     }
 
     boolean fsnimaj(String sni)
@@ -234,172 +251,172 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private void runAlgo()
     {
-       String birao = odgovori.get(0);
-       if(birao.equals("Box"))
-       {
-           Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),
-                   bp,bm,bn,br,fbrzina(odgovori.get(5)),4,250,fnazad(odgovori.get(6)),fsnimaj(odgovori.get(7)),true,bbk,bnaz,bsnim,mobb,tvb,netb);
-           int [] score = algoritam.runAlgo();
-           List<Pair<BoxPaket,Integer>>  sortiraniPaketi = new ArrayList<Pair<BoxPaket,Integer>>();
-           for(int i=0;i<boxPaketi.size();i++)
-           {
-               sortiraniPaketi.add(new Pair<BoxPaket, Integer>(boxPaketi.get(i),score[i]));
-           }
+        String birao = odgovori.get(0);
+        if(birao.equals("Box"))
+        {
+            Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),
+                    bp,bm,bn,br,fbrzina(odgovori.get(5)),4,250,fnazad(odgovori.get(6)),fsnimaj(odgovori.get(7)),true,bbk,bnaz,bsnim,mobb,tvb,netb);
+            int [] score = algoritam.runAlgo();
+            List<Pair<BoxPaket,Integer>>  sortiraniPaketi = new ArrayList<Pair<BoxPaket,Integer>>();
+            for(int i=0;i<boxPaketi.size();i++)
+            {
+                sortiraniPaketi.add(new Pair<BoxPaket, Integer>(boxPaketi.get(i),score[i]));
+            }
 
-           Collections.sort(sortiraniPaketi, new Comparator<Pair<BoxPaket, Integer>>() {
-               @Override
-               public int compare(Pair<BoxPaket, Integer> p1, Pair<BoxPaket, Integer> p2) {
+            Collections.sort(sortiraniPaketi, new Comparator<Pair<BoxPaket, Integer>>() {
+                @Override
+                public int compare(Pair<BoxPaket, Integer> p1, Pair<BoxPaket, Integer> p2) {
 
-                   if(p1.second <= p2.second) return 1;
-                   return 0;
-               }
-           });
+                    if(p1.second <= p2.second) return 1;
+                    return 0;
+                }
+            });
 
-           for(int i=0;i<sortiraniPaketi.size();i++)
-           {
-               String str = sortiraniPaketi.get(i).first.getIme() + " " + String.valueOf(sortiraniPaketi.get(i).second);
-               Log.d("SORTIRANI BOX PAKETI",str);
-           }
+            for(int i=0;i<sortiraniPaketi.size();i++)
+            {
+                String str = sortiraniPaketi.get(i).first.getIme() + " " + String.valueOf(sortiraniPaketi.get(i).second);
+                Log.d("SORTIRANI BOX PAKETI",str);
+            }
 
-           ArrayList<BoxPaket> paketiprenos = new ArrayList<>();
-           ArrayList<Integer> oceneprenos = new ArrayList<>();
+            ArrayList<BoxPaket> paketiprenos = new ArrayList<>();
+            ArrayList<Integer> oceneprenos = new ArrayList<>();
 
-           for(int i=sortiraniPaketi.size()-1;i>=0;i--)
-           {
-               paketiprenos.add(sortiraniPaketi.get(i).first);
-               oceneprenos.add(sortiraniPaketi.get(i).second);
-           }
+            for(int i=sortiraniPaketi.size()-1;i>=0;i--)
+            {
+                paketiprenos.add(sortiraniPaketi.get(i).first);
+                oceneprenos.add(sortiraniPaketi.get(i).second);
+            }
 
-           Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
-           intent.putExtra("PaketiPrenos",paketiprenos);
-           intent.putExtra("Conversation","Conversation");
-           intent.putExtra("Tip",4);
-           intent.putExtra("OcenePrenos",oceneprenos);
+            Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
+            intent.putExtra("PaketiPrenos",paketiprenos);
+            intent.putExtra("Conversation","Conversation");
+            intent.putExtra("Tip",4);
+            intent.putExtra("OcenePrenos",oceneprenos);
 
-       }
-       else if(birao.equals("Telefon"))
-       {
-           AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),bp,bm,bn,br);
-           int [] score = amob.runAlgo();
-           List<Pair<PaketMobilni,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketMobilni,Integer>>();
+        }
+        else if(birao.equals("Telefon"))
+        {
+            AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),bp,bm,bn,br);
+            int [] score = amob.runAlgo();
+            List<Pair<PaketMobilni,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketMobilni,Integer>>();
 
-           for(int i=0;i<mobilniPaketi.size();i++)
-           {
-               sortiraniPaketi.add(new Pair<PaketMobilni, Integer>(mobilniPaketi.get(i),score[i]));
-           }
+            for(int i=0;i<mobilniPaketi.size();i++)
+            {
+                sortiraniPaketi.add(new Pair<PaketMobilni, Integer>(mobilniPaketi.get(i),score[i]));
+            }
 
-           Collections.sort(sortiraniPaketi, new Comparator<Pair<PaketMobilni, Integer>>() {
-               @Override
-               public int compare(Pair<PaketMobilni, Integer> p1, Pair<PaketMobilni, Integer> p2) {
+            Collections.sort(sortiraniPaketi, new Comparator<Pair<PaketMobilni, Integer>>() {
+                @Override
+                public int compare(Pair<PaketMobilni, Integer> p1, Pair<PaketMobilni, Integer> p2) {
 
-                   if(p1.second <= p2.second) return 1;
-                   return 0;
-               }
-           });
+                    if(p1.second <= p2.second) return 1;
+                    return 0;
+                }
+            });
 
-           for(int i=0;i<sortiraniPaketi.size();i++)
-           {
-               String str = sortiraniPaketi.get(i).first.getIme() + " " + String.valueOf(sortiraniPaketi.get(i).second);
-               Log.d("SORTIRANI MOB PAKETI",str);
-           }
+            for(int i=0;i<sortiraniPaketi.size();i++)
+            {
+                String str = sortiraniPaketi.get(i).first.getIme() + " " + String.valueOf(sortiraniPaketi.get(i).second);
+                Log.d("SORTIRANI MOB PAKETI",str);
+            }
 
-           ArrayList<PaketMobilni> paketiprenos = new ArrayList<>();
-           ArrayList<Integer> oceneprenos = new ArrayList<>();
+            ArrayList<PaketMobilni> paketiprenos = new ArrayList<>();
+            ArrayList<Integer> oceneprenos = new ArrayList<>();
 
-           for(int i=sortiraniPaketi.size()-1;i>=0;i--)
-           {
-               paketiprenos.add(sortiraniPaketi.get(i).first);
-               oceneprenos.add(sortiraniPaketi.get(i).second);
-           }
+            for(int i=sortiraniPaketi.size()-1;i>=0;i--)
+            {
+                paketiprenos.add(sortiraniPaketi.get(i).first);
+                oceneprenos.add(sortiraniPaketi.get(i).second);
+            }
 
-           Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
-           intent.putExtra("PaketiPrenos",paketiprenos);
-           intent.putExtra("Conversation","Conversation");
-           intent.putExtra("Tip",1);
-           intent.putExtra("OcenePrenos",oceneprenos);
-       }
-       else if(birao.equals("TV"))
-       {
-           AlgoritamTV atv = new AlgoritamTV(tvPaketi,fkanali(odgovori.get(1)),fnazad(odgovori.get(2)),fsnimaj(odgovori.get(3)),fhbo(odgovori.get(4)),bbk,bnaz,bsnim);
-           int [] score = atv.runAlgo();
-           List<Pair<PaketTV,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketTV,Integer>>();
-           for(int i=0;i<mobilniPaketi.size();i++)
-           {
-               sortiraniPaketi.add(new Pair<PaketTV, Integer>(tvPaketi.get(i),score[i]));
-           }
+            Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
+            intent.putExtra("PaketiPrenos",paketiprenos);
+            intent.putExtra("Conversation","Conversation");
+            intent.putExtra("Tip",1);
+            intent.putExtra("OcenePrenos",oceneprenos);
+        }
+        else if(birao.equals("TV"))
+        {
+            AlgoritamTV atv = new AlgoritamTV(tvPaketi,fkanali(odgovori.get(1)),fnazad(odgovori.get(2)),fsnimaj(odgovori.get(3)),fhbo(odgovori.get(4)),bbk,bnaz,bsnim);
+            int [] score = atv.runAlgo();
+            List<Pair<PaketTV,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketTV,Integer>>();
+            for(int i=0;i<mobilniPaketi.size();i++)
+            {
+                sortiraniPaketi.add(new Pair<PaketTV, Integer>(tvPaketi.get(i),score[i]));
+            }
 
-           Collections.sort(sortiraniPaketi, new Comparator<Pair<PaketTV, Integer>>() {
-               @Override
-               public int compare(Pair<PaketTV, Integer> p1, Pair<PaketTV, Integer> p2) {
+            Collections.sort(sortiraniPaketi, new Comparator<Pair<PaketTV, Integer>>() {
+                @Override
+                public int compare(Pair<PaketTV, Integer> p1, Pair<PaketTV, Integer> p2) {
 
-                   if(p1.second <= p2.second) return 1;
-                   return 0;
-               }
-           });
+                    if(p1.second <= p2.second) return 1;
+                    return 0;
+                }
+            });
 
-           for(int i=0;i<sortiraniPaketi.size();i++)
-           {
-               String str = sortiraniPaketi.get(i).first.getIme() + " " + String.valueOf(sortiraniPaketi.get(i).second);
-               Log.d("SORTIRANI TV PAKETI",str);
-           }
+            for(int i=0;i<sortiraniPaketi.size();i++)
+            {
+                String str = sortiraniPaketi.get(i).first.getIme() + " " + String.valueOf(sortiraniPaketi.get(i).second);
+                Log.d("SORTIRANI TV PAKETI",str);
+            }
 
-           ArrayList<PaketTV> paketiprenos = new ArrayList<>();
-           ArrayList<Integer> oceneprenos = new ArrayList<>();
+            ArrayList<PaketTV> paketiprenos = new ArrayList<>();
+            ArrayList<Integer> oceneprenos = new ArrayList<>();
 
-           for(int i=sortiraniPaketi.size()-1;i>=0;i--)
-           {
-               paketiprenos.add(sortiraniPaketi.get(i).first);
-               oceneprenos.add(sortiraniPaketi.get(i).second);
-           }
+            for(int i=sortiraniPaketi.size()-1;i>=0;i--)
+            {
+                paketiprenos.add(sortiraniPaketi.get(i).first);
+                oceneprenos.add(sortiraniPaketi.get(i).second);
+            }
 
-           Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
-           intent.putExtra("PaketiPrenos",paketiprenos);
-           intent.putExtra("Conversation","Conversation");
-           intent.putExtra("Tip",2);
-           intent.putExtra("OcenePrenos",oceneprenos);
+            Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
+            intent.putExtra("PaketiPrenos",paketiprenos);
+            intent.putExtra("Conversation","Conversation");
+            intent.putExtra("Tip",2);
+            intent.putExtra("OcenePrenos",oceneprenos);
 
-       }
-       else
-       {
-           AlgoritamNet anet = new AlgoritamNet(netPaketi,fbrzina(odgovori.get(1)),4);
-           int [] score = anet.runAlgo();
-           List<Pair<PaketNet,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketNet,Integer>>();
-           for(int i=0;i<mobilniPaketi.size();i++)
-           {
-               sortiraniPaketi.add(new Pair<PaketNet, Integer>(netPaketi.get(i),score[i]));
-           }
+        }
+        else
+        {
+            AlgoritamNet anet = new AlgoritamNet(netPaketi,fbrzina(odgovori.get(1)),4);
+            int [] score = anet.runAlgo();
+            List<Pair<PaketNet,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketNet,Integer>>();
+            for(int i=0;i<mobilniPaketi.size();i++)
+            {
+                sortiraniPaketi.add(new Pair<PaketNet, Integer>(netPaketi.get(i),score[i]));
+            }
 
-           Collections.sort(sortiraniPaketi, new Comparator<Pair<PaketNet, Integer>>() {
-               @Override
-               public int compare(Pair<PaketNet, Integer> p1, Pair<PaketNet, Integer> p2) {
+            Collections.sort(sortiraniPaketi, new Comparator<Pair<PaketNet, Integer>>() {
+                @Override
+                public int compare(Pair<PaketNet, Integer> p1, Pair<PaketNet, Integer> p2) {
 
-                   if(p1.second <= p2.second) return 1;
-                   return 0;
-               }
-           });
+                    if(p1.second <= p2.second) return 1;
+                    return 0;
+                }
+            });
 
-           for(int i=0;i<sortiraniPaketi.size();i++)
-           {
-               String str = sortiraniPaketi.get(i).first.getIme() + " " + String.valueOf(sortiraniPaketi.get(i).second);
-               Log.d("SORTIRANI NET PAKETI",str);
-           }
+            for(int i=0;i<sortiraniPaketi.size();i++)
+            {
+                String str = sortiraniPaketi.get(i).first.getIme() + " " + String.valueOf(sortiraniPaketi.get(i).second);
+                Log.d("SORTIRANI NET PAKETI",str);
+            }
 
-           ArrayList<PaketNet> paketiprenos = new ArrayList<>();
-           ArrayList<Integer> oceneprenos = new ArrayList<>();
+            ArrayList<PaketNet> paketiprenos = new ArrayList<>();
+            ArrayList<Integer> oceneprenos = new ArrayList<>();
 
-           for(int i=sortiraniPaketi.size()-1;i>=0;i--)
-           {
-               paketiprenos.add(sortiraniPaketi.get(i).first);
-               oceneprenos.add(sortiraniPaketi.get(i).second);
-           }
+            for(int i=sortiraniPaketi.size()-1;i>=0;i--)
+            {
+                paketiprenos.add(sortiraniPaketi.get(i).first);
+                oceneprenos.add(sortiraniPaketi.get(i).second);
+            }
 
-           Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
-           intent.putExtra("PaketiPrenos",paketiprenos);
-           intent.putExtra("Conversation","Conversation");
-           intent.putExtra("Tip",2);
-           intent.putExtra("OcenePrenos",oceneprenos);
+            Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
+            intent.putExtra("PaketiPrenos",paketiprenos);
+            intent.putExtra("Conversation","Conversation");
+            intent.putExtra("Tip",2);
+            intent.putExtra("OcenePrenos",oceneprenos);
 
-       }
+        }
     }
 
     private void uzmiBitnosti()
@@ -422,26 +439,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     }
 
     //</editor-fold>
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStatusBarGradiant(ConversationActivity.this);
-        setContentView(R.layout.activity_conversation);
-
-        init();
-
-        uzmiBitnosti();
-
-        scaledroneConnection();
-
-        sendBasicQuestion();
-
-        speech_init();
-
-        postaviListener();
-    }
 
     //<editor-fold desc="Algoritam po korisnikovim podacima">
     private void dozvole() {
@@ -603,33 +600,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             }
         });
 
-        imgSound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!sound) {
-                    imgSound.setImageResource(R.drawable.sound);
-                    sound=true;
-                }
-                else{
-                    imgSound.setImageResource(R.drawable.soundoff);
-                    sound=false;
-                }
-            }
-        });
-
-        imgMic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!mic) {
-                    imgMic.setImageResource(R.drawable.mic);
-                    mic=true;
-                }
-                else{
-                    imgMic.setImageResource(R.drawable.micoff);
-                    mic=false;
-                }
-            }
-        });
         btnKaziPaket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -647,6 +617,13 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
                 runAlgo();
 
+            }
+        });
+        imgSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ConversationActivity.this,PodesavanjeActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -925,6 +902,11 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     //</editor-fold>
 
     //<editor-fold desc="Speech Recognition">
+    private void ucitajSoundMic(){
+        mic=loadBool("mic");
+        sound=loadBool("sound");
+    }
+
     public void getSpeechInput(View view) {
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -1073,9 +1055,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     //<editor-fold desc="SharedPrefs">
 
-    public String loadString(String s){
+    public boolean loadBool(String s){
         SharedPreferences sharedPreferences= getSharedPreferences("SHARED_PREFERENCES",MODE_PRIVATE);
-        return sharedPreferences.getString(s,"");
+        return sharedPreferences.getBoolean(s,false);
     }
     //</editor-fold>
 
@@ -1092,7 +1074,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "Language not supported");
                     } else {
-                        imgSound.setEnabled(true);
+
                     }
                 } else {
                     Log.e("TTS", "Initialization failed");
@@ -1150,12 +1132,11 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         constHint.setVisibility(View.INVISIBLE);
         consPaketi.setVisibility(View.INVISIBLE);
 
-        imgMic=(ImageView)findViewById(R.id.imgMic);
-        imgSound=(ImageView)findViewById(R.id.imgSound);
         imgOdg1=(ImageView)findViewById(R.id.tInternetSlika);
         imgOdg2=(ImageView)findViewById(R.id.tMobilniSlika);
         imgOdg3=(ImageView)findViewById(R.id.tTVSlika);
         imgOdg4=(ImageView)findViewById(R.id.tBoxSlika);
+        imgSettings=(ImageView)findViewById(R.id.iSettings);
 
         imgOdg1.setVisibility(View.INVISIBLE);
         imgOdg2.setVisibility(View.INVISIBLE);

@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView iTel, iPaket;
 
-    Button dugme;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,20 +49,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        dugme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(MainActivity.this,PodesavanjeActivity.class));
-
-            }
-        });
     }
 
     private void init()
     {
         iPaket = (ImageView) findViewById(R.id.iPaket);
         iTel = (ImageView) findViewById(R.id.iTelefon);
-        dugme = (Button)findViewById(R.id.dugmePodesavanja);
     }
 }

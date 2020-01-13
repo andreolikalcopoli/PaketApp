@@ -99,26 +99,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tName"
             app:srcCompat="@drawable/circleimg" />
 
-        <ImageView
-            android:id="@+id/imgMic"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/micoff" />
-
-        <ImageView
-            android:id="@+id/imgSound"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/imgMic"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/soundoff" />
-
         <Button
             android:id="@+id/bKaziPaket"
             android:layout_width="wrap_content"
@@ -126,6 +106,16 @@
             android:text="Button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/iSettings"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/settings" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

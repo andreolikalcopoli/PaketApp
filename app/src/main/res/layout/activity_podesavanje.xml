@@ -3,197 +3,267 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".PodesavanjeActivity">
 
+    <ImageView
+        android:id="@+id/iShowHide"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/textView26"
+        app:layout_constraintStart_toEndOf="@id/textView26"
+        app:layout_constraintTop_toTopOf="@id/textView26"
+        app:srcCompat="@drawable/uparrow" />
+
+
+    <ImageView
+        android:id="@+id/imgMic"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@id/iShowHide"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgSound"
+        app:layout_constraintTop_toBottomOf="@id/textView26"
+        app:srcCompat="@drawable/micoff" />
+
+    <ImageView
+        android:id="@+id/imgSound"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/imgMic"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/sv"
+        app:layout_constraintStart_toStartOf="@id/textView26"
+        app:layout_constraintTop_toBottomOf="@id/textView26"
+        app:srcCompat="@drawable/soundoff" />
+
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Box bitno"
-            android:id="@+id/tboxbitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/boxBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mobilni bitno"
-            android:id="@+id/tmobilnibitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/mobilniBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TV bitno"
-            android:id="@+id/ttvbitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/tvBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Net bitno"
-            android:id="@+id/tnetbitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/netBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Minuti bitno"
-            android:id="@+id/tminutibitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/minutiBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Poruke bitno"
-            android:id="@+id/tporukebitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/porukeBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Internet bitno"
-            android:id="@+id/tinterbitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/internetBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Roming bitno"
-            android:id="@+id/tromingbitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/romingBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kanali bitno"
-            android:id="@+id/tkanalibitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/kanaliBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nazad bitno"
-            android:id="@+id/tnazadbitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/nazadBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Snimanje bitno"
-            android:id="@+id/tsnimbitno"
-            android:layout_margin="8dp"/>
-
-        <SeekBar
-            android:id="@+id/snimanjeBitno"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
-
-        <TextView
+        android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="HBO bitno"
-        android:id="@+id/thbobitno"
-        android:layout_margin="8dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgMic"
+        android:layout_marginTop="24dp">
 
-        <SeekBar
-            android:id="@+id/hboBitno"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:max="4" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/dugmeBitnost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Sacuvaj!" />
+            <TextView
+                android:id="@+id/tboxbitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Box bitno" />
 
-    </LinearLayout>
+            <SeekBar
+                android:id="@+id/boxBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+
+            <TextView
+                android:id="@+id/tmobilnibitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Mobilni bitno" />
+
+            <SeekBar
+                android:id="@+id/mobilniBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/ttvbitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="TV bitno" />
+
+            <SeekBar
+                android:id="@+id/tvBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/tnetbitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Net bitno" />
+
+            <SeekBar
+                android:id="@+id/netBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/tminutibitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Minuti bitno" />
+
+            <SeekBar
+                android:id="@+id/minutiBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/tporukebitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Poruke bitno" />
+
+            <SeekBar
+                android:id="@+id/porukeBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/tinterbitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Internet bitno" />
+
+            <SeekBar
+                android:id="@+id/internetBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/tromingbitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Roming bitno" />
+
+            <SeekBar
+                android:id="@+id/romingBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/tkanalibitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Kanali bitno" />
+
+            <SeekBar
+                android:id="@+id/kanaliBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/tnazadbitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Nazad bitno" />
+
+            <SeekBar
+                android:id="@+id/nazadBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/tsnimbitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Snimanje bitno" />
+
+            <SeekBar
+                android:id="@+id/snimanjeBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <TextView
+                android:id="@+id/thbobitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="HBO bitno" />
+
+            <SeekBar
+                android:id="@+id/hboBitno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4" />
+
+            <Button
+                android:id="@+id/dugmeBitnost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Sacuvaj!" />
+
+        </LinearLayout>
 
     </ScrollView>
+
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Izaberi najbitnije stvari za svoj paket!"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView33" />
+
+    <TextView
+        android:id="@+id/textView33"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="Podešavanja"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
