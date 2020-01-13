@@ -105,7 +105,7 @@ public class Tab3 extends Fragment {
         private int mImageViewHeight;
 
         public ScrollPositionObserver() {
-            mImageViewHeight = getResources().getDimensionPixelSize(R.dimen.contact_photo_height2);
+            mImageViewHeight = getResources().getDimensionPixelSize(R.dimen.h2);
         }
 
         @Override

@@ -22,11 +22,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/boxBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/boxBitno"/>
+            android:inputType="number" />
 
 
         <TextView
@@ -36,11 +36,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/mobilniBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/mobilniBitno"/>
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
@@ -49,11 +49,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/tvBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/tvBitno"/>
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
@@ -62,11 +62,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/netBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/netBitno"/>
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
@@ -75,11 +75,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/minutiBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/minutiBitno"/>
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
@@ -88,11 +88,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/porukeBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/porukeBitno"/>
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
@@ -101,11 +101,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/internetBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/internetBitno"/>
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
@@ -114,11 +114,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/romingBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/romingBitno"/>
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
@@ -127,11 +127,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/kanaliBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/kanaliBitno"/>
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
@@ -140,11 +140,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/nazadBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/nazadBitno"/>
+            android:inputType="number" />
 
         <TextView
             android:layout_width="match_parent"
@@ -153,11 +153,11 @@
             android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/snimanjeBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/snimanjeBitno"/>
+            android:inputType="number" />
 
         <TextView
         android:layout_width="match_parent"
@@ -166,11 +166,11 @@
         android:layout_margin="8dp"/>
 
         <EditText
+            android:id="@+id/hboBitno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:inputType = "numberPassword"
-            android:id="@+id/hboBitno"/>
+            android:inputType="number" />
 
         <Button
             android:id="@+id/dugmeBitnost"

@@ -19,7 +19,7 @@ public class AlgoritamMobilni
     int bitnon;
     int bitnor;
 
-    public AlgoritamMobilni(ArrayList<PaketMobilni> pak,int minutiDnevno,int porukeDnevno,int gbDnevno,boolean roming,
+    public AlgoritamMobilni(ArrayList<PaketMobilni> pak,int minuti,int poruke,int net,boolean roming,
            int bitnop,int bitnom,int bitnon,int bitnor)
     {
         this.bitnop = bitnop;
@@ -27,27 +27,28 @@ public class AlgoritamMobilni
         this.bitnom = bitnom;
         this.bitnor = bitnor;
         this.paketi = pak;
-        this.minuti = minutiDnevno;
-        this.poruke = porukeDnevno;
-        this.net = gbDnevno;
+        this.minuti = minuti;
+        this.poruke = poruke;
+        this.net = net;
         this.roming = roming;
         kriterijumi = new boolean[pak.size()][10];
         score = new int[pak.size()];
         Arrays.fill(score, 0);
-       // Arrays.fill(kriterijumi,false);
     }
 
     public int [] runAlgo()
     {
-        int pu = poruke*30;
-        int mi = minuti*30;
-        int ne = net*30;
+        for(int i=0;i<paketi.size();i++)
+        {
+            for(int j=0;j<10;j++) kriterijumi[i][j] = false;
+        }
+
         for(int i=0;i< paketi.size();i++)
         {
             PaketMobilni p = paketi.get(i);
-            if(p.getSms()>=pu) kriterijumi[i][0] = true;
-            if(p.getMinuti()>=mi) kriterijumi[i][1] = true;
-            if(p.getInternet()>=ne) kriterijumi[i][2] = true;
+            if(p.getSms()>=poruke) kriterijumi[i][0] = true;
+            if(p.getMinuti()>=minuti) kriterijumi[i][1] = true;
+            if(p.getInternet()>=net) kriterijumi[i][2] = true;
             kriterijumi[i][3] = ((p.getMinutiRoming() > 0) == roming);
             //todo
             //zavrsi

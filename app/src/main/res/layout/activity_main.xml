@@ -60,4 +60,10 @@
         app:layout_constraintTop_toTopOf="@+id/iPlanine"
         app:srcCompat="@drawable/izaberi" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dugmePodesavanja"
+        android:text="dugme"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

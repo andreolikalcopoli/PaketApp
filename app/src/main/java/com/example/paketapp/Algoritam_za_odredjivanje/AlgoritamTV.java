@@ -24,7 +24,7 @@ public class AlgoritamTV
     {
         this.paketi = pak;
         score= new int[pak.size()];
-        kriterijumi = new boolean[pak.size()][5];
+        kriterijumi = new boolean[pak.size()][10];
         this.brKanala = brKanala;
         this.unazad= unazad;
         this.snimanje = snimanje;
@@ -33,11 +33,15 @@ public class AlgoritamTV
         this.bitnon = bitnon;
         this.bitnos = bitnos;
         Arrays.fill(score, 0);
-        Arrays.fill(kriterijumi, false);
+       // Arrays.fill(kriterijumi, false);
     }
 
     public int[] runAlgo()
     {
+        for(int i=0;i<paketi.size();i++)
+        {
+            for(int j=0;j<10;j++) kriterijumi[i][j] = false;
+        }
 
         for(int i=0;i<paketi.size();i++)
         {

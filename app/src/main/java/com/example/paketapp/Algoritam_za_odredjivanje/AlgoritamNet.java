@@ -21,12 +21,18 @@ public class AlgoritamNet
         kriterijumi = new boolean[paketi.size()][10];
         this.brzina = brzina;
         this.bitnob=bitnob;
-        Arrays.fill(kriterijumi, false);
+       // Arrays.fill(kriterijumi, false);
         Arrays.fill(score, 0);
     }
 
     public int[] runAlgo()
     {
+
+        for(int i=0;i<paketi.size();i++)
+        {
+            for(int j=0;j<10;j++) kriterijumi[i][j] = false;
+        }
+
         for(int i=0;i<paketi.size();i++)
         {
             PaketNet p = paketi.get(i);

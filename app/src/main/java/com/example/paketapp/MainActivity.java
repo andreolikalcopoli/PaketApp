@@ -11,12 +11,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private ImageView iTel, iPaket;
+
+    Button dugme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +28,14 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        iPaket = (ImageView) findViewById(R.id.iPaket);
-        iTel = (ImageView) findViewById(R.id.iTelefon);
+        init();
 
+        postaviListener();
+
+    }
+
+    private void postaviListener()
+    {
         iPaket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,5 +51,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        dugme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(MainActivity.this,PodesavanjeActivity.class));
+
+            }
+        });
+    }
+
+    private void init()
+    {
+        iPaket = (ImageView) findViewById(R.id.iPaket);
+        iTel = (ImageView) findViewById(R.id.iTelefon);
+        dugme = (Button)findViewById(R.id.dugmePodesavanja);
     }
 }
