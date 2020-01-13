@@ -24,10 +24,10 @@ public class SviPaketiActivity extends AppCompatActivity implements Tab1.OnFragm
         getSupportActionBar().hide();
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 4"));
+        tabLayout.addTab(tabLayout.newTab().setText("Telefon"));
+        tabLayout.addTab(tabLayout.newTab().setText("Internet"));
+        tabLayout.addTab(tabLayout.newTab().setText("TV"));
+        tabLayout.addTab(tabLayout.newTab().setText("Box"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);

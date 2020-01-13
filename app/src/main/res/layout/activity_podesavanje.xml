@@ -6,39 +6,6 @@
     android:layout_height="wrap_content"
     tools:context=".PodesavanjeActivity">
 
-    <ImageView
-        android:id="@+id/iShowHide"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/textView26"
-        app:layout_constraintStart_toEndOf="@id/textView26"
-        app:layout_constraintTop_toTopOf="@id/textView26"
-        app:srcCompat="@drawable/uparrow" />
-
-
-    <ImageView
-        android:id="@+id/imgMic"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="@id/iShowHide"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imgSound"
-        app:layout_constraintTop_toBottomOf="@id/textView26"
-        app:srcCompat="@drawable/micoff" />
-
-    <ImageView
-        android:id="@+id/imgSound"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toStartOf="@+id/imgMic"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/sv"
-        app:layout_constraintStart_toStartOf="@id/textView26"
-        app:layout_constraintTop_toBottomOf="@id/textView26"
-        app:srcCompat="@drawable/soundoff" />
 
     <ScrollView
         android:id="@+id/sv"
@@ -46,7 +13,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgMic"
+        app:layout_constraintTop_toBottomOf="@id/dugmeBitnost"
         android:layout_marginTop="24dp">
 
         <LinearLayout
@@ -223,14 +190,6 @@
                 android:layout_margin="8dp"
                 android:max="4" />
 
-            <Button
-                android:id="@+id/dugmeBitnost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Sacuvaj!" />
-
         </LinearLayout>
 
     </ScrollView>
@@ -264,6 +223,57 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/dugmeBitnost"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/btn_backg_borders"
+        android:gravity="center"
+        android:text="Sacuvaj!"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgSound" />
+
+    <ImageView
+        android:id="@+id/imgSound"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/imgMic"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/sv"
+        app:layout_constraintStart_toStartOf="@id/textView26"
+        app:layout_constraintTop_toBottomOf="@id/textView26"
+        app:srcCompat="@drawable/soundoff" />
+
+    <ImageView
+        android:id="@+id/iShowHide"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/textView26"
+        app:layout_constraintStart_toEndOf="@id/textView26"
+        app:layout_constraintTop_toTopOf="@id/textView26"
+        app:srcCompat="@drawable/uparrow" />
+
+    <ImageView
+        android:id="@+id/imgMic"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@id/iShowHide"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imgSound"
+        app:layout_constraintTop_toBottomOf="@id/textView26"
+        app:srcCompat="@drawable/micoff" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -263,11 +265,11 @@ public class PodesavanjeActivity extends AppCompatActivity {
     public void onSlideViewButtonClick() {
         if (isUp) {
             slideDown();
-            imgShow.setImageResource(R.drawable.downarrow);
+            imgShow.setImageResource(R.drawable.uparrow);
             isUp=false;
         } else {
             slideUp();
-            imgShow.setImageResource(R.drawable.uparrow);
+            imgShow.setImageResource(R.drawable.downarrow);
             isUp=true;
         }
     }
@@ -291,6 +293,32 @@ public class PodesavanjeActivity extends AppCompatActivity {
         nazb = (SeekBar)findViewById(R.id.nazadBitno);
         snimb = (SeekBar)findViewById(R.id.snimanjeBitno);
         hbob = (SeekBar)findViewById(R.id.hboBitno);
+
+        boxb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        boxb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        mobb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        mobb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        tvb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        tvb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        interb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        interb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        minb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        minb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        porb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        porb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        netb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        netb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        romb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        romb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        kanb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        kanb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        nazb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        nazb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        snimb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        snimb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        hbob.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        hbob.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+
 
         //text views
         tboxbitno = findViewById(R.id.tboxbitno);
