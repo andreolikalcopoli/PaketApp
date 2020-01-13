@@ -2,23 +2,30 @@ package com.example.paketapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.usage.NetworkStatsManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.TrafficStats;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.CallLog;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -62,6 +69,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 public class ConversationActivity extends AppCompatActivity implements RoomListener {
 
@@ -133,7 +141,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private ArrayList<BoxPaket> boxPaketi;
     private ArrayList<String> odgovori=new ArrayList<>();
 
-    private boolean sound=false,mic=false,prolazi=false,bitnost=false,razgovor=false;
+    private boolean sound=false,mic=false,prolazi=false,bitnost=false,razgovor=false,perm=false;
 
     private ImageView imgMic, imgSound, imgOdg1,imgOdg2,imgOdg3,imgOdg4;
     private TextToSpeech mTTS;
@@ -393,7 +401,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
        }
     }
-    //</editor-fold>
 
     private void uzmiBitnosti()
     {
@@ -412,26 +419,10 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         netb = sharedPreferences.getInt("NetBitnost",0);
         tvb = sharedPreferences.getInt("TvBitnost",0);
         mobb = sharedPreferences.getInt("MobilniBitnost",0);
-
-
     }
-    private void internetPotrosnjaPoDanu(){
-        netTotalDownload= TrafficStats.getTotalRxBytes();
-        netTotalUpload= TrafficStats.getTotalTxBytes();
 
-        netMobilniPodaciDownload=TrafficStats.getMobileRxBytes();
-        getNetMobilniPodaciUpload=TrafficStats.getMobileTxBytes();
+    //</editor-fold>
 
-        totalPotrosenoMobilni=netMobilniPodaciDownload+getNetMobilniPodaciUpload;
-        totalPotrosenoWifi=netTotalDownload+netTotalUpload;
-        totalPotroseno=totalPotrosenoMobilni+totalPotrosenoWifi;
-
-        vreme= (long) (SystemClock.elapsedRealtime()*1.1574074/100000000);
-
-        poDanuMob=totalPotrosenoMobilni/vreme;
-        poDanuWifi=totalPotrosenoWifi/vreme;
-        poDanuTotal=totalPotroseno/vreme;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -440,34 +431,139 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         setContentView(R.layout.activity_conversation);
 
         init();
+
         uzmiBitnosti();
+
         scaledroneConnection();
+
         sendBasicQuestion();
+
         speech_init();
+
         postaviListener();
     }
 
-    private void speech_init()
-    {
-        mTTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    int result = mTTS.setLanguage(new Locale("sr-RS"));
+    //<editor-fold desc="Algoritam po korisnikovim podacima">
+    private void dozvole() {
+        int PERMISSION_ALL = 1;
+        String[] PERMISSIONS = {
+                Manifest.permission.READ_SMS,
+                Manifest.permission.WRITE_CALL_LOG,
+                Manifest.permission.READ_CALL_LOG
+        };
 
-                    if (result == TextToSpeech.LANG_MISSING_DATA
-                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Log.e("TTS", "Language not supported");
-                    } else {
-                        imgSound.setEnabled(true);
-                    }
-                } else {
-                    Log.e("TTS", "Initialization failed");
-                }
-            }
-        });
+        if (!hasPermissions(this, PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
+        }
+        else {
+            poziviPotrosnja();
+            porukePotrosnja();
+            internetPotrosnjaPoDanu();
+        }
+
     }
 
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        // If request is cancelled, the result arrays are empty.
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            perm = true;
+
+        } else {
+
+            perm = false;
+
+        }
+
+        if(perm) {
+            poziviPotrosnja();
+            porukePotrosnja();
+            internetPotrosnjaPoDanu();
+        }else
+            Toast.makeText(ConversationActivity.this,"Opcija \"Moji podaci\" onemogućena zbog odbrijanja pristupa.",Toast.LENGTH_SHORT).show();
+
+        return;
+    }
+
+    private void internetPotrosnjaPoDanu() {
+        netTotalDownload = TrafficStats.getTotalRxBytes();
+        netTotalUpload = TrafficStats.getTotalTxBytes();
+
+        netMobilniPodaciDownload = TrafficStats.getMobileRxBytes();
+        getNetMobilniPodaciUpload = TrafficStats.getMobileTxBytes();
+
+        totalPotrosenoMobilni = netMobilniPodaciDownload + getNetMobilniPodaciUpload;
+        totalPotrosenoWifi = netTotalDownload + netTotalUpload;
+        totalPotroseno = totalPotrosenoMobilni + totalPotrosenoWifi;
+
+        vreme = TimeUnit.MILLISECONDS.toDays(SystemClock.elapsedRealtime());
+
+        if(vreme == 0)
+            vreme=1;
+
+        poDanuMob = totalPotrosenoMobilni / vreme;
+        poDanuWifi = totalPotrosenoWifi / vreme;
+        poDanuTotal = totalPotroseno / vreme;
+
+        Log.d("INTERNET",""+poDanuTotal);
+    }
+
+    private int porukePotrosnja() {
+        String firstBound = "1577833200000";
+        String secondBound = "1580511600000";
+
+        String where = CallLog.Calls.DATE + "<" + firstBound + " AND " + CallLog.Calls.DATE + "<" + secondBound;
+
+        String[] projection = {CallLog.Calls.DATE};
+        Uri smsContentUri = Uri.parse("content://sms/sent");
+        Cursor cursor = this.getContentResolver().query(smsContentUri, projection, where, null, null);
+        cursor.moveToFirst();
+
+        Log.d("BROJ PORUKA",""+cursor.getCount());
+        return cursor.getCount();
+    }
+
+    public int poziviPotrosnja() {
+
+        int firstBound = 15778332;
+        int secondBound = 15805116;
+
+        int totalCallDuration=0;
+
+        Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null,
+                null, null, null);
+        int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+        int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+        while (managedCursor.moveToNext()) {
+            String callDate = managedCursor.getString(date);
+            String datumInt = callDate.substring(0, callDate.length() - 5);
+            if (Integer.valueOf(datumInt)>firstBound && Integer.valueOf(datumInt)<secondBound) {
+                String callDuration = managedCursor.getString(duration);
+                totalCallDuration+=Integer.valueOf(callDuration);
+            }
+        }
+        managedCursor.close();
+        Log.d("DUZINA POZIVA",""+totalCallDuration);
+        return totalCallDuration;
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="button on click">
     private void postaviListener()
     {
         answer1.setOnClickListener(new View.OnClickListener() {
@@ -554,6 +650,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             }
         });
     }
+    //</editor-fold>
 
     //<editor-fold desc="Messages">
     private void posaljiPoruku(List<String> listaPitanja,List<String>listaOdgovora,List<String> listaHintova,String text) {
@@ -983,6 +1080,27 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     //</editor-fold>
 
     //<editor-fold desc="init">
+    private void speech_init()
+    {
+        mTTS = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = mTTS.setLanguage(new Locale("sr-RS"));
+
+                    if (result == TextToSpeech.LANG_MISSING_DATA
+                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("TTS", "Language not supported");
+                    } else {
+                        imgSound.setEnabled(true);
+                    }
+                } else {
+                    Log.e("TTS", "Initialization failed");
+                }
+            }
+        });
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setStatusBarGradiant(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
