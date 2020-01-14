@@ -59,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void saveInt(String s,int zaCuvanje){
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putInt(s,zaCuvanje);
+
+        editor.apply();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -66,11 +74,24 @@ public class MainActivity extends AppCompatActivity {
         if(prefs.getBoolean("firstrun",true))
         {
 
+            saveInt("MobilniBitnost",0);
+            saveInt("TvBitnost",0);
+            saveInt("NetBitnost",0);
+            saveInt("MinutiBitnost",0);
+            saveInt("PorukeBitnost",0);
+            saveInt("InternetBitnost",0);
+            saveInt("RomingBitnost",0);
+            saveInt("KanaliBitnost",0);
+            saveInt("NazadBitnost",0);
+            saveInt("SnimajBitnost",0);
+            saveInt("HboBitnost",0);
+
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             ViewGroup viewGroup = findViewById(android.R.id.content);
             View dialogView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.pocetnidialog,viewGroup,false);
             builder.setView(dialogView);
             AlertDialog alertDialog = builder.create();
+            alertDialog.setCancelable(false);
             alertDialog.show();
 
             Button  ppok = alertDialog.findViewById(R.id.prviPutOk);
@@ -79,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    startActivity(new Intent(MainActivity.this,PodesavanjeActivity.class));
+                    Intent intent  =new Intent(MainActivity.this,PodesavanjeActivity.class);
+                    intent.putExtra("GdeNazad",1);
+                    startActivity(intent);
 
                 }
             });

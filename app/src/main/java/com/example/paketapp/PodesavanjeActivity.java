@@ -20,12 +20,12 @@ import java.util.ArrayList;
 
 public class PodesavanjeActivity extends AppCompatActivity
 {
-    SeekBar boxSeek,mobilniSeek,tvSeek,internetSeek;
+    SeekBar mobilniSeek,tvSeek,internetSeek;
     SeekBar minutiSeek,porukeSeek,netSeek,romingSeek;
     SeekBar kanaliSeek,nazadSeek,snimanjeSeek,hboSeek;
     Button potvrdi;
 
-    TextView tboxbitno,tmobilnibitno,ttvbitno,tnetbitno
+    TextView tmobilnibitno,ttvbitno,tnetbitno
             ,tminutibitno,tporukebitno,tinterbitno,tromingbitno,
            tkanalibitno,tnazadbitno,tsnimbitno,thbobitno;
 
@@ -33,6 +33,8 @@ public class PodesavanjeActivity extends AppCompatActivity
     int minutiBitno,porukeBitno,netBitno,romingBitno;
     int kanaliBitno,nazadBitno,snimanjeBitno,hboBitno;
     int internetBitno;
+
+    int gdeNazad;
 
     private ImageView imgShow,imgMic, imgSound;
     private boolean isUp=false,sound=false,mic=false;
@@ -65,6 +67,7 @@ public class PodesavanjeActivity extends AppCompatActivity
         kanaliBitno = sharedPreferences.getInt("KanaliBitnost",0); kanaliSeek.setProgress(kanaliBitno); tkanalibitno.setText("Kanali bitno " + kanaliBitno);
         nazadBitno = sharedPreferences.getInt("NazadBitnost",0); nazadSeek.setProgress(nazadBitno); tnazadbitno.setText("Nazad bitno " + nazadBitno);
         snimanjeBitno = sharedPreferences.getInt("SnimajBitnost",0); snimanjeSeek.setProgress(snimanjeBitno); tsnimbitno.setText("Snimanje bitno " + snimanjeBitno);
+        hboBitno = sharedPreferences.getInt("HboBitnost",0); hboSeek.setProgress(hboBitno); thbobitno.setText("Hbo bitno " + hboBitno);
 
         netBitno = sharedPreferences.getInt("NetBitnost",0); netSeek.setProgress(netBitno); tnetbitno.setText("Net bitno " + netBitno);
         tvBitno = sharedPreferences.getInt("TvBitnost",0); tvSeek.setProgress(tvBitno); ttvbitno.setText("TV bitno " + tvBitno);
@@ -83,7 +86,14 @@ public class PodesavanjeActivity extends AppCompatActivity
 
                 saveAll();
 
-                startActivity(new Intent(PodesavanjeActivity.this,MainActivity.class));
+                if(gdeNazad==1)
+                {
+                    Intent intent;
+                    intent = new Intent(PodesavanjeActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }
+                else PodesavanjeActivity.super.onBackPressed();
+
 
             }
         });
@@ -132,9 +142,6 @@ public class PodesavanjeActivity extends AppCompatActivity
 
                switch (seekBar.getId())
                {
-                   case R.id.boxBitno:
-                       tboxbitno.setText("Box bitno " + String.valueOf(i));
-                       break;
                    case R.id.mobilniBitno:
                        tmobilnibitno.setText("Mobilni bitno " + String.valueOf(i));
                        break;
@@ -183,7 +190,6 @@ public class PodesavanjeActivity extends AppCompatActivity
             }
         };
 
-        boxSeek.setOnSeekBarChangeListener(seekBarChangeListener);
         mobilniSeek.setOnSeekBarChangeListener(seekBarChangeListener);
         tvSeek.setOnSeekBarChangeListener(seekBarChangeListener);
         netSeek.setOnSeekBarChangeListener(seekBarChangeListener);
@@ -204,7 +210,6 @@ public class PodesavanjeActivity extends AppCompatActivity
     //<editor-fold desc="citanje">
     private void preuzmiTekst()
     {
-        boxBitno = boxSeek.getProgress();
         mobilniBitno = mobilniSeek.getProgress();
         tvBitno = tvSeek.getProgress();
         internetBitno = internetSeek.getProgress();
@@ -241,7 +246,6 @@ public class PodesavanjeActivity extends AppCompatActivity
 
     private void saveAll()
     {
-        saveInt("BoxBitnost",boxBitno);
         saveInt("MobilniBitnost",mobilniBitno);
         saveInt("TvBitnost",tvBitno);
         saveInt("NetBitnost",internetBitno);
@@ -300,7 +304,6 @@ public class PodesavanjeActivity extends AppCompatActivity
     private void init()
     {
         //seek bars
-        boxSeek = (SeekBar)findViewById(R.id.boxBitno);
         mobilniSeek= (SeekBar)findViewById(R.id.mobilniBitno);
         tvSeek = (SeekBar)findViewById(R.id.tvBitno);
         internetSeek = (SeekBar)findViewById(R.id.netBitno);
@@ -315,8 +318,6 @@ public class PodesavanjeActivity extends AppCompatActivity
         snimanjeSeek = (SeekBar)findViewById(R.id.snimanjeBitno);
         hboSeek = (SeekBar)findViewById(R.id.hboBitno);
 
-        boxSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        boxSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
         mobilniSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
         mobilniSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
         tvSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
@@ -341,8 +342,10 @@ public class PodesavanjeActivity extends AppCompatActivity
         hboSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
 
 
+        Intent i = getIntent();
+        gdeNazad = i.getIntExtra("GdeNazad",0);
+
         //text views
-        tboxbitno = findViewById(R.id.tboxbitno);
         tmobilnibitno = findViewById(R.id.tmobilnibitno);
         ttvbitno = findViewById(R.id.ttvbitno);
         tnetbitno = findViewById(R.id.tnetbitno );
