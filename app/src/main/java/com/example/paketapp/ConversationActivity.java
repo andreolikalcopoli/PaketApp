@@ -142,7 +142,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private boolean sound=false,mic=false,prolazi=false,bitnost=false,razgovor=false,perm=false;
 
-    private ImageView imgOdg1,imgOdg2,imgOdg3,imgOdg4,imgSettings;
+    private ImageView imgOdg1,imgOdg2,imgOdg3,imgOdg4,imgSettings,intervju,recista,podaciranije;
     private TextToSpeech mTTS;
 
     int porukeBitnost,minutiBitnost,internetBitnost,romingBitnost;
@@ -195,8 +195,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     }
 
-    Button intervju,recista,podaciranije;
-
+    //<editor-fold desc="popup">
     private void otvoriPopUp()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(ConversationActivity.this);
@@ -205,19 +204,23 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        alertDialog.setCancelable(false);
         intervju = alertDialog.findViewById(R.id.uradiIntervju);
         recista = alertDialog.findViewById(R.id.reciStaZelis);
         podaciranije = alertDialog.findViewById(R.id.uradiSaSvojimPodacima);
 
-        listenerAlert();
+        listenerAlert(alertDialog);
+
 
     }
 
-    private void listenerAlert()
+    private void listenerAlert(final AlertDialog alertDialog)
     {
         intervju.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                alertDialog.dismiss();
 
             }
         });
@@ -226,6 +229,10 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             @Override
             public void onClick(View view) {
 
+                razgovor=true;
+                getSpeechInput(view);
+
+                alertDialog.dismiss();
             }
         });
 
@@ -233,10 +240,15 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             @Override
             public void onClick(View view) {
 
+                dozvole();
+
+                alertDialog.dismiss();
             }
         });
 
+
     }
+    //</editor-fold>
 
     //<editor-fold desc="algo">
     int fminuti(String min)
@@ -707,8 +719,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         btnKaziPaket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*razgovor=true;
-                getSpeechInput(v);*/
+
                 Intent intent=new Intent(ConversationActivity.this,PodesavanjeActivity.class);
                 startActivity(intent);
             }
@@ -778,7 +789,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             String s = ss;
             split = s.split(":");
         }
-        if(!bitnost) {
+        if(!bitnost && indexOfQuestion<selectedH.size()) {
             if (!selectedH.get(indexOfQuestion).equals("")) {
                 show();
             }
@@ -1020,7 +1031,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, 10);
         } else {
-            Toast.makeText(this, "Your Device Don't Support Speech Input", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Vaš uredjaj ne podržava ovu opciju", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1032,8 +1043,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             case 10:
                 if (resultCode == RESULT_OK && data != null) {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    if (nadjiOdgovor(result.get(0)).equals("")) {
-                        Toast.makeText(ConversationActivity.this, "Nismo uspeli da pronadjemo vas odgovor", Toast.LENGTH_SHORT).show();
+                    if (nadjiOdgovor(result.get(0)).equals("") && !razgovor) {
+                        Toast.makeText(ConversationActivity.this, "Nismo uspeli da pronadjemo Vaš odgovor", Toast.LENGTH_SHORT).show();
                         getSpeechInput(ConversationActivity.this.getCurrentFocus());
                     }
                     else {
@@ -1052,8 +1063,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                                     posaljiPoruku(boxQuestions, boxAnswers, boxHints, s);
                             }
                         }
-                        else
-                        {
+                        else {
                             protumaciGovor(result.get(0));
                         }
 

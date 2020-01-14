@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#E0E0E0"
+    android:orientation="vertical">
 
-    <Button
+    <ImageView
+        android:id="@+id/uradiIntervju"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Uradi intervju"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:id="@+id/uradiIntervju"/>
+        android:layout_height="160dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/opcijaprva" />
 
-    <Button
+    <ImageView
+        android:id="@+id/reciStaZelis"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reci sta zelis"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:id="@+id/reciStaZelis"/>
+        android:layout_height="160dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uradiIntervju"
+        app:srcCompat="@drawable/opcijadruga" />
 
-    <Button
+    <ImageView
+        android:id="@+id/uradiSaSvojimPodacima"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Uradi sa svojim podacima"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:id="@+id/uradiSaSvojimPodacima"/>
-
-
-</LinearLayout>
+        android:layout_height="160dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reciStaZelis"
+        app:srcCompat="@drawable/opcijatreca" />
+</androidx.constraintlayout.widget.ConstraintLayout>
