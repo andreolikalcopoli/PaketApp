@@ -145,12 +145,12 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private ImageView imgOdg1,imgOdg2,imgOdg3,imgOdg4,imgSettings;
     private TextToSpeech mTTS;
 
-    int bp,bm,bn,br;
-    int bbk,bnaz,bsnim,bhbo;
+    int porukeBitnost,minutiBitnost,internetBitnost,romingBitnost;
+    int kanaliBitnost,nazadBitnost,snimanjeBitnost,bhbo;
     int intb;
 
-    int mobb,boxb,tvb;
-    int netb;
+    int mobilniBitnost,boxb,tvBitnost;
+    int netBitnost;
 
     private long netTotalDownload=0,netTotalUpload=0,netMobilniPodaciDownload=0,getNetMobilniPodaciUpload=0,vreme=0,
     totalPotroseno=0,totalPotrosenoMobilni=0,totalPotrosenoWifi=0,poDanuMob=0,poDanuWifi=0,poDanuTotal=0;
@@ -298,13 +298,67 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         return hbo.equals("Da");
     }
 
-    private void runAlgo()
+    int minutiRez;
+    int porukeRez;
+    int internetRez;
+    boolean romingRez;
+    int brzinaRez;
+    int nazadRez;
+    boolean snimajRez;
+    boolean hboRez;
+    int kanaliRez;
+
+    void odradjenIntervju()
     {
         String birao = odgovori.get(0);
         if(birao.equals("Box"))
         {
+            minutiRez = fminuti(odgovori.get(1));
+            porukeRez = fporuke(odgovori.get(2));
+            internetRez = finternet(odgovori.get(3));
+            romingRez = froming(odgovori.get(4));
+            brzinaRez = fbrzina(odgovori.get(5));
+            kanaliRez = fkanali(odgovori.get(6));
+            nazadRez = fnazad(odgovori.get(7));
+            snimajRez = fsnimaj(odgovori.get(8));
+            hboRez = fhbo(odgovori.get(9));
+
+            runAlgo(1);
+
+        }
+        else if(birao.equals("Telefon"))
+        {
+            minutiRez = fminuti(odgovori.get(1));
+            porukeRez = fporuke(odgovori.get(2));
+            internetRez = finternet(odgovori.get(3));
+            romingRez = froming(odgovori.get(4));
+
+            runAlgo(2);
+        }
+        else if(birao.equals("TV"))
+        {
+            kanaliRez = fkanali(odgovori.get(1));
+            nazadRez = fnazad(odgovori.get(2));
+            snimajRez = fsnimaj(odgovori.get(3));
+            hboRez = fhbo(odgovori.get(4));
+
+            runAlgo(3);
+        }
+        else
+        {
+            brzinaRez = fbrzina(odgovori.get(1));
+
+            runAlgo(4);
+        }
+    }
+
+    private void runAlgo(int tip)
+    {
+        String birao = odgovori.get(0);
+        if(tip==1)
+        {
             Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),
-                    bp,bm,bn,br,fbrzina(odgovori.get(5)),4,250,fnazad(odgovori.get(6)),fsnimaj(odgovori.get(7)),true,bbk,bnaz,bsnim,mobb,tvb,netb);
+                    porukeBitnost,minutiBitnost,internetBitnost,romingBitnost,fbrzina(odgovori.get(5)),4,250,fnazad(odgovori.get(6)),fsnimaj(odgovori.get(7)),fhbo(odgovori.get(8)),kanaliBitnost,nazadBitnost,snimanjeBitnost,mobilniBitnost,tvBitnost,netBitnost);
             int [] score = algoritam.runAlgo();
             List<Pair<BoxPaket,Integer>>  sortiraniPaketi = new ArrayList<Pair<BoxPaket,Integer>>();
             for(int i=0;i<boxPaketi.size();i++)
@@ -343,9 +397,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             intent.putExtra("OcenePrenos",oceneprenos);
 
         }
-        else if(birao.equals("Telefon"))
+        else if(tip==2)
         {
-            AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),bp,bm,bn,br);
+            AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,fminuti(odgovori.get(1)),fporuke(odgovori.get(2)),finternet(odgovori.get(3)),froming(odgovori.get(4)),porukeBitnost,minutiBitnost,internetBitnost,romingBitnost);
             int [] score = amob.runAlgo();
             List<Pair<PaketMobilni,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketMobilni,Integer>>();
 
@@ -384,9 +438,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             intent.putExtra("Tip",1);
             intent.putExtra("OcenePrenos",oceneprenos);
         }
-        else if(birao.equals("TV"))
+        else if(tip==3)
         {
-            AlgoritamTV atv = new AlgoritamTV(tvPaketi,fkanali(odgovori.get(1)),fnazad(odgovori.get(2)),fsnimaj(odgovori.get(3)),fhbo(odgovori.get(4)),bbk,bnaz,bsnim);
+            AlgoritamTV atv = new AlgoritamTV(tvPaketi,kanaliRez,nazadRez,snimajRez,hboRez,kanaliBitnost,nazadBitnost,snimanjeBitnost);
             int [] score = atv.runAlgo();
             List<Pair<PaketTV,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketTV,Integer>>();
             for(int i=0;i<mobilniPaketi.size();i++)
@@ -427,7 +481,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         }
         else
         {
-            AlgoritamNet anet = new AlgoritamNet(netPaketi,fbrzina(odgovori.get(1)),4);
+            AlgoritamNet anet = new AlgoritamNet(netPaketi,brzinaRez,4);
             int [] score = anet.runAlgo();
             List<Pair<PaketNet,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketNet,Integer>>();
             for(int i=0;i<mobilniPaketi.size();i++)
@@ -473,18 +527,18 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs",MODE_PRIVATE);
 
 
-        bp = sharedPreferences.getInt("PorukeBitnost",0);
-        bm = sharedPreferences.getInt("MinutiBitnost",0);
-        bn = sharedPreferences.getInt("InternetBitnost",0);
-        br = sharedPreferences.getInt("RomingBitnost",0);
+        porukeBitnost = sharedPreferences.getInt("PorukeBitnost",0);
+        minutiBitnost = sharedPreferences.getInt("MinutiBitnost",0);
+        internetBitnost = sharedPreferences.getInt("InternetBitnost",0);
+        romingBitnost = sharedPreferences.getInt("RomingBitnost",0);
 
-        bbk = sharedPreferences.getInt("KanaliBitnost",0);
-        bnaz = sharedPreferences.getInt("NazadBitnost",0);
-        bsnim = sharedPreferences.getInt("SnimajBitnost",0);
+        kanaliBitnost = sharedPreferences.getInt("KanaliBitnost",0);
+        nazadBitnost = sharedPreferences.getInt("NazadBitnost",0);
+        snimanjeBitnost = sharedPreferences.getInt("SnimajBitnost",0);
 
-        netb = sharedPreferences.getInt("NetBitnost",0);
-        tvb = sharedPreferences.getInt("TvBitnost",0);
-        mobb = sharedPreferences.getInt("MobilniBitnost",0);
+        netBitnost = sharedPreferences.getInt("NetBitnost",0);
+        tvBitnost = sharedPreferences.getInt("TvBitnost",0);
+        mobilniBitnost = sharedPreferences.getInt("MobilniBitnost",0);
     }
 
     //</editor-fold>
@@ -546,7 +600,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         return;
     }
 
-    private void internetPotrosnjaPoDanu() {
+    private void internetPotrosnjaPoDanu() 
+    {
         netTotalDownload = TrafficStats.getTotalRxBytes();
         netTotalUpload = TrafficStats.getTotalTxBytes();
 
@@ -664,7 +719,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             {
 
 
-                runAlgo();
+                odradjenIntervju();
 
             }
         });
