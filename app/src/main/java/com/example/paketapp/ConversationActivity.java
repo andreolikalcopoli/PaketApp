@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.usage.NetworkStatsManager;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +30,9 @@ import android.provider.CallLog;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -187,6 +190,52 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         speech_init();
 
         postaviListener();
+
+        otvoriPopUp();
+
+    }
+
+    Button intervju,recista,podaciranije;
+
+    private void otvoriPopUp()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ConversationActivity.this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.conversationdialog,viewGroup,false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        intervju = alertDialog.findViewById(R.id.uradiIntervju);
+        recista = alertDialog.findViewById(R.id.reciStaZelis);
+        podaciranije = alertDialog.findViewById(R.id.uradiSaSvojimPodacima);
+
+        listenerAlert();
+
+    }
+
+    private void listenerAlert()
+    {
+        intervju.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        recista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        podaciranije.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 
     //<editor-fold desc="algo">

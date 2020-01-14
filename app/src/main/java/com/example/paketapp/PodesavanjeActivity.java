@@ -18,20 +18,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class PodesavanjeActivity extends AppCompatActivity {
-    SeekBar boxb,mobb,tvb,interb;
-    SeekBar minb,porb,netb,romb;
-    SeekBar kanb,nazb,snimb,hbob;
+public class PodesavanjeActivity extends AppCompatActivity
+{
+    SeekBar boxSeek,mobilniSeek,tvSeek,internetSeek;
+    SeekBar minutiSeek,porukeSeek,netSeek,romingSeek;
+    SeekBar kanaliSeek,nazadSeek,snimanjeSeek,hboSeek;
     Button potvrdi;
 
     TextView tboxbitno,tmobilnibitno,ttvbitno,tnetbitno
             ,tminutibitno,tporukebitno,tinterbitno,tromingbitno,
            tkanalibitno,tnazadbitno,tsnimbitno,thbobitno;
 
-    int bb,mb,tb;
-    int mib,pb,nb,rb;
-    int kb,nab,sb,hb;
-    int intb;
+    int boxBitno,mobilniBitno,tvBitno;
+    int minutiBitno,porukeBitno,netBitno,romingBitno;
+    int kanaliBitno,nazadBitno,snimanjeBitno,hboBitno;
+    int internetBitno;
 
     private ImageView imgShow,imgMic, imgSound;
     private boolean isUp=false,sound=false,mic=false;
@@ -45,9 +46,29 @@ public class PodesavanjeActivity extends AppCompatActivity {
 
         init();
 
+        ucitajPodatke();
+
         napraviListener();
 
         postaviListener();
+    }
+
+    private void ucitajPodatke()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs",MODE_PRIVATE);
+
+        porukeBitno = sharedPreferences.getInt("PorukeBitnost",0); porukeSeek.setProgress(porukeBitno); tporukebitno.setText("Poruke bitno " + porukeBitno);
+        minutiBitno = sharedPreferences.getInt("MinutiBitnost",0); minutiSeek.setProgress(minutiBitno); tminutibitno.setText("Minuti bitno " + minutiBitno);
+        internetBitno = sharedPreferences.getInt("InternetBitnost",0);internetSeek.setProgress(internetBitno); tinterbitno.setText("Internet bitno " + internetBitno);
+        romingBitno = sharedPreferences.getInt("RomingBitnost",0);romingSeek.setProgress(romingBitno); tromingbitno.setText("Roming bitno " + romingBitno);
+
+        kanaliBitno = sharedPreferences.getInt("KanaliBitnost",0); kanaliSeek.setProgress(kanaliBitno); tkanalibitno.setText("Kanali bitno " + kanaliBitno);
+        nazadBitno = sharedPreferences.getInt("NazadBitnost",0); nazadSeek.setProgress(nazadBitno); tnazadbitno.setText("Nazad bitno " + nazadBitno);
+        snimanjeBitno = sharedPreferences.getInt("SnimajBitnost",0); snimanjeSeek.setProgress(snimanjeBitno); tsnimbitno.setText("Snimanje bitno " + snimanjeBitno);
+
+        netBitno = sharedPreferences.getInt("NetBitnost",0); netSeek.setProgress(netBitno); tnetbitno.setText("Net bitno " + netBitno);
+        tvBitno = sharedPreferences.getInt("TvBitnost",0); tvSeek.setProgress(tvBitno); ttvbitno.setText("TV bitno " + tvBitno);
+        mobilniBitno = sharedPreferences.getInt("MobilniBitnost",0); mobilniSeek.setProgress(mobilniBitno); tmobilnibitno.setText("Mobilni bitno " + mobilniBitno);
     }
 
     //<editor-fold desc="listeneri">
@@ -162,41 +183,41 @@ public class PodesavanjeActivity extends AppCompatActivity {
             }
         };
 
-        boxb.setOnSeekBarChangeListener(seekBarChangeListener);
-        mobb.setOnSeekBarChangeListener(seekBarChangeListener);
-        tvb.setOnSeekBarChangeListener(seekBarChangeListener);
-        netb.setOnSeekBarChangeListener(seekBarChangeListener);
+        boxSeek.setOnSeekBarChangeListener(seekBarChangeListener);
+        mobilniSeek.setOnSeekBarChangeListener(seekBarChangeListener);
+        tvSeek.setOnSeekBarChangeListener(seekBarChangeListener);
+        netSeek.setOnSeekBarChangeListener(seekBarChangeListener);
 
-        minb.setOnSeekBarChangeListener(seekBarChangeListener);
-        porb.setOnSeekBarChangeListener(seekBarChangeListener);
-        romb.setOnSeekBarChangeListener(seekBarChangeListener);
-        interb.setOnSeekBarChangeListener(seekBarChangeListener);
+        minutiSeek.setOnSeekBarChangeListener(seekBarChangeListener);
+        porukeSeek.setOnSeekBarChangeListener(seekBarChangeListener);
+        romingSeek.setOnSeekBarChangeListener(seekBarChangeListener);
+        internetSeek.setOnSeekBarChangeListener(seekBarChangeListener);
 
-        kanb.setOnSeekBarChangeListener(seekBarChangeListener);
-        snimb.setOnSeekBarChangeListener(seekBarChangeListener);
-        nazb.setOnSeekBarChangeListener(seekBarChangeListener);
-        hbob.setOnSeekBarChangeListener(seekBarChangeListener);
+        kanaliSeek.setOnSeekBarChangeListener(seekBarChangeListener);
+        snimanjeSeek.setOnSeekBarChangeListener(seekBarChangeListener);
+        nazadSeek.setOnSeekBarChangeListener(seekBarChangeListener);
+        hboSeek.setOnSeekBarChangeListener(seekBarChangeListener);
 
     }
     //</editor-fold>
 
     //<editor-fold desc="citanje">
-    private void preuzmiTekst() {
+    private void preuzmiTekst()
+    {
+        boxBitno = boxSeek.getProgress();
+        mobilniBitno = mobilniSeek.getProgress();
+        tvBitno = tvSeek.getProgress();
+        internetBitno = internetSeek.getProgress();
 
-        bb = boxb.getProgress();
-        mb = mobb.getProgress();
-        tb = tvb.getProgress();
-        intb = interb.getProgress();
+        minutiBitno = minutiSeek.getProgress();
+        porukeBitno = porukeSeek.getProgress();
+        netBitno = netSeek.getProgress();
+        romingBitno = romingSeek.getProgress();
 
-        mib = minb.getProgress();
-        pb = porb.getProgress();
-        nb = netb.getProgress();
-        rb = romb.getProgress();
-
-        kb = kanb.getProgress();
-        nab = nazb.getProgress();
-        sb = snimb.getProgress();
-        hb = hbob.getProgress();
+        kanaliBitno = kanaliSeek.getProgress();
+        nazadBitno = nazadSeek.getProgress();
+        snimanjeBitno = snimanjeSeek.getProgress();
+        hboBitno = hboSeek.getProgress();
 
     }
     //</editor-fold>
@@ -220,18 +241,18 @@ public class PodesavanjeActivity extends AppCompatActivity {
 
     private void saveAll()
     {
-        saveInt("BoxBitnost",bb);
-        saveInt("MobilniBitnost",mb);
-        saveInt("TvBitnost",tb);
-        saveInt("NetBitnost",intb);
-        saveInt("MinutiBitnost",mib);
-        saveInt("PorukeBitnost",pb);
-        saveInt("InternetBitnost",nb);
-        saveInt("RomingBitnost",rb);
-        saveInt("KanaliBitnost",kb);
-        saveInt("NazadBitnost",nab);
-        saveInt("SnimajBitnost",sb);
-        saveInt("HboBitnost",hb);
+        saveInt("BoxBitnost",boxBitno);
+        saveInt("MobilniBitnost",mobilniBitno);
+        saveInt("TvBitnost",tvBitno);
+        saveInt("NetBitnost",internetBitno);
+        saveInt("MinutiBitnost",minutiBitno);
+        saveInt("PorukeBitnost",porukeBitno);
+        saveInt("InternetBitnost",netBitno);
+        saveInt("RomingBitnost",romingBitno);
+        saveInt("KanaliBitnost",kanaliBitno);
+        saveInt("NazadBitnost",nazadBitno);
+        saveInt("SnimajBitnost",snimanjeBitno);
+        saveInt("HboBitnost",hboBitno);
         saveBool("sound",sound);
         saveBool("mic",mic);
     }
@@ -279,45 +300,45 @@ public class PodesavanjeActivity extends AppCompatActivity {
     private void init()
     {
         //seek bars
-        boxb = (SeekBar)findViewById(R.id.boxBitno);
-        mobb= (SeekBar)findViewById(R.id.mobilniBitno);
-        tvb = (SeekBar)findViewById(R.id.tvBitno);
-        interb = (SeekBar)findViewById(R.id.netBitno);
+        boxSeek = (SeekBar)findViewById(R.id.boxBitno);
+        mobilniSeek= (SeekBar)findViewById(R.id.mobilniBitno);
+        tvSeek = (SeekBar)findViewById(R.id.tvBitno);
+        internetSeek = (SeekBar)findViewById(R.id.netBitno);
 
-        minb = (SeekBar)findViewById(R.id.minutiBitno);
-        porb = (SeekBar)findViewById(R.id.porukeBitno);
-        netb = (SeekBar)findViewById(R.id.internetBitno);
-        romb = (SeekBar)findViewById(R.id.romingBitno);
+        minutiSeek = (SeekBar)findViewById(R.id.minutiBitno);
+        porukeSeek = (SeekBar)findViewById(R.id.porukeBitno);
+        netSeek = (SeekBar)findViewById(R.id.internetBitno);
+        romingSeek = (SeekBar)findViewById(R.id.romingBitno);
 
-        kanb= (SeekBar)findViewById(R.id.kanaliBitno);
-        nazb = (SeekBar)findViewById(R.id.nazadBitno);
-        snimb = (SeekBar)findViewById(R.id.snimanjeBitno);
-        hbob = (SeekBar)findViewById(R.id.hboBitno);
+        kanaliSeek= (SeekBar)findViewById(R.id.kanaliBitno);
+        nazadSeek = (SeekBar)findViewById(R.id.nazadBitno);
+        snimanjeSeek = (SeekBar)findViewById(R.id.snimanjeBitno);
+        hboSeek = (SeekBar)findViewById(R.id.hboBitno);
 
-        boxb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        boxb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        mobb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        mobb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        tvb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        tvb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        interb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        interb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        minb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        minb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        porb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        porb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        netb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        netb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        romb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        romb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        kanb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        kanb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        nazb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        nazb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        snimb.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        snimb.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        hbob.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
-        hbob.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        boxSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        boxSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        mobilniSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        mobilniSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        tvSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        tvSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        internetSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        internetSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        minutiSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        minutiSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        porukeSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        porukeSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        netSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        netSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        romingSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        romingSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        kanaliSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        kanaliSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        nazadSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        nazadSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        snimanjeSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        snimanjeSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        hboSeek.getProgressDrawable().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
+        hboSeek.getThumb().setColorFilter(Color.parseColor("#B20D29"), PorterDuff.Mode.SRC_IN);
 
 
         //text views
