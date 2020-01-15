@@ -146,7 +146,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private TextToSpeech mTTS;
 
     int porukeBitnost,minutiBitnost,internetBitnost,romingBitnost;
-    int kanaliBitnost,nazadBitnost,snimanjeBitnost,bhbo;
+    int kanaliBitnost,nazadBitnost,snimanjeBitnost,hboBitnost;
     int intb;
 
     int mobilniBitnost,tvBitnost;
@@ -392,9 +392,31 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         if(tip==1)
         {
             Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,minutiRez,porukeRez,internetRez,romingRez,
-                    porukeBitnost,minutiBitnost,internetBitnost,romingBitnost,brzinaRez,4,kanaliRez,nazadRez,snimajRez,hboRez,kanaliBitnost,nazadBitnost,snimanjeBitnost,mobilniBitnost,tvBitnost,netBitnost);
+                    porukeBitnost,minutiBitnost,internetBitnost,romingBitnost,brzinaRez,4,kanaliRez,nazadRez,snimajRez,hboRez,kanaliBitnost,nazadBitnost,snimanjeBitnost,hboBitnost,mobilniBitnost,tvBitnost,netBitnost);
             int [] score = algoritam.runAlgo();
             List<Pair<BoxPaket,Integer>>  sortiraniPaketi = new ArrayList<Pair<BoxPaket,Integer>>();
+
+            int lo = 10000;
+            int hi = -100000;
+
+            for(int i = 0;i<boxPaketi.size();i++)
+            {
+                lo = Math.min(lo,score[i]);
+                hi = Math.max(hi,score[i]);
+            }
+
+            lo = lo - 5;
+
+            int razlika = hi-lo;
+
+            for(int i=0;i<boxPaketi.size();i++)
+            {
+                int rr = hi-score[i];
+                int xx = (10*rr)/razlika;
+                score[i] = xx;
+            }
+
+
             for(int i=0;i<boxPaketi.size();i++)
             {
                 sortiraniPaketi.add(new Pair<BoxPaket, Integer>(boxPaketi.get(i),score[i]));
@@ -437,7 +459,29 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         {
             AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,minutiRez,porukeRez,internetRez,romingRez,porukeBitnost,minutiBitnost,internetBitnost,romingBitnost);
             int [] score = amob.runAlgo();
+            double [] scd = new double[mobilniPaketi.size()];
             List<Pair<PaketMobilni,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketMobilni,Integer>>();
+
+            int lo = 10000;
+            int hi = -100000;
+
+            for(int i = 0;i<mobilniPaketi.size();i++)
+            {
+                lo = Math.min(lo,score[i]);
+                hi = Math.max(hi,score[i]);
+            }
+
+            lo = lo - 5;
+
+            int razlika = hi-lo;
+
+            for(int i=0;i<mobilniPaketi.size();i++)
+            {
+                int rr = hi-score[i];
+                int xx = (10*rr)/razlika;
+                score[i] = xx;
+            }
+
 
             for(int i=0;i<mobilniPaketi.size();i++)
             {
@@ -479,10 +523,31 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         }
         else if(tip==3)
         {
-            AlgoritamTV atv = new AlgoritamTV(tvPaketi,kanaliRez,nazadRez,snimajRez,hboRez,kanaliBitnost,nazadBitnost,snimanjeBitnost);
+            AlgoritamTV atv = new AlgoritamTV(tvPaketi,kanaliRez,nazadRez,snimajRez,hboRez,kanaliBitnost,nazadBitnost,snimanjeBitnost,hboBitnost);
             int [] score = atv.runAlgo();
             List<Pair<PaketTV,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketTV,Integer>>();
-            for(int i=0;i<mobilniPaketi.size();i++)
+
+            int lo = 10000;
+            int hi = -100000;
+
+            for(int i = 0;i<tvPaketi.size();i++)
+            {
+                lo = Math.min(lo,score[i]);
+                hi = Math.max(hi,score[i]);
+            }
+
+            lo = lo - 5;
+
+            int razlika = hi-lo;
+
+            for(int i=0;i<tvPaketi.size();i++)
+            {
+                int rr = hi-score[i];
+                int xx = (10*rr)/razlika;
+                score[i] = xx;
+            }
+
+            for(int i=0;i<tvPaketi.size();i++)
             {
                 sortiraniPaketi.add(new Pair<PaketTV, Integer>(tvPaketi.get(i),score[i]));
             }
@@ -526,7 +591,28 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             AlgoritamNet anet = new AlgoritamNet(netPaketi,brzinaRez,4);
             int [] score = anet.runAlgo();
             List<Pair<PaketNet,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketNet,Integer>>();
-            for(int i=0;i<mobilniPaketi.size();i++)
+
+            int lo = 10000;
+            int hi = -100000;
+
+            for(int i = 0;i<netPaketi.size();i++)
+            {
+                lo = Math.min(lo,score[i]);
+                hi = Math.max(hi,score[i]);
+            }
+
+            lo = lo - 5;
+
+            int razlika = hi-lo;
+
+            for(int i=0;i<netPaketi.size();i++)
+            {
+                int rr = hi-score[i];
+                int xx = (10*rr)/razlika;
+                score[i] = xx;
+            }
+
+            for(int i=0;i<netPaketi.size();i++)
             {
                 sortiraniPaketi.add(new Pair<PaketNet, Integer>(netPaketi.get(i),score[i]));
             }
@@ -579,6 +665,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         kanaliBitnost = sharedPreferences.getInt("KanaliBitnost",0);
         nazadBitnost = sharedPreferences.getInt("NazadBitnost",0);
         snimanjeBitnost = sharedPreferences.getInt("SnimajBitnost",0);
+        hboBitnost = sharedPreferences.getInt("HboBitnost",0);
 
         netBitnost = sharedPreferences.getInt("NetBitnost",0);
         tvBitnost = sharedPreferences.getInt("TvBitnost",0);

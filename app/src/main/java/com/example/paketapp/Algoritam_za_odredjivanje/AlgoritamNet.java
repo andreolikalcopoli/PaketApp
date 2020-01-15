@@ -11,16 +11,16 @@ public class AlgoritamNet
     ArrayList<PaketNet> paketi;
     int score[];
     boolean kriterijumi[][];
-    int bitnob;
+    int brzinaBitnost;
     int brzina;
 
-    public AlgoritamNet(ArrayList<PaketNet> paketi,int brzina,int bitnob)
+    public AlgoritamNet(ArrayList<PaketNet> paketi,int brzina,int brzinaBitnost)
     {
         this.paketi=paketi;
         score = new int[paketi.size()];
         kriterijumi = new boolean[paketi.size()][10];
         this.brzina = brzina;
-        this.bitnob=bitnob;
+        this.brzinaBitnost=brzinaBitnost;
        // Arrays.fill(kriterijumi, false);
         Arrays.fill(score, 0);
     }
@@ -44,8 +44,8 @@ public class AlgoritamNet
             //ukljuci i cenu u algoritam
 
             int sc = 0;
-
-            sc += (kriterijumi[i][0]) ? (bitnob) : (-bitnob);
+            sc = sc - p.getCena();
+            sc += (kriterijumi[i][0]) ? (brzinaBitnost) : (-brzinaBitnost);
 
             score[i] = sc;
         }
@@ -78,11 +78,11 @@ public class AlgoritamNet
     }
 
     public int getBitnob() {
-        return bitnob;
+        return brzinaBitnost;
     }
 
-    public void setBitnob(int bitnob) {
-        this.bitnob = bitnob;
+    public void setBitnob(int brzinaBitnost) {
+        this.brzinaBitnost = brzinaBitnost;
     }
 
     public int getBrzina() {

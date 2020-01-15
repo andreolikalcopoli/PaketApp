@@ -10,26 +10,26 @@ public class AlgoritamMobilni
     ArrayList<PaketMobilni> paketi;
     int score[];
     boolean kriterijumi[][];
-    int minuti;
-    int poruke;
-    int net;
+    int minutiMesecno;
+    int porukeMesecno;
+    int internetMesecno;
     boolean roming;
-    int bitnop;
-    int bitnom;
-    int bitnon;
-    int bitnor;
+    int porukeBitnost;
+    int minutiBitno;
+    int internetBitnost;
+    int romingBitnost;
 
-    public AlgoritamMobilni(ArrayList<PaketMobilni> pak,int minuti,int poruke,int net,boolean roming,
-           int bitnop,int bitnom,int bitnon,int bitnor)
+    public AlgoritamMobilni(ArrayList<PaketMobilni> pak,int minutiMesecno,int porukeMesecno,int internetMesecno,boolean roming,
+           int porukeBitnost,int minutiBitno,int internetBitnost,int romingBitnost)
     {
-        this.bitnop = bitnop;
-        this.bitnon = bitnon;
-        this.bitnom = bitnom;
-        this.bitnor = bitnor;
+        this.porukeBitnost = porukeBitnost;
+        this.internetBitnost = internetBitnost;
+        this.minutiBitno = minutiBitno;
+        this.romingBitnost = romingBitnost;
         this.paketi = pak;
-        this.minuti = minuti;
-        this.poruke = poruke;
-        this.net = net;
+        this.minutiMesecno = minutiMesecno;
+        this.porukeMesecno = porukeMesecno;
+        this.internetMesecno = internetMesecno;
         this.roming = roming;
         kriterijumi = new boolean[pak.size()][10];
         score = new int[pak.size()];
@@ -46,9 +46,9 @@ public class AlgoritamMobilni
         for(int i=0;i< paketi.size();i++)
         {
             PaketMobilni p = paketi.get(i);
-            if(p.getSms()>=poruke) kriterijumi[i][0] = true;
-            if(p.getMinuti()>=minuti) kriterijumi[i][1] = true;
-            if(p.getInternet()>=net) kriterijumi[i][2] = true;
+            if(p.getSms()>=porukeMesecno) kriterijumi[i][0] = true;
+            if(p.getMinuti()>=minutiMesecno) kriterijumi[i][1] = true;
+            if(p.getInternet()>=internetMesecno) kriterijumi[i][2] = true;
             kriterijumi[i][3] = ((p.getMinutiRoming() > 0) == roming);
             //todo
             //zavrsi
@@ -56,10 +56,11 @@ public class AlgoritamMobilni
 
 
             int sc = 0;
-            sc+=(kriterijumi[i][0]) ? (bitnop) : (-bitnop);
-            sc+=(kriterijumi[i][1]) ? (bitnom) : (-bitnom);
-            sc+=(kriterijumi[i][2]) ? (bitnon) : (-bitnon);
-            sc+=(kriterijumi[i][3]) ? (bitnor) : (-bitnor);
+            sc = sc - p.getCena();
+            sc+=(kriterijumi[i][0]) ? (porukeBitnost) : (-porukeBitnost);
+            sc+=(kriterijumi[i][1]) ? (minutiBitno) : (-minutiBitno);
+            sc+=(kriterijumi[i][2]) ? (internetBitnost) : (-internetBitnost);
+            sc+=(kriterijumi[i][3]) ? (romingBitnost) : (-romingBitnost);
 
             score[i] = sc;
         }
@@ -85,27 +86,27 @@ public class AlgoritamMobilni
     }
 
     public int getMinuti() {
-        return minuti;
+        return minutiMesecno;
     }
 
-    public void setMinuti(int minuti) {
-        this.minuti = minuti;
+    public void setMinuti(int minutiMesecno) {
+        this.minutiMesecno = minutiMesecno;
     }
 
     public int getPoruke() {
-        return poruke;
+        return porukeMesecno;
     }
 
-    public void setPoruke(int poruke) {
-        this.poruke = poruke;
+    public void setPoruke(int porukeMesecno) {
+        this.porukeMesecno = porukeMesecno;
     }
 
     public int getNet() {
-        return net;
+        return internetMesecno;
     }
 
-    public void setNet(int net) {
-        this.net = net;
+    public void setNet(int internetMesecno) {
+        this.internetMesecno = internetMesecno;
     }
 
     public boolean isRoming() {

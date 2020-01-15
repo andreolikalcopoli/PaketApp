@@ -13,92 +13,94 @@ public class Algoritam
     ArrayList<PaketMobilni> paketiMob;
     ArrayList<PaketNet> paketiNet;
 
-    int brKanala;
-    int  unazad;
+    int brojKanala;
+    int  nazad;
     boolean snimanje;
     boolean hbo;
-    int bitnok;
-    int bitnon;
-    int bitnos;
+    int kanaliBitnost;
+    int internetBitnost;
+    int snimanjeBitnost;
 
-    int minuti;
-    int poruke;
-    int net;
+    int minutiMesecno;
+    int porukeMesecno;
+    int internetMesecno;
     boolean roming;
-    int bitnop;
-    int bitnom;
-    int bitnona;
-    int bitnor;
+    int porukeBitnost;
+    int minutiBitnost;
+    int nazadBitnost;
+    int romingBitnost;
 
-    int bitnob;
+    int brzinaBitnost;
     int brzina;
 
-    int bitanmob,bitantv,bitannet;
+    int mobilniBitno,tvBitnost,netBitnost;
 
     public int [] scoremob;
     public int [] scorenet;
     public int [] scoretv;
     public int [] scorebox;
+    int hboBitnost;
 
     public Algoritam(ArrayList<PaketTV> paketiTV, ArrayList<PaketMobilni> paketiMob, ArrayList<PaketNet> paketiNet,
-      int minutiDnevno,int porukeDnevno,int gbDnevno,boolean roming, int bitnop,int bitnom,int bitnon,int bitnor,
-                     int brzina,int bitnob,
-                     int brKanala,int unazad,boolean snimanje,boolean hbo, int bitnok,int bitnona,int bitnos,
-                     int bitanmob,int bitantv,int bitannet)
+      int minutiMesecno,int porukeDnevno,int internetMesecno,boolean roming, int porukeBitnost,int minutiBitnost,int internetBitnost,int romingBitnost,
+                     int brzina,int brzinaBitnost,
+                     int brojKanala,int nazad,boolean snimanje,boolean hbo, int kanaliBitnost,int nazadBitnost,int snimanjeBitnost,int hboBitnost,
+                     int mobilniBitno,int tvBitnost,int netBitnost)
     {
         this.paketiTV = paketiTV;
         this.paketiMob = paketiMob;
         this.paketiNet = paketiNet;
 
-        this.brKanala = brKanala;
-        this.unazad= unazad;
+        this.brojKanala = brojKanala;
+        this.nazad= nazad;
         this.snimanje = snimanje;
         this.hbo = hbo;
-        this.bitnok = bitnok;
-        this.bitnona = bitnona;
-        this.bitnos = bitnos;
+        this.kanaliBitnost = kanaliBitnost;
+        this.nazadBitnost = nazadBitnost;
+        this.snimanjeBitnost = snimanjeBitnost;
+        this.hboBitnost = hboBitnost;
 
-        this.bitnop = bitnop;
-        this.bitnon = bitnon;
-        this.bitnom = bitnom;
-        this.bitnor = bitnor;
-        this.minuti = minutiDnevno;
-        this.poruke = porukeDnevno;
-        this.net = gbDnevno;
+        this.porukeBitnost = porukeBitnost;
+        this.internetBitnost = internetBitnost;
+        this.minutiBitnost = minutiBitnost;
+        this.romingBitnost = romingBitnost;
+        this.minutiMesecno = minutiMesecno;
+        this.porukeMesecno = porukeDnevno;
+        this.internetMesecno = internetMesecno;
         this.roming = roming;
 
         this.brzina = brzina;
-        this.bitnob=bitnob;
+        this.brzinaBitnost=brzinaBitnost;
 
-        this.bitanmob = bitanmob;
-        this.bitannet = bitannet;
-        this.bitantv=bitantv;
+        this.mobilniBitno = mobilniBitno;
+        this.netBitnost = netBitnost;
+        this.tvBitnost=tvBitnost;
 
         scorebox= new int[40];
     }
 
     public int [] runAlgo()
     {
-        AlgoritamMobilni amob = new AlgoritamMobilni(paketiMob,minuti,poruke,net,roming,bitnop,bitnom,bitnon,bitnor);
-        AlgoritamNet alnet = new AlgoritamNet(paketiNet,brzina,bitnob);
-        AlgoritamTV altv = new AlgoritamTV(paketiTV,brKanala,unazad,snimanje,hbo,bitnok,bitnona,bitnos);
+        AlgoritamMobilni amob = new AlgoritamMobilni(paketiMob,minutiMesecno,porukeMesecno,internetMesecno,roming,porukeBitnost,minutiBitnost,internetBitnost,romingBitnost);
+        AlgoritamNet alnet = new AlgoritamNet(paketiNet,brzina,brzinaBitnost);
+        AlgoritamTV altv = new AlgoritamTV(paketiTV,brojKanala,nazad,snimanje,hbo,kanaliBitnost,nazadBitnost,snimanjeBitnost,hboBitnost);
         scoremob  = amob.runAlgo();
         scorenet = alnet.runAlgo();
         scoretv = altv.runAlgo();
 
         for(int i=0;i<paketiMob.size();i++)
         {
-            scoremob[i] = scoremob[i]*(bitanmob);
+            scoremob[i] = scoremob[i]*(mobilniBitno);
         }
 
         for(int i=0;i<paketiNet.size();i++)
         {
-            scorenet[i] = scorenet[i]*(bitannet);
+            scorenet[i] = scorenet[i]*(netBitnost);
         }
 
         for(int i=0;i<paketiTV.size();i++)
         {
-            scoretv[i] = scoretv[i]*bitantv;
+            scoretv[i] = scoretv[i]*tvBitnost;
         }
 
         scorebox[0] = scoremob[0] + scoretv[0] + scorenet[0];
@@ -134,19 +136,19 @@ public class Algoritam
     }
 
     public int getBrKanala() {
-        return brKanala;
+        return brojKanala;
     }
 
-    public void setBrKanala(int brKanala) {
-        this.brKanala = brKanala;
+    public void setBrKanala(int brojKanala) {
+        this.brojKanala = brojKanala;
     }
 
     public int getUnazad() {
-        return unazad;
+        return nazad;
     }
 
-    public void setUnazad(int unazad) {
-        this.unazad = unazad;
+    public void setUnazad(int nazad) {
+        this.nazad = nazad;
     }
 
     public boolean isSnimanje() {
@@ -166,51 +168,51 @@ public class Algoritam
     }
 
     public int getBitnok() {
-        return bitnok;
+        return kanaliBitnost;
     }
 
-    public void setBitnok(int bitnok) {
-        this.bitnok = bitnok;
+    public void setBitnok(int kanaliBitnost) {
+        this.kanaliBitnost = kanaliBitnost;
     }
 
     public int getBitnon() {
-        return bitnon;
+        return internetBitnost;
     }
 
-    public void setBitnon(int bitnon) {
-        this.bitnon = bitnon;
+    public void setBitnon(int internetBitnost) {
+        this.internetBitnost = internetBitnost;
     }
 
     public int getBitnos() {
-        return bitnos;
+        return snimanjeBitnost;
     }
 
-    public void setBitnos(int bitnos) {
-        this.bitnos = bitnos;
+    public void setBitnos(int snimanjeBitnost) {
+        this.snimanjeBitnost = snimanjeBitnost;
     }
 
     public int getMinuti() {
-        return minuti;
+        return minutiMesecno;
     }
 
-    public void setMinuti(int minuti) {
-        this.minuti = minuti;
+    public void setMinuti(int minutiMesecno) {
+        this.minutiMesecno = minutiMesecno;
     }
 
     public int getPoruke() {
-        return poruke;
+        return porukeMesecno;
     }
 
-    public void setPoruke(int poruke) {
-        this.poruke = poruke;
+    public void setPoruke(int porukeMesecno) {
+        this.porukeMesecno = porukeMesecno;
     }
 
     public int getNet() {
-        return net;
+        return internetMesecno;
     }
 
-    public void setNet(int net) {
-        this.net = net;
+    public void setNet(int internetMesecno) {
+        this.internetMesecno = internetMesecno;
     }
 
     public boolean isRoming() {
@@ -222,43 +224,43 @@ public class Algoritam
     }
 
     public int getBitnop() {
-        return bitnop;
+        return porukeBitnost;
     }
 
-    public void setBitnop(int bitnop) {
-        this.bitnop = bitnop;
+    public void setBitnop(int porukeBitnost) {
+        this.porukeBitnost = porukeBitnost;
     }
 
     public int getBitnom() {
-        return bitnom;
+        return minutiBitnost;
     }
 
-    public void setBitnom(int bitnom) {
-        this.bitnom = bitnom;
+    public void setBitnom(int minutiBitnost) {
+        this.minutiBitnost = minutiBitnost;
     }
 
     public int getBitnona() {
-        return bitnona;
+        return nazadBitnost;
     }
 
-    public void setBitnona(int bitnona) {
-        this.bitnona = bitnona;
+    public void setBitnona(int nazadBitnost) {
+        this.nazadBitnost = nazadBitnost;
     }
 
     public int getBitnor() {
-        return bitnor;
+        return romingBitnost;
     }
 
-    public void setBitnor(int bitnor) {
-        this.bitnor = bitnor;
+    public void setBitnor(int romingBitnost) {
+        this.romingBitnost = romingBitnost;
     }
 
     public int getBitnob() {
-        return bitnob;
+        return brzinaBitnost;
     }
 
-    public void setBitnob(int bitnob) {
-        this.bitnob = bitnob;
+    public void setBitnob(int brzinaBitnost) {
+        this.brzinaBitnost = brzinaBitnost;
     }
 
     public int getBrzina() {
