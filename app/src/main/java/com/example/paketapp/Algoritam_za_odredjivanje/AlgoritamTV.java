@@ -52,9 +52,6 @@ public class AlgoritamTV
             kriterijumi[i][2] = (snimanje == p.isSnimanjeSadrzaja());
             boolean x = p.getVideoKlub().contains("Hbo");
             kriterijumi[i][3] = (x==hbo);
-            //todo
-            //zavrsi
-            //ukljuci i cenu u algoritam
 
             int sc = 0;
             sc = sc - p.getCena()/1000;
