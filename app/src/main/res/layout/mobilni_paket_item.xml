@@ -32,6 +32,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/imgOcena3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toStartOf="@+id/tCenaNet"
+                app:layout_constraintStart_toEndOf="@+id/tImeNet"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/circlered" />
+
+            <TextView
+                android:id="@+id/tvOcena3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imgOcena3"
+                app:layout_constraintEnd_toEndOf="@+id/imgOcena3"
+                app:layout_constraintStart_toStartOf="@+id/imgOcena3"
+                app:layout_constraintTop_toTopOf="@+id/imgOcena3" />
+
             <TextView
                 android:id="@+id/tCenaNet"
                 android:layout_width="wrap_content"
@@ -54,6 +77,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="30sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOcena3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

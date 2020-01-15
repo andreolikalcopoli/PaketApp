@@ -2,12 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.paketapp">
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
-    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PodesavanjeActivity"></activity>
+        <activity android:name=".PreporuceniPaketi"></activity>
+        <activity android:name=".PodesavanjeActivity" />
         <activity android:name=".SviPaketiActivity" />
         <activity android:name=".PaketActivity" />
         <activity android:name=".PrikazNetPaket" />
@@ -30,5 +25,11 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 </manifest>

@@ -24,10 +24,12 @@ import java.util.ArrayList;
 public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.BoxHolderr>{
     private Context context;
     private BoxPaket[] paketBox;
+    private ArrayList<Integer> ocene;
 
-    public BoxAdapter(Context context,BoxPaket[] paketBox) {
+    public BoxAdapter(Context context,BoxPaket[] paketBox,ArrayList<Integer> ocene) {
         this.context=context;
         this.paketBox = paketBox;
+        this.ocene=ocene;
     }
 
     @NonNull
@@ -47,6 +49,13 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.BoxHolderr>{
         viewHolder.tvMob.setText(paketBox[i].getPaketMobilni().getIme());
         viewHolder.tvTv.setText(paketBox[i].getPaketTV().getIme());
         viewHolder.tvNet.setText(paketBox[i].getPaketNet().getIme());
+        if(ocene.get(i)==0)
+        {
+            viewHolder.imgOcena.setVisibility(View.INVISIBLE);
+            viewHolder.tvOcena.setVisibility(View.INVISIBLE);
+        }
+        else
+            viewHolder.tvOcena.setText(String.valueOf(ocene.get(i)));
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,8 +73,9 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.BoxHolderr>{
     public static class BoxHolderr extends RecyclerView.ViewHolder{
 
         //Atributi koji se sastoje u grid_layout.
-        private TextView tvIme,tvCena,tvMob,tvTv,tvNet;
+        private TextView tvIme,tvCena,tvMob,tvTv,tvNet,tvOcena;
         private ConstraintLayout itemLayout;
+        private ImageView imgOcena;
 
         public BoxHolderr(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +84,8 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.BoxHolderr>{
             tvMob=(TextView)itemView.findViewById(R.id.tMobBox);
             tvTv=(TextView)itemView.findViewById(R.id.tTVBox);
             tvNet=(TextView)itemView.findViewById(R.id.tNetBox);
+            tvOcena=(TextView)itemView.findViewById(R.id.tvOcena4);
+            imgOcena=(ImageView)itemView.findViewById(R.id.imgOcena4);
             itemLayout=(ConstraintLayout)itemView.findViewById(R.id.box_item);
         }
     }

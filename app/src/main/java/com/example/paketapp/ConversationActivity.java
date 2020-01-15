@@ -155,6 +155,11 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private long netTotalDownload=0,netTotalUpload=0,netMobilniPodaciDownload=0,getNetMobilniPodaciUpload=0,vreme=0,
     totalPotroseno=0,totalPotrosenoMobilni=0,totalPotrosenoWifi=0,poDanuMob=0,poDanuWifi=0,poDanuTotal=0;
 
+    public static ArrayList<BoxPaket> boxeviPreporuci=new ArrayList<>();
+    public static ArrayList<PaketMobilni> mobilniPreporuci=new ArrayList<>();
+    public static ArrayList<PaketNet> netPreporuci=new ArrayList<>();
+    public static ArrayList<PaketTV> tvPreporuci=new ArrayList<>();
+
     private CountDownTimer t = new CountDownTimer(5000, 90000) {
         @Override
         public void onTick(long millisUntilFinished) {
@@ -419,11 +424,13 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 oceneprenos.add(sortiraniPaketi.get(i).second);
             }
 
-            Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
-            intent.putExtra("PaketiPrenos",paketiprenos);
+            boxeviPreporuci=paketiprenos;
+
+            Intent intent = new Intent(ConversationActivity.this,PreporuceniPaketi.class);
             intent.putExtra("Conversation","Conversation");
             intent.putExtra("Tip",1);
             intent.putExtra("OcenePrenos",oceneprenos);
+            startActivity(intent);
 
         }
         else if(tip==2)
@@ -461,11 +468,14 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 oceneprenos.add(sortiraniPaketi.get(i).second);
             }
 
-            Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
-            intent.putExtra("PaketiPrenos",paketiprenos);
+            mobilniPreporuci=paketiprenos;
+
+            Intent intent = new Intent(ConversationActivity.this,PreporuceniPaketi.class);
             intent.putExtra("Conversation","Conversation");
             intent.putExtra("Tip",2);
             intent.putExtra("OcenePrenos",oceneprenos);
+
+            startActivity(intent);
         }
         else if(tip==3)
         {
@@ -501,11 +511,14 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 oceneprenos.add(sortiraniPaketi.get(i).second);
             }
 
-            Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
-            intent.putExtra("PaketiPrenos",paketiprenos);
+            tvPreporuci=paketiprenos;
+
+            Intent intent = new Intent(ConversationActivity.this,PreporuceniPaketi.class);
             intent.putExtra("Conversation","Conversation");
             intent.putExtra("Tip",3);
             intent.putExtra("OcenePrenos",oceneprenos);
+
+            startActivity(intent);
 
         }
         else
@@ -542,12 +555,14 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 oceneprenos.add(sortiraniPaketi.get(i).second);
             }
 
-            Intent intent = new Intent(ConversationActivity.this,SviPaketiActivity.class);
-            intent.putExtra("PaketiPrenos",paketiprenos);
+            netPreporuci=paketiprenos;
+
+            Intent intent = new Intent(ConversationActivity.this,PreporuceniPaketi.class);
             intent.putExtra("Conversation","Conversation");
             intent.putExtra("Tip",4);
             intent.putExtra("OcenePrenos",oceneprenos);
 
+            startActivity(intent);
         }
     }
 

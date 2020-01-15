@@ -171,7 +171,11 @@ public class Tab1 extends Fragment {
         layoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        MobilniAdapter mobilniAdapter = new MobilniAdapter(getContext(),konvertuj());
+        ArrayList<Integer> oceneNema=new ArrayList<>(mobilniPaketi.size());
+        for(int i=0;i<mobilniPaketi.size();i++) {
+           oceneNema.add(0);
+        }
+        MobilniAdapter mobilniAdapter = new MobilniAdapter(getContext(),konvertuj(),oceneNema);
         recyclerView.setAdapter(mobilniAdapter);
     }
 
@@ -181,8 +185,9 @@ public class Tab1 extends Fragment {
     private PaketMobilni[] konvertuj()
     {
         paketMobilnis=new PaketMobilni[mobilniPaketi.size()];
-        for(int i=0;i<mobilniPaketi.size();i++)
-            paketMobilnis[i]=mobilniPaketi.get(i);
+        for(int i=0;i<mobilniPaketi.size();i++) {
+            paketMobilnis[i] = mobilniPaketi.get(i);
+        }
 
         return paketMobilnis;
     }

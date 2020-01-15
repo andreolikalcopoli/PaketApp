@@ -22,10 +22,12 @@ import java.util.ArrayList;
 public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvHolder>{
     private Context context;
     private PaketTV[] paketTV;
+    private ArrayList<Integer> ocene;
 
-    public TvAdapter(Context context,PaketTV[] paketTV) {
+    public TvAdapter(Context context,PaketTV[] paketTV,ArrayList<Integer> ocene) {
         this.context=context;
         this.paketTV = paketTV;
+        this.ocene=ocene;
     }
 
     @NonNull
@@ -48,6 +50,13 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvHolder>{
             viewHolder.tvHD.setText(String.valueOf(paketTV[i].getBrojHdKanala()));
             viewHolder.tvPauziranje.setText(paketTV[i].getPauziranje());
             viewHolder.tvSnimanje.setText(paketTV[i].getSnimanjeSadrzaja());
+            if(ocene.get(i)==0)
+            {
+                viewHolder.imgOcena.setVisibility(View.INVISIBLE);
+                viewHolder.tvOcena.setVisibility(View.INVISIBLE);
+            }
+            else
+                viewHolder.tvOcena.setText(String.valueOf(ocene.get(i)));
             viewHolder.tvUnazad.setText(String.valueOf(paketTV[i].getGledanjaNazad())+"h");
         } catch (Exception e) {
             Log.d("GRESKA",""+i + paketTV[i].getPauziranje());
@@ -81,8 +90,9 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvHolder>{
     public static class TvHolder extends RecyclerView.ViewHolder{
 
         //Atributi koji se sastoje u grid_layout.
-        private TextView tvIme,tvCena,tvUnazad,tvSnimanje,tvHD,tvVideoklub,tvBrojKanala,tvPauziranje;
+        private TextView tvIme,tvCena,tvUnazad,tvSnimanje,tvHD,tvVideoklub,tvBrojKanala,tvPauziranje,tvOcena;
         private ConstraintLayout itemLayout;
+        private ImageView imgOcena;
 
         public TvHolder(@NonNull View itemView) {
             super(itemView);
@@ -94,6 +104,8 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvHolder>{
             tvVideoklub=(TextView)itemView.findViewById(R.id.tVideoKlub);
             tvBrojKanala=(TextView)itemView.findViewById(R.id.tBrKanala);
             tvPauziranje=(TextView)itemView.findViewById(R.id.tPauziranje);
+            tvOcena=(TextView)itemView.findViewById(R.id.tvOcena);
+            imgOcena=(ImageView)itemView.findViewById(R.id.imgOcena);
             itemLayout=(ConstraintLayout)itemView.findViewById(R.id.tv_item);
         }
     }

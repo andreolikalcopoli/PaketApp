@@ -284,4 +284,28 @@
             app:layout_constraintTop_toBottomOf="@+id/tDinamicki" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <ImageView
+        android:id="@+id/imgOcena2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout3mob"
+        app:srcCompat="@drawable/circlered" />
+
+    <TextView
+        android:id="@+id/tvOcena2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="10"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imgOcena2"
+        app:layout_constraintEnd_toEndOf="@+id/imgOcena2"
+        app:layout_constraintStart_toStartOf="@+id/imgOcena2"
+        app:layout_constraintTop_toTopOf="@+id/imgOcena2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

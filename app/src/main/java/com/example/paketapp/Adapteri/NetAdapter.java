@@ -22,10 +22,12 @@ import java.util.ArrayList;
 public class NetAdapter extends RecyclerView.Adapter<NetAdapter.NetHolder>{
     private Context context;
     private PaketNet[] paketNet;
+    private ArrayList<Integer> ocene;
 
-    public NetAdapter(Context context,PaketNet[] paketNet) {
+    public NetAdapter(Context context,PaketNet[] paketNet,ArrayList<Integer> ocene) {
         this.context=context;
         this.paketNet = paketNet;
+        this.ocene=ocene;
     }
 
     @NonNull
@@ -47,6 +49,13 @@ public class NetAdapter extends RecyclerView.Adapter<NetAdapter.NetHolder>{
         viewHolder.tvDin.setText("Da");
         viewHolder.tvWifi.setText("Da");
         viewHolder.tvMail.setText("Da");
+        if(ocene.get(i)==0)
+        {
+            viewHolder.imgOcena.setVisibility(View.INVISIBLE);
+            viewHolder.tvOcena.setVisibility(View.INVISIBLE);
+        }
+        else
+            viewHolder.tvOcena.setText(String.valueOf(ocene.get(i)));
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,8 +73,9 @@ public class NetAdapter extends RecyclerView.Adapter<NetAdapter.NetHolder>{
     public static class NetHolder extends RecyclerView.ViewHolder{
 
         //Atributi koji se sastoje u grid_layout.
-        private TextView tvIme,tvCena,tvDown,tvUp,tvWifi,tvDin,tvMail;
+        private TextView tvIme,tvCena,tvDown,tvUp,tvWifi,tvDin,tvMail,tvOcena;
         private ConstraintLayout itemLayout;
+        private ImageView imgOcena;
 
         public NetHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +86,8 @@ public class NetAdapter extends RecyclerView.Adapter<NetAdapter.NetHolder>{
             tvWifi=(TextView)itemView.findViewById(R.id.tWifi);
             tvDin=(TextView)itemView.findViewById(R.id.tDinamicki);
             tvMail=(TextView)itemView.findViewById(R.id.tJedanMail);
+            tvOcena=(TextView)itemView.findViewById(R.id.tvOcena2);
+            imgOcena=(ImageView)itemView.findViewById(R.id.imgOcena2);
             itemLayout=(ConstraintLayout)itemView.findViewById(R.id.net_item);
         }
     }

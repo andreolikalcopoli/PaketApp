@@ -201,7 +201,11 @@ public class Tab3 extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        TvAdapter tvAdapter = new TvAdapter(getContext(),konvertuj());
+        ArrayList<Integer> oceneNema=new ArrayList<>(tvPaketi.size());
+        for(int i=0;i<tvPaketi.size();i++) {
+            oceneNema.add(0);
+        }
+        TvAdapter tvAdapter = new TvAdapter(getContext(),konvertuj(),oceneNema);
         recyclerView.setAdapter(tvAdapter);
     }
 }

@@ -267,7 +267,11 @@ public class Tab4 extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        BoxAdapter boxAdapter = new BoxAdapter(getContext(),konvertuj());
+        ArrayList<Integer> oceneNema=new ArrayList<>(boxPaketi.size());
+        for(int i=0;i<boxPaketi.size();i++) {
+            oceneNema.add(0);
+        }
+        BoxAdapter boxAdapter = new BoxAdapter(getContext(),konvertuj(),oceneNema);
         recyclerView.setAdapter(boxAdapter);
     }
 }

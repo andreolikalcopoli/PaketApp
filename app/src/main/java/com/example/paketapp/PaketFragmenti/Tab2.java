@@ -195,7 +195,11 @@ public class Tab2 extends Fragment {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 1);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        NetAdapter netAdapter = new NetAdapter(getContext(),konvertuj());
+        ArrayList<Integer> oceneNema=new ArrayList<>(netPaketi.size());
+        for(int i=0;i<netPaketi.size();i++) {
+            oceneNema.add(0);
+        }
+        NetAdapter netAdapter = new NetAdapter(getContext(),konvertuj(),oceneNema);
         recyclerView.setAdapter(netAdapter);
     }
 }
