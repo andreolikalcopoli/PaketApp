@@ -388,7 +388,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private void runAlgo(int tip)
     {
-        String birao = odgovori.get(0);
         if(tip==1)
         {
             Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,minutiRez,porukeRez,internetRez,romingRez,
@@ -413,7 +412,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             {
                 int rr = hi-score[i];
                 int xx = (10*rr)/razlika;
-                score[i] = xx;
+                score[i] = 10 - xx;
             }
 
 
@@ -426,8 +425,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 @Override
                 public int compare(Pair<BoxPaket, Integer> p1, Pair<BoxPaket, Integer> p2) {
 
-                    if(p1.second <= p2.second) return 1;
-                    return 0;
+                    if(p1.second < p2.second) return 0;
+                    return 1;
                 }
             });
 
@@ -457,9 +456,19 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         }
         else if(tip==2)
         {
+            Log.d("podaci mob paketi",String.valueOf(minutiRez));
+            Log.d("podaci mob paketi",String.valueOf(porukeRez));
+            Log.d("podaci mob paketi",String.valueOf(internetRez));
+            Log.d("podaci mob paketi",String.valueOf(romingRez));
+
             AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,minutiRez,porukeRez,internetRez,romingRez,porukeBitnost,minutiBitnost,internetBitnost,romingBitnost);
             int [] score = amob.runAlgo();
-            double [] scd = new double[mobilniPaketi.size()];
+
+            for(int i=0;i<mobilniPaketi.size();i++)
+            {
+                Log.d("Gotov alg",String.valueOf(score[i]));
+            }
+
             List<Pair<PaketMobilni,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketMobilni,Integer>>();
 
             int lo = 10000;
@@ -479,7 +488,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             {
                 int rr = hi-score[i];
                 int xx = (10*rr)/razlika;
-                score[i] = xx;
+                score[i] = 10 - xx;
             }
 
 
@@ -492,8 +501,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 @Override
                 public int compare(Pair<PaketMobilni, Integer> p1, Pair<PaketMobilni, Integer> p2) {
 
-                    if(p1.second <= p2.second) return 1;
-                    return 0;
+                    if(p1.second < p2.second) return 0;
+                    return 1;
                 }
             });
 
@@ -544,7 +553,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             {
                 int rr = hi-score[i];
                 int xx = (10*rr)/razlika;
-                score[i] = xx;
+                score[i] = 10 - xx;
             }
 
             for(int i=0;i<tvPaketi.size();i++)
@@ -556,8 +565,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 @Override
                 public int compare(Pair<PaketTV, Integer> p1, Pair<PaketTV, Integer> p2) {
 
-                    if(p1.second <= p2.second) return 1;
-                    return 0;
+                    if(p1.second < p2.second) return 0;
+                    return 1;
                 }
             });
 
@@ -609,7 +618,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             {
                 int rr = hi-score[i];
                 int xx = (10*rr)/razlika;
-                score[i] = xx;
+                score[i] = 10 - xx;
             }
 
             for(int i=0;i<netPaketi.size();i++)
@@ -621,8 +630,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 @Override
                 public int compare(Pair<PaketNet, Integer> p1, Pair<PaketNet, Integer> p2) {
 
-                    if(p1.second <= p2.second) return 1;
-                    return 0;
+                    if(p1.second < p2.second) return 0;
+                    return 1;
                 }
             });
 

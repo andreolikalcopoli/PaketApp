@@ -44,7 +44,7 @@ public class AlgoritamNet
             //ukljuci i cenu u algoritam
 
             int sc = 0;
-            sc = sc - p.getCena();
+            sc = sc - p.getCena()/1000;
             sc += (kriterijumi[i][0]) ? (brzinaBitnost) : (-brzinaBitnost);
 
             score[i] = sc;

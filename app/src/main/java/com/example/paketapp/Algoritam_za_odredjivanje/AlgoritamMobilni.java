@@ -1,5 +1,7 @@
 package com.example.paketapp.Algoritam_za_odredjivanje;
 
+import android.util.Log;
+
 import com.example.paketapp.Paketi.PaketMobilni;
 
 import java.util.ArrayList;
@@ -45,22 +47,19 @@ public class AlgoritamMobilni
 
         for(int i=0;i< paketi.size();i++)
         {
+            Log.d("Radi algoritam",String.valueOf(i));
             PaketMobilni p = paketi.get(i);
-            if(p.getSms()>=porukeMesecno) kriterijumi[i][0] = true;
-            if(p.getMinuti()>=minutiMesecno) kriterijumi[i][1] = true;
-            if(p.getInternet()>=internetMesecno) kriterijumi[i][2] = true;
-            kriterijumi[i][3] = ((p.getMinutiRoming() > 0) == roming);
-            //todo
-            //zavrsi
-            //ukljuci i cenu u algoritam
-
+            if(p.getSms()>=porukeMesecno) kriterijumi[i][0] = true; Log.d("Radi algoritam",String.valueOf(kriterijumi[i][0]));
+            if(p.getMinuti()>=minutiMesecno) kriterijumi[i][1] = true;Log.d("Radi algoritam",String.valueOf(kriterijumi[i][1]));
+            if(p.getInternet()>=internetMesecno) kriterijumi[i][2] = true;Log.d("Radi algoritam",String.valueOf(kriterijumi[i][2]));
+            kriterijumi[i][3] = ((p.getMinutiRoming() > 0) == roming);Log.d("Radi algoritam",String.valueOf(kriterijumi[i][3]));
 
             int sc = 0;
-            sc = sc - p.getCena();
-            sc+=(kriterijumi[i][0]) ? (porukeBitnost) : (-porukeBitnost);
-            sc+=(kriterijumi[i][1]) ? (minutiBitno) : (-minutiBitno);
-            sc+=(kriterijumi[i][2]) ? (internetBitnost) : (-internetBitnost);
-            sc+=(kriterijumi[i][3]) ? (romingBitnost) : (-romingBitnost);
+            sc = sc - p.getCena()/1000;  Log.d("Radi algoritam",String.valueOf(sc));
+            sc+=(kriterijumi[i][0]) ? (porukeBitnost) : (-porukeBitnost);   Log.d("Radi algoritam",String.valueOf(sc));
+            sc+=(kriterijumi[i][1]) ? (minutiBitno) : (-minutiBitno); Log.d("Radi algoritam",String.valueOf(sc));
+            sc+=(kriterijumi[i][2]) ? (internetBitnost) : (-internetBitnost); Log.d("Radi algoritam",String.valueOf(sc));
+            sc+=(kriterijumi[i][3]) ? (romingBitnost) : (-romingBitnost); Log.d("Radi algoritam",String.valueOf(sc));
 
             score[i] = sc;
         }

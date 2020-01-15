@@ -57,7 +57,7 @@ public class AlgoritamTV
             //ukljuci i cenu u algoritam
 
             int sc = 0;
-            sc = sc - p.getCena();
+            sc = sc - p.getCena()/1000;
             sc+=(kriterijumi[i][0]) ? (kanaliBitnost) : (-kanaliBitnost);
             sc+=(kriterijumi[i][1]) ? (nazadBitnost) : (-nazadBitnost);
             sc+=(kriterijumi[i][2]) ? (snimanjeBitnost) : (-snimanjeBitnost);
