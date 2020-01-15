@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -43,6 +47,9 @@ public class Tab1 extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<PaketMobilni> mobilniPaketi=new ArrayList<>();
     private PaketMobilni[] paketMobilnis=new PaketMobilni[9];
+    private ScrollView mScrollView;
+    private FrameLayout mWrapperFL;
+    private ImageView mPhotoIV;
 
     private OnFragmentInteractionListener mListener;
 
@@ -88,11 +95,37 @@ public class Tab1 extends Fragment {
 
         napraviPakete();
 
-        recyclerView=(RecyclerView)view.findViewById(R.id.recMobilni);
+        recyclerView=(RecyclerView)view.findViewById(R.id.recMobilnic);
+
+        mScrollView = (ScrollView) view.findViewById(R.id.scrollViewc);
+        mPhotoIV = (ImageView) view.findViewById(R.id.imageView5c);
+        mWrapperFL = (FrameLayout) view.findViewById(R.id.flWrapperc);
+
+        mScrollView.getViewTreeObserver().addOnScrollChangedListener(new Tab1.ScrollPositionObserver());
 
         setRecycler();
 
         return view;
+    }
+
+    private class ScrollPositionObserver implements ViewTreeObserver.OnScrollChangedListener {
+
+        private int mImageViewHeight;
+
+        public ScrollPositionObserver() {
+            mImageViewHeight = getResources().getDimensionPixelSize(R.dimen.contact_photo_height);
+        }
+
+        @Override
+        public void onScrollChanged() {
+            int scrollY = Math.min(Math.max(mScrollView.getScrollY(), 0), mImageViewHeight);
+
+            // changing position of ImageView
+            mPhotoIV.setTranslationY(scrollY / 3);
+
+            // alpha you could set to ActionBar background
+            float alpha = scrollY / (float) mImageViewHeight;
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -3,11 +3,9 @@ package com.example.paketapp.Adapteri;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,19 +60,6 @@ public class MobilniAdapter extends RecyclerView.Adapter<MobilniAdapter.MobilniH
             viewHolder.tvSms.setText(String.valueOf(paketMobilni[i].getSms()));
         viewHolder.tvPlusGb.setText(paketMobilni[i].getJosJedanGbZaKupovinu());
         viewHolder.tvPorukeRom.setText(paketMobilni[i].getPorukeRoming());
-        if (i > 1 && i < 5) {
-            viewHolder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.spruce));
-        } else if (i < 2) {
-            viewHolder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.morava));
-            viewHolder.tvIme.setTextColor(Color.WHITE);
-            viewHolder.tvCena.setTextColor(Color.WHITE);
-        } else {
-            viewHolder.itemLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.falcon));
-            setMargins(viewHolder.constraintLayout);
-            viewHolder.constraintLayout.setBackgroundColor(Color.parseColor("#99000000"));
-            viewHolder.tvIme.setTextColor(Color.WHITE);
-            viewHolder.tvCena.setTextColor(Color.WHITE);
-        }
         viewHolder.itemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,14 +68,6 @@ public class MobilniAdapter extends RecyclerView.Adapter<MobilniAdapter.MobilniH
             }
         });
     }
-
-    private void setMargins(ConstraintLayout constraintLayout)
-    {
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)constraintLayout.getLayoutParams();
-        params.setMargins(0, 48, 8, 24); //substitute parameters for left, top, right, bottom
-        constraintLayout.setLayoutParams(params);
-    }
-
     private String convertApps(ArrayList<String> apps){
         StringBuilder sb=new StringBuilder();
 
@@ -116,8 +93,8 @@ public class MobilniAdapter extends RecyclerView.Adapter<MobilniAdapter.MobilniH
 
         public MobilniHolderr(@NonNull View itemView) {
             super(itemView);
-            tvIme=(TextView)itemView.findViewById(R.id.tImeMob);
-            tvCena=(TextView)itemView.findViewById(R.id.tCenaMob);
+            tvIme=(TextView)itemView.findViewById(R.id.tImeNet);
+            tvCena=(TextView)itemView.findViewById(R.id.tCenaNet);
             tvMin=(TextView)itemView.findViewById(R.id.tMinMob);
             tvMinMreza=(TextView)itemView.findViewById(R.id.tMinMrezaMob);
             tvSms=(TextView)itemView.findViewById(R.id.tSmsMob);
