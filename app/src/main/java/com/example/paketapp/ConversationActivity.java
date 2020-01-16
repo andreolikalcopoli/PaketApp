@@ -89,6 +89,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     private String[] split;
 
+    int klik;
+
     private List<String> reci=Arrays.asList("poruka","minuta","interneta","net","roming","instagram","viber","whatsapp","facebook",
             "snimanje sadrzaja","snimanje sadržaja","gledanje unazad","gledanja unazad","snimanja sadržaja","hbo","broj kanala","kanala",
             "20/4","dvadeset kroz četiri","dvadeset kroz cetiri","pedeset kroz osam","sto kroz deset","dvesta kroz cetrdeset","dvesta kroz četrdeset","50/8","100/10","200/40");
@@ -225,6 +227,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             @Override
             public void onClick(View view) {
 
+                klik = 1;
                 alertDialog.dismiss();
 
             }
@@ -237,6 +240,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 razgovor=true;
                 getSpeechInput(view);
 
+                klik = 3;
+
                 alertDialog.dismiss();
             }
         });
@@ -245,6 +250,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             @Override
             public void onClick(View view) {
 
+                klik = 2;
                 dozvole();
 
                // saSvojimPodacima();
@@ -799,10 +805,10 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             @Override
             public void onClick(View v)
             {
-
                 uzmiBitnosti();
-                odradjenIntervju();
-
+                if(klik==1) odradjenIntervju();
+                else if(klik==2) saSvojimPodacima();
+                else uzmiPodatkeGovor();
             }
         });
         imgSettings.setOnClickListener(new View.OnClickListener() {
@@ -1179,7 +1185,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         ispisiProtumaceno();
     }
 
-    private void ispisiProtumaceno() {
+    private void ispisiProtumaceno()
+    {
         int duz;
         if(listaBrojeva.size()>listaReci.size())
             duz=listaReci.size();
@@ -1206,6 +1213,22 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         constraintLayout2.setVisibility(View.INVISIBLE);
         constraintLayout4.setVisibility(View.INVISIBLE);
         consPaketi.setVisibility(View.VISIBLE);
+
+        //uzmiPodatkeGovor();
+    }
+
+    private void uzmiPodatkeGovor()
+    {
+        String s1 = listaBrojeva.get(0);
+        String s2 = listaBrojeva.get(1);
+        String s3 = listaBrojeva.get(2);
+
+        minutiRez = Integer.valueOf(s1);
+        porukeRez = Integer.valueOf(s2);
+        internetRez = Integer.valueOf(s3);
+        romingRez = false;
+
+        runAlgo(2);
     }
 
     //</editor-fold>
