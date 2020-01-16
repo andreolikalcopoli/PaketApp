@@ -245,7 +245,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
                 dozvole();
 
-                saSvojimPodacima();
+               // saSvojimPodacima();
 
                 alertDialog.dismiss();
             }
@@ -647,6 +647,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             poziviPotrosnja();
             porukePotrosnja();
             internetPotrosnjaPoDanu();
+            saSvojimPodacima();
         }
 
     }
