@@ -383,7 +383,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
          minutiRez = (int)x;
          porukeRez = porukePotrosnja();
          romingRez = true;
-         runAlgo(1);
+         runAlgo(2);
     }
 
     private int [] srediOcene(int [] sc,int sz)
