@@ -1225,7 +1225,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
         minutiRez = Integer.valueOf(s1);
         porukeRez = Integer.valueOf(s2);
-        internetRez = Integer.valueOf(s3);
+        internetRez = Integer.valueOf(s3)*1024;
         romingRez = false;
 
         runAlgo(2);
