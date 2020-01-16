@@ -414,6 +414,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             int rr = hi-sc[i];
             int xx = (10*rr)/razlika;
             sc[i] = 10 - xx;
+            if(sc[i]==0) sc[i]=1;
         }
 
         return sc;
@@ -441,8 +442,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 @Override
                 public int compare(Pair<BoxPaket, Integer> p1, Pair<BoxPaket, Integer> p2) {
 
-                    if(p1.second < p2.second) return 0;
-                    return 1;
+                    if(p1.second < p2.second) return 1;
+                    else if(p1.second.equals(p2.second)) return 0;
+                    return -1;
                 }
             });
 
@@ -493,8 +495,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 @Override
                 public int compare(Pair<PaketMobilni, Integer> p1, Pair<PaketMobilni, Integer> p2) {
 
-                    if(p1.second < p2.second) return 0;
-                    return 1;
+                    if(p1.second < p2.second) return 1;
+                    else if(p1.second.equals(p2.second)) return 0;
+                    return -1;
                 }
             });
 
@@ -539,8 +542,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 @Override
                 public int compare(Pair<PaketTV, Integer> p1, Pair<PaketTV, Integer> p2) {
 
-                    if(p1.second < p2.second) return 0;
-                    return 1;
+                    if(p1.second < p2.second) return 1;
+                    else if(p1.second.equals(p2.second)) return 0;
+                    return -1;
                 }
             });
 
@@ -586,8 +590,9 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 @Override
                 public int compare(Pair<PaketNet, Integer> p1, Pair<PaketNet, Integer> p2) {
 
-                    if(p1.second < p2.second) return 0;
-                    return 1;
+                    if(p1.second < p2.second) return 1;
+                    else if(p1.second.equals(p2.second)) return 0;
+                    return -1;
                 }
             });
 
@@ -655,7 +660,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             poziviPotrosnja();
             porukePotrosnja();
             internetPotrosnjaPoDanu();
-            saSvojimPodacima();
+            //saSvojimPodacima();
         }
 
     }
@@ -737,7 +742,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         return cursor.getCount();
     }
 
-    public int poziviPotrosnja() {
+    public int poziviPotrosnja()
+    {
 
         int firstBound = 15778332;
         int secondBound = 15805116;
