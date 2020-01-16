@@ -36,6 +36,8 @@
                 android:id="@+id/imgOcena3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginBottom="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tCenaNet"
                 app:layout_constraintStart_toEndOf="@+id/tImeNet"
                 app:layout_constraintTop_toTopOf="parent"

@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.paketapp.Adapteri.BoxAdapter;
 import com.example.paketapp.Adapteri.MobilniAdapter;
@@ -19,22 +22,33 @@ import java.util.ArrayList;
 
 public class PreporuceniPaketi extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     private PaketTV[] tvs;
     private PaketNet[] nets;
     private PaketMobilni[] paketMobilnis;
     private BoxPaket[] boxs;
     private ArrayList<Integer> ocene=new ArrayList<>();
+    private Button btnNoviPaket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preporuceni_paketi);
+        getSupportActionBar().hide();
 
         recyclerView=(RecyclerView)findViewById(R.id.recPreporuka);
+        btnNoviPaket=(Button)findViewById(R.id.btnNoviPaket);
 
         ocene=getIntent().getIntegerArrayListExtra("OcenePrenos");
+
+        btnNoviPaket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(PreporuceniPaketi.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         switch (getIntent().getIntExtra("Tip",1)) {
             case 1: {
@@ -72,6 +86,8 @@ public class PreporuceniPaketi extends AppCompatActivity {
 
         }
     }
+
+    //<editor-fold desc="Konvertovanje">
     private PaketNet[] konvertujNet(ArrayList<PaketNet> netPaketi)
     {
         nets=new PaketNet[netPaketi.size()];
@@ -104,4 +120,5 @@ public class PreporuceniPaketi extends AppCompatActivity {
 
         return boxs;
     }
+    //</editor-fold>
 }

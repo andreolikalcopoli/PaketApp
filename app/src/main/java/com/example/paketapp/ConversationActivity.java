@@ -79,7 +79,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     //<editor-fold desc="Variables">
     private String channelID = "2JYnAoVFhHG0tBcn",roomName = "observable-room";
-    private String bitnost1,bitnost2,bitnost3,bitnost4;
     private Scaledrone scaledrone;
     private MessageAdapter messageAdapter;
     private ListView messagesView;
@@ -91,13 +90,16 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private String[] split;
 
     private List<String> reci=Arrays.asList("poruka","minuta","interneta","net","roming","instagram","viber","whatsapp","facebook",
-            "snimanje sadrzaja","gledanje unazad","gledanja unazad","snimanja sadrzaja","hbo","broj kanala","kanala",
-            "20/4","dvadeset kroz cetiri","pedeset kroz osam","sto kroz deset","dvesta kroz cetrdeset","50/8","100/10","200/40");
-    private List<String> brojevi=Arrays.asList("jedan","dva","tri","sto");
+            "snimanje sadrzaja","snimanje sadržaja","gledanje unazad","gledanja unazad","snimanja sadržaja","hbo","broj kanala","kanala",
+            "20/4","dvadeset kroz četiri","dvadeset kroz cetiri","pedeset kroz osam","sto kroz deset","dvesta kroz cetrdeset","dvesta kroz četrdeset","50/8","100/10","200/40");
+    private List<String> brojevi=Arrays.asList("jedan","dva","tri","četiri","pet","šest","sedam","osam","devet","deset","petnaest","dvadeset"
+            ,"dvadeset pet","trideset","četrdeset","pedeset","šesdeset","sedamdeset","osamdeset","devedeset","sto","sto pedeset"
+    ,"dvesta","dvesta pedeset","trista","trista pedeset","petsto","sedamsto pedeset","hiljadu","hiljadu i po","hiljadu i petsto","dve hiljade"
+    ,"1","2","3","4","5","6","7","8","9","10","15","20","25","30","40","50","60","70","80","90","100","150","200","250","300","350","500"
+    ,"750","1000","1500","2000");
     private ArrayList<String> listaBrojeva=new ArrayList<>();
     private ArrayList<String> listaReci=new ArrayList<>();
 
-    private ArrayList<String> listaBitnost=new ArrayList<>();
     private int indexOfQuestion=0,indexBroja=0;
 
     //<editor-fold desc="Pitanja">
@@ -132,7 +134,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     private List<String> selectedA=null;
     private List<String> selectedH=null;
 
-    private Button answer1, answer2, answer3, answer4,ans1,ans2,btnKaziPaket,btnPreporuci;
+    private Button answer1, answer2, answer3, answer4,ans1,ans2,btnPreporuci;
 
     private ArrayList<PaketMobilni> mobilniPaketi;
     private ArrayList<PaketTV> tvPaketi;
@@ -793,15 +795,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
                 sendMessage(ans2.getText().toString().trim());
             }
         });
-
-        btnKaziPaket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent=new Intent(ConversationActivity.this,PodesavanjeActivity.class);
-                startActivity(intent);
-            }
-        });
         btnPreporuci.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
@@ -1195,15 +1188,24 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
         StringBuilder stringBuilder=new StringBuilder();
 
+        String gb="";
+
         for(int i=0;i<duz;i++) {
+
+            if(listaReci.get(i).equals("interneta") || listaReci.get(i).equals("neta"))
+                gb="gb ";
+
             if(i==duz-1)
-                stringBuilder.append(listaBrojeva.get(i) + " " + listaReci.get(i));
+                stringBuilder.append(listaBrojeva.get(i) + " " + gb + listaReci.get(i));
             else
-                stringBuilder.append(listaBrojeva.get(i) + " " + listaReci.get(i) + ", ");
+                stringBuilder.append(listaBrojeva.get(i) + " " + gb + listaReci.get(i) + ", ");
         }
 
         sendMyMessage(stringBuilder.toString());
-        sendComputerMessage("Budite strpljivi, pronalazimo najbolji paket za Vas!");
+        sendComputerMessage("Pronašli smo pakete za Vas!");
+        constraintLayout2.setVisibility(View.INVISIBLE);
+        constraintLayout4.setVisibility(View.INVISIBLE);
+        consPaketi.setVisibility(View.VISIBLE);
     }
 
     //</editor-fold>
@@ -1248,7 +1250,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     //</editor-fold>
 
     //<editor-fold desc="SharedPrefs">
-
     public boolean loadBool(String s){
         SharedPreferences sharedPreferences= getSharedPreferences("SHARED_PREFERENCES",MODE_PRIVATE);
         return sharedPreferences.getBoolean(s,false);
@@ -1299,7 +1300,6 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         answer4=(Button)findViewById(R.id.odgovor4);
         ans1=(Button)findViewById(R.id.odg1);
         ans2=(Button)findViewById(R.id.odg2);
-        btnKaziPaket=(Button)findViewById(R.id.bKaziPaket);
         btnPreporuci=(Button)findViewById(R.id.btnPreporuceno);
 
         tvHint=(TextView)findViewById(R.id.tHint);
