@@ -111,8 +111,8 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             "Koliko poruka u proseku denvno posaljete?",
             "Koliko interneta Vam je dovoljno denvno?",
             "Da li često koristite telefon u romingu?");
-    private List<String> phoneAnswers=Arrays.asList("5 minuta/10 minuta/20 minuta/Više od 20 minuta",
-            "10/Vise od 10",
+    private List<String> phoneAnswers=Arrays.asList("3 minuta/10 minuta/20 minuta/Više od 20 minuta",
+            "5/Vise od 10",
             "10 MB/150 MB/1 GB/5 GB ili više",
             "Da/Ne");
     private List<String> phoneHints=Arrays.asList("Prosečna osoba dnevno potroši oko minut i po na razgovor.",
@@ -258,7 +258,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
     //<editor-fold desc="algo">
     int fminuti(String min)
     {
-        if(min.equals("5 minuta")) return 30*5;
+        if(min.equals("3 minuta")) return 30*3;
         else if(min.equals("10 minuta")) return 30*10;
         else if(min.equals("20 minuta")) return 30*20;
         return 30*30;
@@ -266,7 +266,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
     int fporuke(String por)
     {
-        if(por.equals("10")) return 300;
+        if(por.equals("5")) return 100;
         return 500;
     }
 
