@@ -426,7 +426,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         if(tip==1)
         {
             Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,minutiRez,porukeRez,internetRez,romingRez,
-                    porukeBitnost,minutiBitnost,internetBitnost,romingBitnost,brzinaRez,4,kanaliRez,nazadRez,snimajRez,hboRez,kanaliBitnost,nazadBitnost,snimanjeBitnost,hboBitnost,mobilniBitnost,tvBitnost,netBitnost);
+                    porukeBitnost,minutiBitnost,internetBitnost,romingBitnost,brzinaRez,5,kanaliRez,nazadRez,snimajRez,hboRez,kanaliBitnost,nazadBitnost,snimanjeBitnost,hboBitnost,mobilniBitnost,tvBitnost,netBitnost);
             int [] sc = algoritam.runAlgo();
             List<Pair<BoxPaket,Integer>>  sortiraniPaketi = new ArrayList<Pair<BoxPaket,Integer>>();
 
@@ -575,7 +575,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         }
         else
         {
-            AlgoritamNet anet = new AlgoritamNet(netPaketi,brzinaRez,1);
+            AlgoritamNet anet = new AlgoritamNet(netPaketi,brzinaRez,5);
             int [] sc = anet.runAlgo();
             List<Pair<PaketNet,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketNet,Integer>>();
 
