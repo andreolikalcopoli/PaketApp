@@ -386,34 +386,42 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
          runAlgo(1);
     }
 
+    private int [] srediOcene(int [] sc,int sz)
+    {
+        int lo = 10000;
+        int hi = -100000;
+
+        for(int i = 0;i<sz;i++)
+        {
+            lo = Math.min(lo,sc[i]);
+            hi = Math.max(hi,sc[i]);
+        }
+
+        lo = lo - 5;
+
+        int razlika = hi-lo;
+
+        for(int i=0;i<boxPaketi.size();i++)
+        {
+            int rr = hi-sc[i];
+            int xx = (10*rr)/razlika;
+            sc[i] = 10 - xx;
+        }
+
+        return sc;
+    }
+
+
     private void runAlgo(int tip)
     {
         if(tip==1)
         {
             Algoritam algoritam = new Algoritam(tvPaketi,mobilniPaketi,netPaketi,minutiRez,porukeRez,internetRez,romingRez,
                     porukeBitnost,minutiBitnost,internetBitnost,romingBitnost,brzinaRez,4,kanaliRez,nazadRez,snimajRez,hboRez,kanaliBitnost,nazadBitnost,snimanjeBitnost,hboBitnost,mobilniBitnost,tvBitnost,netBitnost);
-            int [] score = algoritam.runAlgo();
+            int [] sc = algoritam.runAlgo();
             List<Pair<BoxPaket,Integer>>  sortiraniPaketi = new ArrayList<Pair<BoxPaket,Integer>>();
 
-            int lo = 10000;
-            int hi = -100000;
-
-            for(int i = 0;i<boxPaketi.size();i++)
-            {
-                lo = Math.min(lo,score[i]);
-                hi = Math.max(hi,score[i]);
-            }
-
-            lo = lo - 5;
-
-            int razlika = hi-lo;
-
-            for(int i=0;i<boxPaketi.size();i++)
-            {
-                int rr = hi-score[i];
-                int xx = (10*rr)/razlika;
-                score[i] = 10 - xx;
-            }
+            int [] score =  srediOcene(sc,boxPaketi.size());
 
 
             for(int i=0;i<boxPaketi.size();i++)
@@ -439,7 +447,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             ArrayList<BoxPaket> paketiprenos = new ArrayList<>();
             ArrayList<Integer> oceneprenos = new ArrayList<>();
 
-            for(int i=sortiraniPaketi.size()-1;i>=0;i--)
+            for(int i=0;i<sortiraniPaketi.size();i++)
             {
                 paketiprenos.add(sortiraniPaketi.get(i).first);
                 oceneprenos.add(sortiraniPaketi.get(i).second);
@@ -462,35 +470,11 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             Log.d("podaci mob paketi",String.valueOf(romingRez));
 
             AlgoritamMobilni amob = new AlgoritamMobilni(mobilniPaketi,minutiRez,porukeRez,internetRez,romingRez,porukeBitnost,minutiBitnost,internetBitnost,romingBitnost);
-            int [] score = amob.runAlgo();
-
-            for(int i=0;i<mobilniPaketi.size();i++)
-            {
-                Log.d("Gotov alg",String.valueOf(score[i]));
-            }
+            int [] sc = amob.runAlgo();
 
             List<Pair<PaketMobilni,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketMobilni,Integer>>();
 
-            int lo = 10000;
-            int hi = -100000;
-
-            for(int i = 0;i<mobilniPaketi.size();i++)
-            {
-                lo = Math.min(lo,score[i]);
-                hi = Math.max(hi,score[i]);
-            }
-
-            lo = lo - 5;
-
-            int razlika = hi-lo;
-
-            for(int i=0;i<mobilniPaketi.size();i++)
-            {
-                int rr = hi-score[i];
-                int xx = (10*rr)/razlika;
-                score[i] = 10 - xx;
-            }
-
+            int [] score =  srediOcene(sc,mobilniPaketi.size());
 
             for(int i=0;i<mobilniPaketi.size();i++)
             {
@@ -515,7 +499,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             ArrayList<PaketMobilni> paketiprenos = new ArrayList<>();
             ArrayList<Integer> oceneprenos = new ArrayList<>();
 
-            for(int i=sortiraniPaketi.size()-1;i>=0;i--)
+            for(int i=0;i<sortiraniPaketi.size();i++)
             {
                 paketiprenos.add(sortiraniPaketi.get(i).first);
                 oceneprenos.add(sortiraniPaketi.get(i).second);
@@ -533,28 +517,10 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         else if(tip==3)
         {
             AlgoritamTV atv = new AlgoritamTV(tvPaketi,kanaliRez,nazadRez,snimajRez,hboRez,kanaliBitnost,nazadBitnost,snimanjeBitnost,hboBitnost);
-            int [] score = atv.runAlgo();
+            int [] sc = atv.runAlgo();
             List<Pair<PaketTV,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketTV,Integer>>();
 
-            int lo = 10000;
-            int hi = -100000;
-
-            for(int i = 0;i<tvPaketi.size();i++)
-            {
-                lo = Math.min(lo,score[i]);
-                hi = Math.max(hi,score[i]);
-            }
-
-            lo = lo - 5;
-
-            int razlika = hi-lo;
-
-            for(int i=0;i<tvPaketi.size();i++)
-            {
-                int rr = hi-score[i];
-                int xx = (10*rr)/razlika;
-                score[i] = 10 - xx;
-            }
+            int [] score =  srediOcene(sc,tvPaketi.size());
 
             for(int i=0;i<tvPaketi.size();i++)
             {
@@ -579,7 +545,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             ArrayList<PaketTV> paketiprenos = new ArrayList<>();
             ArrayList<Integer> oceneprenos = new ArrayList<>();
 
-            for(int i=sortiraniPaketi.size()-1;i>=0;i--)
+            for(int i=0;i<sortiraniPaketi.size();i++)
             {
                 paketiprenos.add(sortiraniPaketi.get(i).first);
                 oceneprenos.add(sortiraniPaketi.get(i).second);
@@ -597,29 +563,11 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
         }
         else
         {
-            AlgoritamNet anet = new AlgoritamNet(netPaketi,brzinaRez,4);
-            int [] score = anet.runAlgo();
+            AlgoritamNet anet = new AlgoritamNet(netPaketi,brzinaRez,1);
+            int [] sc = anet.runAlgo();
             List<Pair<PaketNet,Integer>>  sortiraniPaketi = new ArrayList<Pair<PaketNet,Integer>>();
 
-            int lo = 10000;
-            int hi = -100000;
-
-            for(int i = 0;i<netPaketi.size();i++)
-            {
-                lo = Math.min(lo,score[i]);
-                hi = Math.max(hi,score[i]);
-            }
-
-            lo = lo - 5;
-
-            int razlika = hi-lo;
-
-            for(int i=0;i<netPaketi.size();i++)
-            {
-                int rr = hi-score[i];
-                int xx = (10*rr)/razlika;
-                score[i] = 10 - xx;
-            }
+            int [] score =  srediOcene(sc,netPaketi.size());
 
             for(int i=0;i<netPaketi.size();i++)
             {
@@ -644,7 +592,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
             ArrayList<PaketNet> paketiprenos = new ArrayList<>();
             ArrayList<Integer> oceneprenos = new ArrayList<>();
 
-            for(int i=sortiraniPaketi.size()-1;i>=0;i--)
+            for(int i=0;i<sortiraniPaketi.size();i++)
             {
                 paketiprenos.add(sortiraniPaketi.get(i).first);
                 oceneprenos.add(sortiraniPaketi.get(i).second);
