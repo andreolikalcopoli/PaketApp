@@ -401,7 +401,7 @@ public class ConversationActivity extends AppCompatActivity implements RoomListe
 
         int razlika = hi-lo;
 
-        for(int i=0;i<boxPaketi.size();i++)
+        for(int i=0;i<sz;i++)
         {
             int rr = hi-sc[i];
             int xx = (10*rr)/razlika;
