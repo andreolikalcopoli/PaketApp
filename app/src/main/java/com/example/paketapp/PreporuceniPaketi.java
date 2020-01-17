@@ -50,6 +50,7 @@ public class PreporuceniPaketi extends AppCompatActivity {
             }
         });
 
+        //<editor-fold desc="switch">
         switch (getIntent().getIntExtra("Tip",1)) {
             case 1: {
                 RecyclerView.LayoutManager layoutManager = new GridLayoutManager(PreporuceniPaketi.this, 1);
@@ -85,6 +86,7 @@ public class PreporuceniPaketi extends AppCompatActivity {
             break;
 
         }
+        //</editor-fold>
     }
 
     //<editor-fold desc="Konvertovanje">

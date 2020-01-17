@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -55,6 +56,7 @@ public class PodesavanjeActivity extends AppCompatActivity
         postaviListener();
     }
 
+    //<editor-fold desc="ucitavanje">
     private void ucitajPodatke()
     {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs",MODE_PRIVATE);
@@ -72,7 +74,23 @@ public class PodesavanjeActivity extends AppCompatActivity
         netBitno = sharedPreferences.getInt("NetBitnost",0); netSeek.setProgress(netBitno); tnetbitno.setText("Net bitno " + netBitno);
         tvBitno = sharedPreferences.getInt("TvBitnost",0); tvSeek.setProgress(tvBitno); ttvbitno.setText("TV bitno " + tvBitno);
         mobilniBitno = sharedPreferences.getInt("MobilniBitnost",0); mobilniSeek.setProgress(mobilniBitno); tmobilnibitno.setText("Mobilni bitno " + mobilniBitno);
+
+        if(!loadBool("mic"))
+            imgMic.setImageResource(R.drawable.micoff);
+        else
+            imgMic.setImageResource(R.drawable.mic);
+
+        if(!loadBool("sound"))
+            imgSound.setImageResource(R.drawable.soundoff);
+        else
+            imgSound.setImageResource(R.drawable.sound);
+
+
+        sound=loadBool("sound");
+        mic=loadBool("mic");
+
     }
+    //</editor-fold>
 
     //<editor-fold desc="listeneri">
     private void postaviListener()
@@ -259,6 +277,11 @@ public class PodesavanjeActivity extends AppCompatActivity
         saveInt("HboBitnost",hboBitno);
         saveBool("sound",sound);
         saveBool("mic",mic);
+    }
+
+    public boolean loadBool(String s){
+        SharedPreferences sharedPreferences= getSharedPreferences("SHARED_PREFERENCES",MODE_PRIVATE);
+        return sharedPreferences.getBoolean(s,false);
     }
     //</editor-fold>
 

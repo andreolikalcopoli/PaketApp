@@ -229,7 +229,7 @@ public class Tab4 extends Fragment {
                 apps,true,false,false);
         napraviMobilniPaket("Omorika 3",4000,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,5*10240,30,300,
                 apps,true,false,false);
-        napraviMobilniPaket("Soko",6000,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,20*10240,100,Integer.MAX_VALUE,
+        napraviMobilniPaket("Sivi soko",6000,Integer.MAX_VALUE,Integer.MAX_VALUE,Integer.MAX_VALUE,20*10240,100,Integer.MAX_VALUE,
                 apps,true,true,true);
 
         //tv paketi

@@ -45,7 +45,7 @@ public class BoxAdapter extends RecyclerView.Adapter<BoxAdapter.BoxHolderr>{
     @Override
     public void onBindViewHolder(@NonNull final BoxHolderr viewHolder, final int i) {
         viewHolder.tvIme.setText(paketBox[i].getIme());
-        viewHolder.tvCena.setText(String.valueOf(paketBox[i].getCena()));
+        viewHolder.tvCena.setText(String.valueOf(paketBox[i].getCena())+"din.");
         viewHolder.tvMob.setText(paketBox[i].getPaketMobilni().getIme());
         viewHolder.tvTv.setText(paketBox[i].getPaketTV().getIme());
         viewHolder.tvNet.setText(paketBox[i].getPaketNet().getIme());

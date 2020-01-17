@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "884969725574",
+    "firebase_url": "https://spakuj-se.firebaseio.com",
+    "project_id": "spakuj-se",
+    "storage_bucket": "spakuj-se.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884969725574:android:a438f5a2f803a170b8bb07",
+        "android_client_info": {
+          "package_name": "com.example.paketapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884969725574-cfkg099id7hjd62ps8o05qmg4b689o19.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.paketapp",
+            "certificate_hash": "e4242dc91940abf7dca5ba0c1e43f6c90058ff28"
+          }
+        },
+        {
+          "client_id": "884969725574-rm4salb2apv0gumumg4nqk97mav0gbsl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvdsQtV2C1PjsSAM9uiPY2H275bsRWVRk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884969725574-rm4salb2apv0gumumg4nqk97mav0gbsl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
