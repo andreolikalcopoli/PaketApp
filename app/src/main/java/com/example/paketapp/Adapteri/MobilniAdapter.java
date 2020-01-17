@@ -87,6 +87,7 @@ public class MobilniAdapter extends RecyclerView.Adapter<MobilniAdapter.MobilniH
         sb.deleteCharAt(sb.length()-1);
 
         return sb.toString();
+
     }
 
     @Override
